@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import se.millwood.todo.TodoAdapter.*
 import se.millwood.todo.databinding.ActivityMainBinding
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,8 +16,8 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: TodoViewModel by viewModels()
 
-    private val adapter = TodoAdapter { newItems ->
-        updateAdapterItems(newItems)
+    private val adapter = TodoAdapter { todoId, action ->
+        updateTodo(todoId, action)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,12 +25,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         binding.recyclerView.adapter = adapter
-        updateAdapterItems(viewModel.getTodos())
+        updateAdapterItems()
         addTodoDialog()
     }
 
-    private fun updateAdapterItems(newTodos: List<Todo>) {
-        viewModel.updateTodos(newTodos)
+    private fun updateTodo(todoId: UUID, action: Action) {
+        when (action) {
+            Action.COMPLETION_TOGGLE -> viewModel.toggleCheckbox(todoId)
+            Action.REMOVE -> viewModel.removeTodo(todoId)
+        }
+        updateAdapterItems()
+    }
+
+    private fun updateAdapterItems() {
         adapter.submitList(viewModel.getTodos())
     }
 
@@ -40,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 .setView(editTextTitle)
                 .setPositiveButton("Add") { _, _ ->
                     viewModel.createTodo(editTextTitle.text.toString())
-                    updateAdapterItems(viewModel.getTodos())
+                    updateAdapterItems()
                 }
                 .create()
             dialog.show()
