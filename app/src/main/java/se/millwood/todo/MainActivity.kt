@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import se.millwood.todo.TodoAdapter.*
 import se.millwood.todo.databinding.ActivityMainBinding
 import java.util.*
@@ -25,7 +28,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         binding.recyclerView.adapter = adapter
-        updateAdapterItems()
+
+        lifecycleScope.launch {
+            viewModel.todos.collect { todos ->
+                adapter.submitList(todos)
+            }
+        }
         addTodoDialog()
     }
 
@@ -34,12 +42,8 @@ class MainActivity : AppCompatActivity() {
             Action.COMPLETION_TOGGLE -> viewModel.toggleCheckbox(todoId)
             Action.REMOVE -> viewModel.removeTodo(todoId)
         }
-        updateAdapterItems()
     }
 
-    private fun updateAdapterItems() {
-        adapter.submitList(viewModel.getTodos())
-    }
 
     private fun addTodoDialog() {
         binding.fab.setOnClickListener {
@@ -49,7 +53,6 @@ class MainActivity : AppCompatActivity() {
                 .setView(editTextTitle)
                 .setPositiveButton("Add") { _, _ ->
                     viewModel.createTodo(editTextTitle.text.toString())
-                    updateAdapterItems()
                 }
                 .create()
             dialog.show()
