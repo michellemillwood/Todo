@@ -16,18 +16,18 @@ class TodoAdapter(val onItemChanged: (id: UUID, action: Action) -> Unit) :
 
         fun bind(todo: Todo) = with(binding) {
             titleTodo.text = todo.title
-
+            checkbox.isChecked = todo.isCompleted
             checkbox.setOnCheckedChangeListener { _, _ ->
-               onItemChanged(todo.id, Action.COMPLETION_TOGGLE)
+               onItemChanged(todo.id, Action.CHECK_TOGGLE)
             }
 
-            removeTodo.setOnClickListener {
+            deleteTodo.setOnClickListener {
                 onItemChanged(todo.id, Action.REMOVE)
             }
         }
     }
 
-    enum class Action { COMPLETION_TOGGLE, REMOVE }
+    enum class Action { CHECK_TOGGLE, REMOVE }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

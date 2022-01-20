@@ -11,7 +11,9 @@ class TodoViewModel : ViewModel() {
     val todos: StateFlow<List<Todo>>
         get() = _todos
 
-    fun createTodo(title: String) = addTodo(Todo(title))
+    fun createTodo(title: String, description: String) {
+        addTodo(Todo(title, description))
+    }
 
     fun toggleCheckbox(todoId: UUID) {
         val item = _todos.value.find { it.id == todoId } ?: return
