@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -31,7 +30,7 @@ class TodoListFragment : Fragment() {
     ): View {
         binding = FragmentTodoListBinding.inflate(inflater)
         binding.recyclerView.adapter = adapter
-        setupCreateButton()
+        setupCreateTodoFab()
         return binding.root
     }
 
@@ -44,7 +43,7 @@ class TodoListFragment : Fragment() {
         }
     }
 
-    private fun setupCreateButton() {
+    private fun setupCreateTodoFab() {
         binding.fab.setOnClickListener {
             val navController = findNavController()
             navController.navigate(R.id.addTodoFragment)

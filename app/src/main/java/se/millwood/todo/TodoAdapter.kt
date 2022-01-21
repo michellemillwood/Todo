@@ -32,9 +32,9 @@ class TodoAdapter(val onItemChanged: (id: UUID, action: Action) -> Unit) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): TodoAdapter.TodoViewHolder = TodoViewHolder(
-        ItemTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    )
+    ): TodoViewHolder {
+        return TodoViewHolder(ItemTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    }
 
     override fun onBindViewHolder(
         holder: TodoViewHolder,
