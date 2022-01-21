@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Todo.App" parent="Theme.MaterialComponents">
-        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondary">@color/grey</item>
         <item name="colorOnSecondary">@color/beige</item>
         <item name="colorOnSurface">@color/off_white</item>
     </style>

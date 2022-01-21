@@ -24,6 +24,7 @@
 
     <CheckBox
         android:id="@+id/checkbox"
+        android:buttonTint="@color/grey"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toStartOf="@id/delete_todo" />

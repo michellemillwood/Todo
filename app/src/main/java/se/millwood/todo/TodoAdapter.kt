@@ -9,7 +9,7 @@ import se.millwood.todo.databinding.ItemTodoBinding
 import java.util.*
 
 class TodoAdapter(val onItemClicked: (id: UUID, action: Action) -> Unit) :
-    ListAdapter<Todo, TodoAdapter.TodoViewHolder>(TodoDiffCallback) {
+    ListAdapter<Todo, TodoAdapter.TodoViewHolder>(DiffCallback) {
 
     inner class TodoViewHolder(private val binding: ItemTodoBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -27,12 +27,10 @@ class TodoAdapter(val onItemClicked: (id: UUID, action: Action) -> Unit) :
             }
 
             root.setOnClickListener {
-                onItemClicked(todo.id, Action.GOTO)
+                onItemClicked(todo.id, Action.SEE_TODO_DETAILS)
             }
         }
     }
-
-    enum class Action { CHECK_TOGGLE, REMOVE, GOTO }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -48,8 +46,9 @@ class TodoAdapter(val onItemClicked: (id: UUID, action: Action) -> Unit) :
         holder.bind(getItem(position))
     }
 
+    enum class Action { CHECK_TOGGLE, REMOVE, SEE_TODO_DETAILS }
 
-    object TodoDiffCallback : DiffUtil.ItemCallback<Todo>() {
+    object DiffCallback : DiffUtil.ItemCallback<Todo>() {
 
         override fun areItemsTheSame(
             oldItem: Todo,

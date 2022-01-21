@@ -54,7 +54,7 @@ class TodoListFragment : Fragment() {
         when (action) {
             TodoAdapter.Action.CHECK_TOGGLE -> viewModel.toggleCheckbox(todoId)
             TodoAdapter.Action.REMOVE -> viewModel.removeTodo(todoId)
-            TodoAdapter.Action.GOTO -> {
+            TodoAdapter.Action.SEE_TODO_DETAILS -> {
                 val bundle = bundleOf(TodoDetailsFragment.TODO_ID_KEY to todoId.toString())
                 findNavController().navigate(R.id.todoDetailsFragment, bundle)
             }

@@ -28,7 +28,6 @@ class TodoViewModel : ViewModel() {
 
     fun getTodo(todoId: UUID) = findTodo(todoId)
 
-
     private fun addTodo(todo: Todo) {
         _todos.value = listOf(todo).plus(_todos.value)
     }

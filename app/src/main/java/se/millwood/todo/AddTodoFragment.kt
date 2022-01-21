@@ -1,6 +1,5 @@
 package se.millwood.todo
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,8 +31,7 @@ class AddTodoFragment : Fragment() {
                 binding.title.text.toString(),
                 binding.description.text.toString()
             )
-            val navController = findNavController()
-            navController.popBackStack()
+            findNavController().popBackStack()
         }
     }
 }
