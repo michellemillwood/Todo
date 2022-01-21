@@ -16,17 +16,24 @@ class TodoViewModel : ViewModel() {
     }
 
     fun toggleCheckbox(todoId: UUID) {
-        val item = _todos.value.find { it.id == todoId } ?: return
+        val item = findTodo(todoId) ?: return
         item.isCompleted = !item.isCompleted
         _todos.value = _todos.value.sortedBy { it.isCompleted }
     }
 
     fun removeTodo(todoId: UUID) {
-        val item = _todos.value.find { it.id == todoId } ?: return
+        val item = findTodo(todoId) ?: return
         _todos.value = _todos.value.minus(item)
     }
 
+    fun getTodo(todoId: UUID) = findTodo(todoId)
+
+
     private fun addTodo(todo: Todo) {
         _todos.value = listOf(todo).plus(_todos.value)
+    }
+
+    private fun findTodo(todoId: UUID): Todo? {
+        return _todos.value.find { it.id == todoId }
     }
 }

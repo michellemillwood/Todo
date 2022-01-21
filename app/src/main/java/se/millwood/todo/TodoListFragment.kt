@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +19,7 @@ class TodoListFragment : Fragment() {
     private val viewModel: TodoViewModel by activityViewModels()
 
     private val adapter = TodoAdapter { todoId, action ->
-        updateTodo(todoId, action)
+        handleTodoClicked(todoId, action)
     }
 
     private lateinit var binding: FragmentTodoListBinding
@@ -45,15 +46,18 @@ class TodoListFragment : Fragment() {
 
     private fun setupCreateTodoFab() {
         binding.fab.setOnClickListener {
-            val navController = findNavController()
-            navController.navigate(R.id.addTodoFragment)
+            findNavController().navigate(R.id.addTodoFragment)
         }
     }
 
-    private fun updateTodo(todoId: UUID, action: TodoAdapter.Action) {
+    private fun handleTodoClicked(todoId: UUID, action: TodoAdapter.Action) {
         when (action) {
             TodoAdapter.Action.CHECK_TOGGLE -> viewModel.toggleCheckbox(todoId)
             TodoAdapter.Action.REMOVE -> viewModel.removeTodo(todoId)
+            TodoAdapter.Action.GOTO -> {
+                val bundle = bundleOf(TodoDetailsFragment.TODO_ID_KEY to todoId.toString())
+                findNavController().navigate(R.id.todoDetailsFragment, bundle)
+            }
         }
     }
 }

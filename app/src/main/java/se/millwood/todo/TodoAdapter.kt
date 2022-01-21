@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import se.millwood.todo.databinding.ItemTodoBinding
 import java.util.*
 
-class TodoAdapter(val onItemChanged: (id: UUID, action: Action) -> Unit) :
+class TodoAdapter(val onItemClicked: (id: UUID, action: Action) -> Unit) :
     ListAdapter<Todo, TodoAdapter.TodoViewHolder>(TodoDiffCallback) {
 
     inner class TodoViewHolder(private val binding: ItemTodoBinding) :
@@ -17,17 +17,22 @@ class TodoAdapter(val onItemChanged: (id: UUID, action: Action) -> Unit) :
         fun bind(todo: Todo) = with(binding) {
             titleTodo.text = todo.title
             checkbox.isChecked = todo.isCompleted
+
             checkbox.setOnCheckedChangeListener { _, _ ->
-               onItemChanged(todo.id, Action.CHECK_TOGGLE)
+               onItemClicked(todo.id, Action.CHECK_TOGGLE)
             }
 
             deleteTodo.setOnClickListener {
-                onItemChanged(todo.id, Action.REMOVE)
+                onItemClicked(todo.id, Action.REMOVE)
+            }
+
+            root.setOnClickListener {
+                onItemClicked(todo.id, Action.GOTO)
             }
         }
     }
 
-    enum class Action { CHECK_TOGGLE, REMOVE }
+    enum class Action { CHECK_TOGGLE, REMOVE, GOTO }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

@@ -6,4 +6,12 @@
         <item name="colorOnSurface">@color/off_white</item>
     </style>
 
+    <style name="ActionBarStyle">
+        <item name="titleTextStyle">@style/ActionBarStyle.TitleTextStyle</item>
+    </style>
+
+    <style name="ActionBarStyle.TitleTextStyle">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>

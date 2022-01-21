@@ -9,11 +9,11 @@
         android:name="se.millwood.todo.TodoListFragment"
         android:label="TodoListFragment" >
         <action
-            android:id="@+id/action_todoListFragment_to_todoDetailsFragment2"
-            app:destination="@id/todoDetailsFragment" />
-        <action
-            android:id="@+id/action_todoListFragment_to_addTodoFragment2"
+            android:id="@+id/action_todoListFragment_to_addTodoFragment"
             app:destination="@id/addTodoFragment" />
+        <action
+            android:id="@+id/action_todoListFragment_to_todoDetailsFragment"
+            app:destination="@id/todoDetailsFragment" />
     </fragment>
 
 
@@ -25,6 +25,8 @@
     <fragment
         android:id="@+id/todoDetailsFragment"
         android:name="se.millwood.todo.TodoDetailsFragment"
-        android:label="todoDetailsFragment" />
+        android:label="todoDetailsFragment">
+    </fragment>
+
 
 </navigation>

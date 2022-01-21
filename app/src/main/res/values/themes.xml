@@ -12,11 +12,17 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:actionBarStyle">@style/Todo.ActionBarStyle</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
 
-    <style name="Todo.ActionBarStyle" parent="Widget.MaterialComponents.ActionBar.Primary">
-        <item name="titleTextColor">@color/purple_200</item>
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/black</item>
+        <item name="titleTextStyle">@style/MyActionBar.TextStyle</item>
+    </style>
+
+    <style name="MyActionBar.TextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
     </style>
 
 
