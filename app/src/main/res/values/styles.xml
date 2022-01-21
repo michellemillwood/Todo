@@ -6,11 +6,13 @@
         <item name="colorOnSurface">@color/off_white</item>
     </style>
 
-    <style name="ActionBarStyle">
-        <item name="titleTextStyle">@style/ActionBarStyle.TitleTextStyle</item>
+    <!-- ActionBar styles -->
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/beige</item>
+        <item name="titleTextStyle">@style/MyActionBar.TextStyle</item>
     </style>
 
-    <style name="ActionBarStyle.TitleTextStyle">
+    <style name="MyActionBar.TextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/black</item>
     </style>
 

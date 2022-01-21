@@ -11,8 +11,6 @@ import java.util.*
 
 class TodoDetailsFragment : Fragment() {
 
-
-
     private val viewModel: TodoViewModel by activityViewModels()
     private lateinit var binding: FragmentTodoDetailsBinding
 

@@ -1,5 +1,6 @@
 package se.millwood.todo
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ class AddTodoFragment : Fragment() {
         setupAddButton()
         return binding.root
     }
+
 
     private fun setupAddButton() {
         binding.buttonAdd.setOnClickListener {

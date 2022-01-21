@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Todo" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Todo" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/beige</item>
         <item name="colorPrimaryVariant">@color/beige</item>
@@ -15,15 +15,7 @@
         <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
 
-    <!-- ActionBar styles -->
-    <style name="MyActionBar"
-        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@color/black</item>
-        <item name="titleTextStyle">@style/MyActionBar.TextStyle</item>
-    </style>
 
-    <style name="MyActionBar.TextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-    </style>
 
 
 </resources>
