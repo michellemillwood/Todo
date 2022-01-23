@@ -21,10 +21,10 @@
 
     <EditText
         android:id="@+id/title"
-        android:inputType="textShortMessage"
-        android:padding="8dp"
+        android:inputType="textShortMessage|textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/description"

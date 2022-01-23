@@ -50,6 +50,7 @@ class TodoListFragment : Fragment() {
         }
     }
 
+    // Have this logic in ViewModel or class supporting the ViewModel with action decisions
     private fun handleTodoClicked(todoId: UUID, action: TodoAdapter.Action) {
         when (action) {
             TodoAdapter.Action.CHECK_TOGGLE -> viewModel.toggleCheckbox(todoId)
