@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -19,8 +20,6 @@ class TodoListFragment : Fragment() {
     private val viewModel: TodoViewModel by activityViewModels()  {
         TodoViewModelFactory(requireContext().applicationContext)
     }
-
-
 
     private val adapter: TodoAdapter by lazy {
         TodoAdapter(

@@ -7,14 +7,14 @@ import java.util.*
 @Dao
 interface TodoDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(todo: Todo)
-
     @Query("SELECT * FROM todo ORDER BY isCompleted")
     fun getTodos(): Flow<List<Todo>>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(todo: Todo)
+
     @Query("UPDATE todo SET isCompleted = :isCompleted WHERE id = :id")
-    suspend fun toggleCheckbox(id: UUID, isCompleted: Boolean)
+    suspend fun setIsCompleted(id: UUID, isCompleted: Boolean)
 
     @Query("DELETE FROM todo WHERE id = :id")
     suspend fun delete(id: UUID)

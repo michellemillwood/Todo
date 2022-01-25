@@ -13,7 +13,7 @@ class TodoRepository(context: Context) {
     suspend fun addTodo(todo: Todo) = todoDao.insert(todo)
 
     suspend fun toggleCheckbox(todoId: UUID, isCompleted: Boolean) {
-        todoDao.toggleCheckbox(todoId, isCompleted)
+        todoDao.setIsCompleted(todoId, isCompleted)
     }
 
     suspend fun removeTodo(todoId: UUID) {
