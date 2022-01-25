@@ -5,11 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import se.millwood.todo.data.Todo
 import se.millwood.todo.databinding.ItemTodoBinding
 import java.util.*
 
-class TodoAdapter(val onItemClicked: (id: UUID, action: Action) -> Unit) :
-    ListAdapter<Todo, TodoAdapter.TodoViewHolder>(DiffCallback) {
+class TodoAdapter(
+    val onItemChecked: (id: UUID, isChecked: Boolean) -> Unit,
+    val onItemRemoved: (id: UUID, title: String) -> Unit,
+    val onItemDetails: (title: String, Description: String) -> Unit
+) : ListAdapter<Todo, TodoAdapter.TodoViewHolder>(DiffCallback) {
 
     inner class TodoViewHolder(private val binding: ItemTodoBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -18,16 +22,16 @@ class TodoAdapter(val onItemClicked: (id: UUID, action: Action) -> Unit) :
             titleTodo.text = todo.title
             checkbox.isChecked = todo.isCompleted
 
-            checkbox.setOnCheckedChangeListener { _, _ ->
-               onItemClicked(todo.id, Action.CHECK_TOGGLE)
+            checkbox.setOnCheckedChangeListener { _, isChecked ->
+               onItemChecked(todo.id, isChecked)
             }
 
             deleteTodo.setOnClickListener {
-                onItemClicked(todo.id, Action.REMOVE)
+                onItemRemoved(todo.id, todo.title)
             }
 
             root.setOnClickListener {
-                onItemClicked(todo.id, Action.SEE_TODO_DETAILS)
+                onItemDetails(todo.title, todo.description)
             }
         }
     }
@@ -45,8 +49,6 @@ class TodoAdapter(val onItemClicked: (id: UUID, action: Action) -> Unit) :
     ) {
         holder.bind(getItem(position))
     }
-
-    enum class Action { CHECK_TOGGLE, REMOVE, SEE_TODO_DETAILS }
 
     object DiffCallback : DiffUtil.ItemCallback<Todo>() {
 

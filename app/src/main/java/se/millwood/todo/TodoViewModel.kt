@@ -1,38 +1,53 @@
 package se.millwood.todo
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import se.millwood.todo.data.Todo
+import se.millwood.todo.data.TodoRepository
 import java.util.*
 
-class TodoViewModel : ViewModel() {
+class TodoViewModel(context: Context) : ViewModel() {
 
-    private val _todos = MutableStateFlow(listOf<Todo>())
-    val todos: StateFlow<List<Todo>>
-        get() = _todos
+    private val repository = TodoRepository(context)
+
+    val todos: Flow<List<Todo>> = repository.todos
 
     fun createTodo(title: String, description: String) {
         addTodo(Todo(title, description))
     }
 
-    fun toggleCheckbox(todoId: UUID) {
-        val item = findTodo(todoId) ?: return
-        item.isCompleted = !item.isCompleted
-        _todos.value = _todos.value.sortedBy { it.isCompleted }
+    fun toggleCheckbox(todoId: UUID, isCompleted: Boolean) {
+        viewModelScope.launch {
+            repository.toggleCheckbox(todoId, isCompleted)
+        }
     }
 
     fun removeTodo(todoId: UUID) {
-        val item = findTodo(todoId) ?: return
-        _todos.value = _todos.value.minus(item)
+        viewModelScope.launch {
+            repository.removeTodo(todoId)
+        }
     }
-
-    fun getTodo(todoId: UUID) = findTodo(todoId)
 
     private fun addTodo(todo: Todo) {
-        _todos.value = listOf(todo).plus(_todos.value)
+        viewModelScope.launch {
+            repository.addTodo(todo)
+        }
     }
+}
 
-    private fun findTodo(todoId: UUID): Todo? {
-        return _todos.value.find { it.id == todoId }
+class TodoViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(TodoViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return TodoViewModel(context) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

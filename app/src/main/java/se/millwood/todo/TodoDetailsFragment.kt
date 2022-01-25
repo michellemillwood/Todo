@@ -11,7 +11,9 @@ import java.util.*
 
 class TodoDetailsFragment : Fragment() {
 
-    private val viewModel: TodoViewModel by activityViewModels()
+    private val viewModel: TodoViewModel by activityViewModels()  {
+        TodoViewModelFactory(requireContext().applicationContext)
+    }
     private lateinit var binding: FragmentTodoDetailsBinding
 
     override fun onCreateView(
@@ -20,15 +22,23 @@ class TodoDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTodoDetailsBinding.inflate(inflater)
-        val todoId = UUID.fromString(arguments?.getString(TODO_ID_KEY))
-        val todo = viewModel.getTodo(todoId)
-        binding.todoTitle.text = todo?.title
-        binding.todoDescription.text = todo?.description
+        val title = arguments?.getString(TITLE_KEY)
+        val description = arguments?.getString(DESCRIPTION_KEY)
+        populateTodoDetails(title, description)
         return binding.root
     }
 
+    private fun populateTodoDetails(
+        title: String?,
+        description: String?
+    ) {
+        binding.todoTitle.text = title
+        binding.todoDescription.text = description
+    }
+
     companion object {
-        const val TODO_ID_KEY = "todo_id"
+        const val TITLE_KEY = "title"
+        const val DESCRIPTION_KEY = "description"
     }
 
 }

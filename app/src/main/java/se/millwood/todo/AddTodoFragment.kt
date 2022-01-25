@@ -11,7 +11,9 @@ import se.millwood.todo.databinding.FragmentAddTodoBinding
 
 class AddTodoFragment : Fragment() {
 
-    private val viewModel: TodoViewModel by activityViewModels()
+    private val viewModel: TodoViewModel by activityViewModels()  {
+        TodoViewModelFactory(requireContext().applicationContext)
+    }
     private lateinit var binding: FragmentAddTodoBinding
 
     override fun onCreateView(
