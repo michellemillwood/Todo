@@ -8,10 +8,10 @@ import java.util.*
 interface TodoDao {
 
     @Query("SELECT * FROM todo ORDER BY isCompleted")
-    fun getTodos(): Flow<List<Todo>>
+    fun getTodos(): Flow<List<TodoEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(todo: Todo)
+    suspend fun insert(todoEntity: TodoEntity)
 
     @Query("UPDATE todo SET isCompleted = :isCompleted WHERE id = :id")
     suspend fun setIsCompleted(id: UUID, isCompleted: Boolean)

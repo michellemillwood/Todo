@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/todoListFragment"
-        android:name="se.millwood.todo.TodoListFragment"
+        android:name="se.millwood.todo.todolist.TodoListFragment"
         android:label="TodoListFragment" >
         <action
             android:id="@+id/action_todoListFragment_to_addTodoFragment"

@@ -1,4 +1,4 @@
-package se.millwood.todo
+package se.millwood.todo.todolist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import se.millwood.todo.*
 import se.millwood.todo.databinding.FragmentTodoListBinding
 
 class TodoListFragment : Fragment() {
@@ -37,7 +36,8 @@ class TodoListFragment : Fragment() {
                     TodoDetailsFragment.DESCRIPTION_KEY to description
                 )
                 findNavController().navigate(R.id.todoDetailsFragment, bundle)
-            })
+            }
+        )
     }
 
     private lateinit var binding: FragmentTodoListBinding

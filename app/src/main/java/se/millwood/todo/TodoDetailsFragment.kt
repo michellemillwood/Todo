@@ -14,9 +14,6 @@ import java.util.*
 
 class TodoDetailsFragment : Fragment() {
 
-    private val viewModel: TodoViewModel by activityViewModels()  {
-        TodoViewModelFactory(requireContext().applicationContext)
-    }
     private lateinit var binding: FragmentTodoDetailsBinding
 
     override fun onCreateView(
