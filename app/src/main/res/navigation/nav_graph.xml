@@ -14,8 +14,15 @@
         <action
             android:id="@+id/action_todoListFragment_to_todoDetailsFragment"
             app:destination="@id/todoDetailsFragment" />
+        <action
+            android:id="@+id/action_todoListFragment_to_deleteTodoDialogFragment"
+            app:destination="@id/deleteTodoDialogFragment" />
     </fragment>
 
+    <dialog
+        android:id="@+id/deleteTodoDialogFragment"
+        android:name="se.millwood.todo.DeleteDialogFragment"
+        android:label="deleteTodoDialogFragment" />
 
     <fragment
         android:id="@+id/addTodoFragment"

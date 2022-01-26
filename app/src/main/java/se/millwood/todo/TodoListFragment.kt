@@ -17,7 +17,7 @@ import se.millwood.todo.databinding.FragmentTodoListBinding
 
 class TodoListFragment : Fragment() {
 
-    private val viewModel: TodoViewModel by activityViewModels()  {
+    private val viewModel: TodoViewModel by activityViewModels() {
         TodoViewModelFactory(requireContext().applicationContext)
     }
 
@@ -25,12 +25,11 @@ class TodoListFragment : Fragment() {
         TodoAdapter(
             onItemChecked = viewModel::toggleCheckbox,
             onItemRemoved = { todoId, title ->
-                viewModel.removeTodo(todoId)
-                Snackbar.make(
-                    binding.root,
-                    "todo $title removed",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                val bundle = bundleOf(
+                    DeleteDialogFragment.ID_KEY to todoId.toString(),
+                    DeleteDialogFragment.TITLE_KEY to title
+                )
+                findNavController().navigate(R.id.deleteTodoDialogFragment, bundle)
             },
             onItemDetails = { title, description ->
                 val bundle = bundleOf(
@@ -45,29 +44,30 @@ class TodoListFragment : Fragment() {
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View {
-            binding = FragmentTodoListBinding.inflate(inflater)
-            binding.recyclerView.adapter = adapter
-            setupCreateTodoFab()
-            return binding.root
-        }
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentTodoListBinding.inflate(inflater)
+        binding.recyclerView.adapter = adapter
+        setupCreateTodoFab()
+        return binding.root
+    }
 
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-            lifecycleScope.launch {
-                viewModel.todos.collect { todos ->
-                    adapter.submitList(todos)
-                }
-            }
-        }
-
-
-        private fun setupCreateTodoFab() {
-            binding.fab.setOnClickListener {
-                findNavController().navigate(R.id.addTodoFragment)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch {
+            viewModel.todos.collect { todos ->
+                adapter.submitList(todos)
             }
         }
     }
+
+
+    private fun setupCreateTodoFab() {
+        binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.addTodoFragment)
+        }
+    }
+}
+
