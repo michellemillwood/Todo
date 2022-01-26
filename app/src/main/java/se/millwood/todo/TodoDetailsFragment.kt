@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import se.millwood.todo.databinding.FragmentTodoDetailsBinding
 import java.util.*
 
@@ -27,6 +28,7 @@ class TodoDetailsFragment : Fragment() {
         val title = arguments?.getString(TITLE_KEY)
         val description = arguments?.getString(DESCRIPTION_KEY)
         populateTodoDetails(title, description)
+        setupUpButton()
         return binding.root
     }
 
@@ -36,6 +38,12 @@ class TodoDetailsFragment : Fragment() {
     ) {
         binding.todoTitle.text = title
         binding.todoDescription.text = description
+    }
+
+    private fun setupUpButton() {
+        binding.detailsFragmentToolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     companion object {

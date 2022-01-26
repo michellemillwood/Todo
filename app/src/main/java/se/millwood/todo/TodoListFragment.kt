@@ -64,6 +64,7 @@ class TodoListFragment : Fragment() {
             }
         }
 
+
         private fun setupCreateTodoFab() {
             binding.fab.setOnClickListener {
                 findNavController().navigate(R.id.addTodoFragment)

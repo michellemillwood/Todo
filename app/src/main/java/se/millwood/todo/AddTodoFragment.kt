@@ -23,7 +23,14 @@ class AddTodoFragment : Fragment() {
     ): View {
         binding = FragmentAddTodoBinding.inflate(inflater)
         setupAddButton()
+        setupUpButton()
         return binding.root
+    }
+
+    private fun setupUpButton() {
+        binding.addFragmentToolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
 
