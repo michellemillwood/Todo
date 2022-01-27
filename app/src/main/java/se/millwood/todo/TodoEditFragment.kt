@@ -53,7 +53,7 @@ class TodoEditFragment : Fragment() {
 
     private fun populateTodoDetails(title: String, description: String) {
         binding.title.setText(title)
-        binding.description.setText(description)
+        binding.todo1.setText(description)
     }
 
     private fun setupUpdateTodoButton(todo: Todo) {
@@ -61,7 +61,7 @@ class TodoEditFragment : Fragment() {
             viewModel.updateTodo(
                 todo.copy(
                     title = binding.title.text.toString(),
-                    description = binding.description.text.toString()
+                    description = binding.todo1.text.toString()
                 )
             )
             findNavController().popBackStack()
@@ -72,7 +72,7 @@ class TodoEditFragment : Fragment() {
         binding.buttonSave.setOnClickListener {
             viewModel.createTodo(
                 binding.title.text.toString(),
-                binding.description.text.toString()
+                binding.todo1.text.toString()
             )
             findNavController().popBackStack()
         }

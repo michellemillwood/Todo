@@ -8,11 +8,12 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/fragment_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="0dp"
         android:background="@color/beige"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/title"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
         app:titleTextColor="@color/grey" />
 
@@ -32,26 +33,71 @@
         android:inputType="textShortMessage|textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:paddingTop="16dp"
+        android:layout_margin="16dp"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/fragment_toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/description"
+        app:layout_constraintBottom_toTopOf="@id/todo_1"
         android:hint="@string/title"
+        android:textColor="@color/grey"
         android:background="@color/off_white"
     />
 
     <EditText
-        android:id="@+id/description"
+        android:id="@+id/todo_1"
         android:inputType="text|textMultiLine"
-        android:padding="16dp"
+        android:layout_margin="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
-        android:hint="@string/description"
-        android:background="@color/off_white"
+        />
+
+    <EditText
+        android:id="@+id/todo_2"
+        android:inputType="text|textMultiLine"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/todo_1"
+        />
+
+    <EditText
+        android:id="@+id/todo_3"
+        android:inputType="text|textMultiLine"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/todo_2"
+        />
+
+    <EditText
+        android:id="@+id/todo_4"
+        android:inputType="text|textMultiLine"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/todo_3"
+        />
+
+    <EditText
+        android:id="@+id/todo_5"
+        android:inputType="text|textMultiLine"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/todo_4"
         />
 
 
