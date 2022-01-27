@@ -22,8 +22,8 @@ class TodoListFragment : Fragment() {
 
     private val adapter: TodoAdapter by lazy {
         TodoAdapter(
-            onItemChecked = viewModel::setIsCompleted,
-            onItemRemoved = { todoId, title ->
+            onItemCheck = viewModel::setIsCompleted,
+            onItemDelete = { todoId, title ->
                 val bundle = bundleOf(
                     DeleteDialogFragment.ID_KEY to todoId.toString(),
                     DeleteDialogFragment.TITLE_KEY to title

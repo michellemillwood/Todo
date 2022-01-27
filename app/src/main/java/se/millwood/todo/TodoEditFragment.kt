@@ -59,11 +59,9 @@ class TodoEditFragment : Fragment() {
     private fun setupUpdateTodoButton(todo: Todo) {
         binding.buttonSave.setOnClickListener {
             viewModel.updateTodo(
-                Todo(
+                todo.copy(
                     title = binding.title.text.toString(),
-                    description = binding.description.text.toString(),
-                    isCompleted = todo.isCompleted,
-                    id = todo.id
+                    description = binding.description.text.toString()
                 )
             )
             findNavController().popBackStack()

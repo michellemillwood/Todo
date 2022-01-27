@@ -10,8 +10,8 @@ import se.millwood.todo.databinding.ItemTodoBinding
 import java.util.*
 
 class TodoAdapter(
-    val onItemChecked: (id: UUID, isChecked: Boolean) -> Unit,
-    val onItemRemoved: (id: UUID, title: String) -> Unit,
+    val onItemCheck: (id: UUID, isChecked: Boolean) -> Unit,
+    val onItemDelete: (id: UUID, title: String) -> Unit,
     val onItemEdit: (id: UUID) -> Unit
 ) : ListAdapter<Todo, TodoAdapter.TodoViewHolder>(DiffCallback) {
 
@@ -23,11 +23,11 @@ class TodoAdapter(
             checkbox.isChecked = todo.isCompleted
 
             checkbox.setOnCheckedChangeListener { _, isChecked ->
-               onItemChecked(todo.id, isChecked)
+               onItemCheck(todo.id, isChecked)
             }
 
             deleteTodo.setOnClickListener {
-                onItemRemoved(todo.id, todo.title)
+                onItemDelete(todo.id, todo.title)
             }
 
             root.setOnClickListener {
