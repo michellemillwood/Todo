@@ -2,29 +2,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/off_white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/add_fragment_toolbar"
+        android:id="@+id/fragment_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/beige"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="NEW TODO"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
         app:titleTextColor="@color/grey" />
 
     <Button
-        android:id="@+id/button_add"
+        android:id="@+id/button_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/title"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_toolbar"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:text="@string/add"
         android:backgroundTint="@color/beige"
         android:textColor="@color/black"
         />
@@ -34,27 +32,26 @@
         android:inputType="textShortMessage|textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_marginTop="8dp"
+        android:padding="16dp"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/add_fragment_toolbar"
+        app:layout_constraintTop_toBottomOf="@id/fragment_toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/description"
-        android:background="@null"
         android:hint="@string/title"
+        android:background="@color/off_white"
     />
 
     <EditText
         android:id="@+id/description"
         android:inputType="text|textMultiLine"
-        android:padding="8dp"
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
-        android:background="@null"
         android:hint="@string/description"
+        android:background="@color/off_white"
         />
 
 

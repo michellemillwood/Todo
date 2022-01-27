@@ -10,6 +10,12 @@ interface TodoDao {
     @Query("SELECT * FROM todo ORDER BY isCompleted")
     fun getTodos(): Flow<List<TodoEntity>>
 
+    @Query("SELECT * FROM todo WHERE id = :id")
+    suspend fun getTodoById(id: UUID): TodoEntity
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateTodo(todoEntity: TodoEntity)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(todoEntity: TodoEntity)
 

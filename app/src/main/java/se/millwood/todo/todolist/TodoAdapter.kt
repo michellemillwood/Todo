@@ -12,7 +12,7 @@ import java.util.*
 class TodoAdapter(
     val onItemChecked: (id: UUID, isChecked: Boolean) -> Unit,
     val onItemRemoved: (id: UUID, title: String) -> Unit,
-    val onItemDetails: (title: String, Description: String) -> Unit
+    val onItemEdit: (id: UUID) -> Unit
 ) : ListAdapter<Todo, TodoAdapter.TodoViewHolder>(DiffCallback) {
 
     inner class TodoViewHolder(private val binding: ItemTodoBinding) :
@@ -31,7 +31,7 @@ class TodoAdapter(
             }
 
             root.setOnClickListener {
-                onItemDetails(todo.title, todo.description)
+                onItemEdit(todo.id)
             }
         }
     }

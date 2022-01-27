@@ -14,15 +14,20 @@ class TodoRepository(context: Context) {
         todoEntity.map { it.toTodo() }
     }
 
+    suspend fun updateTodo(todo: Todo) = todoDao.updateTodo(TodoEntity.from(todo))
+
     suspend fun addTodo(todo: Todo) = todoDao.insert(TodoEntity.from(todo))
 
-    suspend fun toggleCheckbox(todoId: UUID, isCompleted: Boolean) {
+    suspend fun setIsCompleted(todoId: UUID, isCompleted: Boolean) {
         todoDao.setIsCompleted(todoId, isCompleted)
+    }
+
+    suspend fun fetchTodo(todoId: UUID): Todo {
+        val todoEntity = todoDao.getTodoById(todoId)
+        return todoEntity.toTodo()
     }
 
     suspend fun removeTodo(todoId: UUID) {
         todoDao.delete(todoId)
     }
-
-
 }

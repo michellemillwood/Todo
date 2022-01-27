@@ -22,7 +22,7 @@ class TodoListFragment : Fragment() {
 
     private val adapter: TodoAdapter by lazy {
         TodoAdapter(
-            onItemChecked = viewModel::toggleCheckbox,
+            onItemChecked = viewModel::setIsCompleted,
             onItemRemoved = { todoId, title ->
                 val bundle = bundleOf(
                     DeleteDialogFragment.ID_KEY to todoId.toString(),
@@ -30,18 +30,16 @@ class TodoListFragment : Fragment() {
                 )
                 findNavController().navigate(R.id.deleteTodoDialogFragment, bundle)
             },
-            onItemDetails = { title, description ->
+            onItemEdit = { todoId ->
                 val bundle = bundleOf(
-                    TodoDetailsFragment.TITLE_KEY to title,
-                    TodoDetailsFragment.DESCRIPTION_KEY to description
+                    CreateOrEditFragment.ID_KEY to todoId.toString()
                 )
-                findNavController().navigate(R.id.todoDetailsFragment, bundle)
+                findNavController().navigate(R.id.createOrEditFragment, bundle)
             }
         )
     }
 
     private lateinit var binding: FragmentTodoListBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +64,7 @@ class TodoListFragment : Fragment() {
 
     private fun setupCreateTodoFab() {
         binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.addTodoFragment)
+            findNavController().navigate(R.id.createOrEditFragment)
         }
     }
 }

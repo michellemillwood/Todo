@@ -24,8 +24,7 @@ class DeleteDialogFragment : DialogFragment() {
             }
             setNegativeButton("NO") { _, _ -> dismiss() }
         }.create()
-
-}
+    }
 
     companion object {
         const val ID_KEY = "todoId"

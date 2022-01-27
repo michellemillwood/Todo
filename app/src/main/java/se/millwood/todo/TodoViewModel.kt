@@ -19,9 +19,9 @@ class TodoViewModel(context: Context) : ViewModel() {
         addTodo(Todo(title, description))
     }
 
-    fun toggleCheckbox(todoId: UUID, isCompleted: Boolean) {
+    fun setIsCompleted(todoId: UUID, isCompleted: Boolean) {
         viewModelScope.launch {
-            repository.toggleCheckbox(todoId, isCompleted)
+            repository.setIsCompleted(todoId, isCompleted)
         }
     }
 
@@ -30,6 +30,14 @@ class TodoViewModel(context: Context) : ViewModel() {
             repository.removeTodo(todoId)
         }
     }
+
+    fun updateTodo(todo: Todo) {
+        viewModelScope.launch {
+            repository.updateTodo(todo)
+        }
+    }
+
+    suspend fun fetchTodo(todoId: UUID) = repository.fetchTodo(todoId)
 
     private fun addTodo(todo: Todo) {
         viewModelScope.launch {
