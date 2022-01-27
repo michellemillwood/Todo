@@ -32,9 +32,9 @@ class TodoListFragment : Fragment() {
             },
             onItemEdit = { todoId ->
                 val bundle = bundleOf(
-                    CreateOrEditFragment.ID_KEY to todoId.toString()
+                    TodoEditFragment.ID_KEY to todoId.toString()
                 )
-                findNavController().navigate(R.id.createOrEditFragment, bundle)
+                findNavController().navigate(R.id.todoEditFragment, bundle)
             }
         )
     }
@@ -64,7 +64,7 @@ class TodoListFragment : Fragment() {
 
     private fun setupCreateTodoFab() {
         binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.createOrEditFragment)
+            findNavController().navigate(R.id.todoEditFragment)
         }
     }
 }

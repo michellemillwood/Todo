@@ -12,43 +12,62 @@ import kotlinx.coroutines.launch
 import se.millwood.todo.databinding.*
 import java.util.*
 
-class CreateOrEditFragment : Fragment() {
+class TodoEditFragment : Fragment() {
 
     private val viewModel: TodoViewModel by activityViewModels()  {
         TodoViewModelFactory(requireContext().applicationContext)
     }
 
-    private lateinit var binding: FragmentTodoCreateOrEditBinding
+    private lateinit var binding: FragmentTodoEditBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTodoCreateOrEditBinding.inflate(inflater)
-
-        // Edit
+        binding = FragmentTodoEditBinding.inflate(inflater)
         if (arguments?.containsKey(ID_KEY) == true) {
-            val todoId = arguments?.getString(ID_KEY)
-            lifecycleScope.launch {
-                val todo = viewModel.fetchTodo(UUID.fromString(todoId))
-                populateTodoDetails(todo.title, todo.description)
-                setupUpdateTodoButton(todo)
-            }
-            binding.buttonSave.text = "SAVE"
+            useEditView()
         }
-        // Create new
         else {
-            setupAddNewTodoButton()
-            binding.buttonSave.text = "ADD"
+            useAddNewView()
         }
         setupUpButton()
         return binding.root
     }
 
+    private fun useAddNewView() {
+        setupAddNewTodoButton()
+        binding.buttonSave.text = "ADD"
+    }
+
+    private fun useEditView() {
+        val todoId = arguments?.getString(ID_KEY)
+        lifecycleScope.launch {
+            val todo = viewModel.fetchTodo(UUID.fromString(todoId))
+            populateTodoDetails(todo.title, todo.description)
+            setupUpdateTodoButton(todo)
+        }
+        binding.buttonSave.text = "SAVE"
+    }
+
     private fun populateTodoDetails(title: String, description: String) {
         binding.title.setText(title)
         binding.description.setText(description)
+    }
+
+    private fun setupUpdateTodoButton(todo: Todo) {
+        binding.buttonSave.setOnClickListener {
+            viewModel.updateTodo(
+                Todo(
+                    title = binding.title.text.toString(),
+                    description = binding.description.text.toString(),
+                    isCompleted = todo.isCompleted,
+                    id = todo.id
+                )
+            )
+            findNavController().popBackStack()
+        }
     }
 
     private fun setupAddNewTodoButton() {
@@ -60,20 +79,6 @@ class CreateOrEditFragment : Fragment() {
             findNavController().popBackStack()
         }
     }
-
-    private fun setupUpdateTodoButton(todo: Todo) {
-        binding.buttonSave.setOnClickListener {
-            viewModel.updateTodo(Todo(
-                title = binding.title.text.toString(),
-                description = binding.description.text.toString(),
-                isCompleted = todo.isCompleted,
-                id = todo.id
-                )
-            )
-            findNavController().popBackStack()
-        }
-    }
-
 
     private fun setupUpButton() {
         binding.fragmentToolbar.setNavigationOnClickListener {
