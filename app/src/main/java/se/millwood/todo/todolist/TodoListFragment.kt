@@ -25,10 +25,10 @@ class TodoListFragment : Fragment() {
             onItemCheck = viewModel::setIsCompleted,
             onItemDelete = { todoId, title ->
                 val bundle = bundleOf(
-                    DeleteDialogFragment.ID_KEY to todoId.toString(),
-                    DeleteDialogFragment.TITLE_KEY to title
+                    TodoDeleteDialogFragment.ID_KEY to todoId.toString(),
+                    TodoDeleteDialogFragment.TITLE_KEY to title
                 )
-                findNavController().navigate(R.id.deleteTodoDialogFragment, bundle)
+                findNavController().navigate(R.id.todoDeleteDialogFragment, bundle)
             },
             onItemEdit = { todoId ->
                 val bundle = bundleOf(

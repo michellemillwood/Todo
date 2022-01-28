@@ -1,4 +1,4 @@
-package se.millwood.todo
+package se.millwood.todo.todolist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
+import se.millwood.todo.TodoViewModel
+import se.millwood.todo.TodoViewModelFactory
 import se.millwood.todo.databinding.*
 import java.util.*
 

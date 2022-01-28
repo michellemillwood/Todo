@@ -2,7 +2,7 @@ package se.millwood.todo.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import se.millwood.todo.Todo
+import se.millwood.todo.todolist.Todo
 import java.util.*
 
 @Entity(tableName = "todo")
@@ -10,7 +10,8 @@ data class TodoEntity(
     val title: String,
     val description: String,
     var isCompleted: Boolean = false,
-    @PrimaryKey val id: UUID = UUID.randomUUID()
+    @PrimaryKey
+    val id: UUID = UUID.randomUUID()
 ) {
 
     companion object {
@@ -25,6 +26,11 @@ data class TodoEntity(
     }
 
     fun toTodo(): Todo {
-        return Todo(title, description, isCompleted, id)
+        return Todo(
+            title,
+            description,
+            isCompleted,
+            id
+        )
     }
 }

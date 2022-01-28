@@ -9,21 +9,21 @@
         android:name="se.millwood.todo.todolist.TodoListFragment"
         android:label="TodoListFragment" >
         <action
-            android:id="@+id/action_todoListFragment_to_deleteTodoDialogFragment"
-            app:destination="@id/deleteTodoDialogFragment" />
+            android:id="@+id/action_todoListFragment_to_todoDeleteDialogFragment"
+            app:destination="@id/todoDeleteDialogFragment" />
         <action
             android:id="@+id/action_todoListFragment_to_EditFragment"
             app:destination="@id/todoEditFragment" />
     </fragment>
 
     <dialog
-        android:id="@+id/deleteTodoDialogFragment"
-        android:name="se.millwood.todo.DeleteDialogFragment"
-        android:label="deleteTodoDialogFragment" />
+        android:id="@+id/todoDeleteDialogFragment"
+        android:name="se.millwood.todo.todolist.TodoDeleteDialogFragment"
+        android:label="todoDeleteTodoDialogFragment" />
 
     <fragment
         android:id="@+id/todoEditFragment"
-        android:name="se.millwood.todo.TodoEditFragment"
+        android:name="se.millwood.todo.todolist.TodoEditFragment"
         android:label="todoEditFragment">
     </fragment>
 

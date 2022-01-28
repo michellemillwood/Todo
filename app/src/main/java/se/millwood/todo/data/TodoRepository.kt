@@ -3,7 +3,7 @@ package se.millwood.todo.data
 import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import se.millwood.todo.Todo
+import se.millwood.todo.todolist.Todo
 import java.util.*
 
 class TodoRepository(context: Context) {

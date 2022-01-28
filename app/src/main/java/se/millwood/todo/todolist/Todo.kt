@@ -1,4 +1,4 @@
-package se.millwood.todo
+package se.millwood.todo.todolist
 
 import java.util.*
 

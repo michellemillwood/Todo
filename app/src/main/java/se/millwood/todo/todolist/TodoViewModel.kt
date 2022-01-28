@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import se.millwood.todo.data.TodoRepository
+import se.millwood.todo.todolist.Todo
 import java.util.*
 
 class TodoViewModel(context: Context) : ViewModel() {

@@ -1,14 +1,15 @@
-package se.millwood.todo
+package se.millwood.todo.todolist
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.snackbar.Snackbar
+import se.millwood.todo.TodoViewModel
+import se.millwood.todo.TodoViewModelFactory
 import java.util.*
 
-class DeleteDialogFragment : DialogFragment() {
+class TodoDeleteDialogFragment : DialogFragment() {
 
     private val viewModel: TodoViewModel by activityViewModels()  {
         TodoViewModelFactory(requireContext().applicationContext)
