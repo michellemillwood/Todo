@@ -39,7 +39,13 @@ class TodoAdapter(
         parent: ViewGroup,
         viewType: Int
     ): TodoViewHolder {
-        return TodoViewHolder(ItemTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return TodoViewHolder(
+            ItemTodoBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(

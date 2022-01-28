@@ -19,7 +19,7 @@
         android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/checkbox"
-        tools:text="title"
+        tools:text="todo"
         android:gravity="center_vertical"
         android:textStyle="bold"/>
 

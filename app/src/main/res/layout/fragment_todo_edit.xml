@@ -39,66 +39,26 @@
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/fragment_toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/todo_1"
-        android:hint="@string/title"
+        android:hint="todo"
         android:textColor="@color/grey"
         android:background="@color/off_white"
     />
 
     <EditText
-        android:id="@+id/todo_1"
-        android:inputType="text|textMultiLine"
-        android:layout_margin="16dp"
+        android:id="@+id/description"
+        android:inputType="textShortMessage|textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:layout_margin="16dp"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/title"
-        />
-
-    <EditText
-        android:id="@+id/todo_2"
-        android:inputType="text|textMultiLine"
-        android:layout_margin="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/todo_1"
-        />
+        android:hint="@string/description"
+        android:textColor="@color/grey"
+        android:background="@color/off_white"/>
 
-    <EditText
-        android:id="@+id/todo_3"
-        android:inputType="text|textMultiLine"
-        android:layout_margin="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/todo_2"
-        />
-
-    <EditText
-        android:id="@+id/todo_4"
-        android:inputType="text|textMultiLine"
-        android:layout_margin="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/todo_3"
-        />
-
-    <EditText
-        android:id="@+id/todo_5"
-        android:inputType="text|textMultiLine"
-        android:layout_margin="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/todo_4"
-        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
