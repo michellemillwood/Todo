@@ -1,22 +1,21 @@
-package se.millwood.todo.cardlist
+package se.millwood.todo.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import se.millwood.todo.cardlist.Card
 import java.util.*
 
 @Entity(tableName = "card")
 class CardEntity(
     val title: String,
-    val todos: MutableList<UUID>,
     @PrimaryKey
-    val id: UUID = UUID.randomUUID()) {
+    val cardId: UUID = UUID.randomUUID()) {
 
     companion object {
         fun from(card: Card): CardEntity {
             return CardEntity(
                 card.title,
-                card.todos,
-                card.id
+                card.cardId
             )
         }
     }
@@ -24,8 +23,7 @@ class CardEntity(
     fun toCard(): Card {
         return Card(
             title,
-            todos,
-            id
+            cardId
         )
     }
 }

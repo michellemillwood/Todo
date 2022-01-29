@@ -31,9 +31,14 @@ class CardListFragment : Fragment() {
     private fun setupCreateCardFab() {
         binding.fab.setOnClickListener {
             val newCard = Card()
-            val bundle = bundleOf(TodoListFragment.CARD_ID_KEY to newCard.id)
+            val bundle = bundleOf(CARD_ID_KEY to newCard.cardId.toString())
             findNavController().navigate(R.id.todoListFragment, bundle)
         }
+    }
+
+
+    companion object {
+        const val CARD_ID_KEY = "card_id"
     }
 
 }

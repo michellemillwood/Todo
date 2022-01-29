@@ -22,15 +22,15 @@ class TodoAdapter(
             checkbox.isChecked = todo.isCompleted
 
             checkbox.setOnCheckedChangeListener { _, isChecked ->
-               onItemCheck(todo.id, isChecked)
+               onItemCheck(todo.todoId, isChecked)
             }
 
             deleteTodo.setOnClickListener {
-                onItemDelete(todo.id, todo.title)
+                onItemDelete(todo.todoId, todo.title)
             }
 
             root.setOnClickListener {
-                onItemEdit(todo.id)
+                onItemEdit(todo.todoId)
             }
         }
     }

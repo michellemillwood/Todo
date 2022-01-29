@@ -1,4 +1,4 @@
-package se.millwood.todo
+package se.millwood.todo.todolist
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import se.millwood.todo.cardlist.Card
 import se.millwood.todo.data.TodoRepository
-import se.millwood.todo.todolist.Todo
 import java.util.*
 
 class TodoViewModel(context: Context) : ViewModel() {
@@ -16,8 +16,12 @@ class TodoViewModel(context: Context) : ViewModel() {
 
     val todos: Flow<List<Todo>> = repository.todos
 
-    fun createTodo(title: String, description: String) {
-        addTodo(Todo(title, description))
+    fun createTodo(
+        title: String,
+        description: String,
+        cardId: UUID
+    ) {
+        addTodo(Todo(title, description, cardId))
     }
 
     fun setIsCompleted(todoId: UUID, isCompleted: Boolean) {

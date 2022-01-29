@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import se.millwood.todo.*
+import se.millwood.todo.cardlist.CardListFragment
 import se.millwood.todo.databinding.FragmentTodoListBinding
 
 class TodoListFragment : Fragment() {
@@ -55,6 +56,7 @@ class TodoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         lifecycleScope.launch {
             viewModel.todos.collect { todos ->
                 adapter.submitList(todos)
@@ -62,19 +64,11 @@ class TodoListFragment : Fragment() {
         }
     }
 
-    private fun checkCardId() {
-        if (arguments?.containsKey(CARD_ID_KEY) == true) {
-            createNewCard()
-        }
-    }
-
-    private fun createNewCard() {
-
-    }
-
     private fun setupCreateTodoFab() {
         binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.todoEditFragment)
+            val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
+            val bundle = bundleOf(CardListFragment.CARD_ID_KEY to cardId)
+            findNavController().navigate(R.id.todoEditFragment, bundle)
         }
     }
 
@@ -84,8 +78,5 @@ class TodoListFragment : Fragment() {
         }
     }
 
-    companion object {
-        const val CARD_ID_KEY = "id"
-    }
 }
 

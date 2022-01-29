@@ -9,8 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
-import se.millwood.todo.TodoViewModel
-import se.millwood.todo.TodoViewModelFactory
+import se.millwood.todo.cardlist.CardListFragment
 import se.millwood.todo.databinding.*
 import java.util.*
 
@@ -19,7 +18,6 @@ class TodoEditFragment : Fragment() {
     private val viewModel: TodoViewModel by activityViewModels()  {
         TodoViewModelFactory(requireContext().applicationContext)
     }
-
     private lateinit var binding: FragmentTodoEditBinding
 
     override fun onCreateView(
@@ -28,18 +26,22 @@ class TodoEditFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTodoEditBinding.inflate(inflater)
+
+        val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
+        val cardUUID = UUID.fromString(cardId)
+
         if (arguments?.containsKey(TODO_ID_KEY) == true) {
             useEditView()
         }
         else {
-            useAddNewView()
+            useAddNewView(cardUUID)
         }
         setupUpButton()
         return binding.root
     }
 
-    private fun useAddNewView() {
-        setupAddNewTodoButton()
+    private fun useAddNewView(cardId: UUID) {
+        setupAddNewTodoButton(cardId)
         binding.buttonSave.text = "ADD"
     }
 
@@ -70,11 +72,12 @@ class TodoEditFragment : Fragment() {
         }
     }
 
-    private fun setupAddNewTodoButton() {
+    private fun setupAddNewTodoButton(cardId: UUID) {
         binding.buttonSave.setOnClickListener {
             viewModel.createTodo(
                 binding.title.text.toString(),
-                binding.description.text.toString()
+                binding.description.text.toString(),
+                cardId
             )
             findNavController().popBackStack()
         }
@@ -87,7 +90,7 @@ class TodoEditFragment : Fragment() {
     }
 
     companion object {
-        const val TODO_ID_KEY = "id"
+        const val TODO_ID_KEY = "todo_id"
     }
 
 }

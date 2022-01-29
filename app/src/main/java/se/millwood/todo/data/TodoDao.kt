@@ -10,7 +10,7 @@ interface TodoDao {
     @Query("SELECT * FROM todo ORDER BY isCompleted")
     fun getTodos(): Flow<List<TodoEntity>>
 
-    @Query("SELECT * FROM todo WHERE id = :id")
+    @Query("SELECT * FROM todo WHERE todoId = :id")
     suspend fun getTodoById(id: UUID): TodoEntity
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -19,10 +19,10 @@ interface TodoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(todoEntity: TodoEntity)
 
-    @Query("UPDATE todo SET isCompleted = :isCompleted WHERE id = :id")
+    @Query("UPDATE todo SET isCompleted = :isCompleted WHERE todoId = :id")
     suspend fun setIsCompleted(id: UUID, isCompleted: Boolean)
 
-    @Query("DELETE FROM todo WHERE id = :id")
+    @Query("DELETE FROM todo WHERE todoId = :id")
     suspend fun delete(id: UUID)
 
 }

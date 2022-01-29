@@ -5,8 +5,6 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import se.millwood.todo.TodoViewModel
-import se.millwood.todo.TodoViewModelFactory
 import java.util.*
 
 class TodoDeleteDialogFragment : DialogFragment() {

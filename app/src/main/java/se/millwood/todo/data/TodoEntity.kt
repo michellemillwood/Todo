@@ -1,7 +1,10 @@
 package se.millwood.todo.data
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
+import se.millwood.todo.cardlist.Card
 import se.millwood.todo.todolist.Todo
 import java.util.*
 
@@ -9,9 +12,10 @@ import java.util.*
 data class TodoEntity(
     val title: String,
     val description: String,
+    val cardId: UUID,
     var isCompleted: Boolean = false,
     @PrimaryKey
-    val id: UUID = UUID.randomUUID()
+    val todoId: UUID = UUID.randomUUID()
 ) {
 
     companion object {
@@ -19,8 +23,9 @@ data class TodoEntity(
             return TodoEntity(
                 todo.title,
                 todo.description,
+                todo.cardId,
                 todo.isCompleted,
-                todo.id
+                todo.todoId
             )
         }
     }
@@ -29,8 +34,9 @@ data class TodoEntity(
         return Todo(
             title,
             description,
+            cardId,
             isCompleted,
-            id
+            todoId
         )
     }
 }
