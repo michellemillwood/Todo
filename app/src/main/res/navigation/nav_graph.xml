@@ -2,7 +2,16 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/todoListFragment">
+    app:startDestination="@id/cardListFragment">
+
+    <fragment
+        android:id="@+id/cardListFragment"
+        android:name="se.millwood.todo.cardlist.CardListFragment"
+        android:label="CardListFragment" >
+        <action
+            android:id="@+id/action_cardListFragment_to_todoListFragment"
+            app:destination="@id/todoListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/todoListFragment"
@@ -26,5 +35,6 @@
         android:name="se.millwood.todo.todolist.TodoEditFragment"
         android:label="todoEditFragment">
     </fragment>
+
 
 </navigation>

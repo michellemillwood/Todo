@@ -11,14 +11,14 @@ import se.millwood.todo.todolist.TodoAdapter
 
 class CardAdapter : ListAdapter<Card, CardAdapter.CardViewHolder>(DiffCallback) {
 
-    class CardViewHolder(private val binding: ItemCardBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    class CardViewHolder(private val binding: ItemCardBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(card: Card) {
-                with(binding) {
-                    cardTitle.text = card.title
-                }
+        fun bind(card: Card) {
+            with(binding) {
+                cardTitle.text = card.title
             }
+        }
 
     }
 
@@ -35,8 +35,6 @@ class CardAdapter : ListAdapter<Card, CardAdapter.CardViewHolder>(DiffCallback) 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
-
 
     object DiffCallback : DiffUtil.ItemCallback<Card>() {
 

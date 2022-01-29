@@ -28,7 +28,7 @@ class TodoEditFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTodoEditBinding.inflate(inflater)
-        if (arguments?.containsKey(ID_KEY) == true) {
+        if (arguments?.containsKey(TODO_ID_KEY) == true) {
             useEditView()
         }
         else {
@@ -44,7 +44,7 @@ class TodoEditFragment : Fragment() {
     }
 
     private fun useEditView() {
-        val todoId = arguments?.getString(ID_KEY)
+        val todoId = arguments?.getString(TODO_ID_KEY)
         lifecycleScope.launch {
             val todo = viewModel.fetchTodo(UUID.fromString(todoId))
             populateTodoDetails(todo.title, todo.description)
@@ -87,7 +87,7 @@ class TodoEditFragment : Fragment() {
     }
 
     companion object {
-        const val ID_KEY = "id"
+        const val TODO_ID_KEY = "id"
     }
 
 }

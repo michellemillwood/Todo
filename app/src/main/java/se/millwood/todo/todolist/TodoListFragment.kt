@@ -20,6 +20,8 @@ class TodoListFragment : Fragment() {
         TodoViewModelFactory(requireContext().applicationContext)
     }
 
+    private lateinit var binding: FragmentTodoListBinding
+
     private val adapter: TodoAdapter by lazy {
         TodoAdapter(
             onItemCheck = viewModel::setIsCompleted,
@@ -32,14 +34,12 @@ class TodoListFragment : Fragment() {
             },
             onItemEdit = { todoId ->
                 val bundle = bundleOf(
-                    TodoEditFragment.ID_KEY to todoId.toString()
+                    TodoEditFragment.TODO_ID_KEY to todoId.toString()
                 )
                 findNavController().navigate(R.id.todoEditFragment, bundle)
             }
         )
     }
-
-    private lateinit var binding: FragmentTodoListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +49,7 @@ class TodoListFragment : Fragment() {
         binding = FragmentTodoListBinding.inflate(inflater)
         binding.recyclerView.adapter = adapter
         setupCreateTodoFab()
+        setupUpButton()
         return binding.root
     }
 
@@ -61,11 +62,30 @@ class TodoListFragment : Fragment() {
         }
     }
 
+    private fun checkCardId() {
+        if (arguments?.containsKey(CARD_ID_KEY) == true) {
+            createNewCard()
+        }
+    }
+
+    private fun createNewCard() {
+
+    }
 
     private fun setupCreateTodoFab() {
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.todoEditFragment)
         }
+    }
+
+    private fun setupUpButton() {
+        binding.listFragmentToolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    companion object {
+        const val CARD_ID_KEY = "id"
     }
 }
 
