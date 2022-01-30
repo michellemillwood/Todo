@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="TODO LISTS"
+        app:title="ALL TODO CARDS"
         app:titleTextColor="@color/grey" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -22,6 +22,7 @@
         android:layout_height="0dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/card_fragment_toolbar"
         tools:listitem="@layout/item_card" />
 

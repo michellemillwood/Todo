@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase
 abstract class TodoDatabase : RoomDatabase() {
 
     abstract fun todoDao(): TodoDao
+    abstract fun cardDao(): CardDao
 
     companion object {
         @Volatile

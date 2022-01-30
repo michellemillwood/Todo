@@ -13,8 +13,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="NEW TODO LIST"
+        app:title="NEW CARD"
         app:titleTextColor="@color/grey" />
+
+    <Button
+        android:id="@+id/button_save"
+        app:layout_constraintEnd_toEndOf="@id/list_fragment_toolbar"
+        app:layout_constraintTop_toTopOf="@id/list_fragment_toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/list_fragment_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:text="SAVE"
+        android:backgroundTint="@color/beige"
+        android:textColor="@color/grey"
+        />
+
+    <EditText
+        android:id="@+id/card_name"
+        android:inputType="textShortMessage|textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/list_fragment_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        android:hint="Card name"
+        android:textColor="@color/grey"
+        android:background="@color/lime"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -23,7 +50,7 @@
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/list_fragment_toolbar"
+        app:layout_constraintTop_toBottomOf="@id/card_name"
         tools:listitem="@layout/item_todo" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

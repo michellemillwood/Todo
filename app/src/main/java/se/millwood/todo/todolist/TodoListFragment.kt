@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import se.millwood.todo.*
 import se.millwood.todo.cardlist.CardListFragment
 import se.millwood.todo.databinding.FragmentTodoListBinding
+import java.util.*
 
 class TodoListFragment : Fragment() {
 
@@ -49,7 +50,9 @@ class TodoListFragment : Fragment() {
     ): View {
         binding = FragmentTodoListBinding.inflate(inflater)
         binding.recyclerView.adapter = adapter
-        setupCreateTodoFab()
+        val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
+        setupCreateTodoFab(cardId)
+        setupSaveButton(cardId)
         setupUpButton()
         return binding.root
     }
@@ -64,11 +67,20 @@ class TodoListFragment : Fragment() {
         }
     }
 
-    private fun setupCreateTodoFab() {
+    private fun setupCreateTodoFab(cardId: String?) {
         binding.fab.setOnClickListener {
-            val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
             val bundle = bundleOf(CardListFragment.CARD_ID_KEY to cardId)
             findNavController().navigate(R.id.todoEditFragment, bundle)
+        }
+    }
+
+    private fun setupSaveButton(cardId: String?) {
+        binding.buttonSave.setOnClickListener {
+            viewModel.addCard(
+                binding.cardName.text.toString(),
+                UUID.fromString(cardId),
+            )
+            findNavController().popBackStack()
         }
     }
 
@@ -77,6 +89,7 @@ class TodoListFragment : Fragment() {
             findNavController().popBackStack()
         }
     }
+
 
 }
 

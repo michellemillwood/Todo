@@ -14,7 +14,7 @@
         android:clickable="true"
         android:elevation="16dp"
         android:backgroundTint="@color/lime"
-        android:focusable="true" />
+        android:focusable="true" >
 
     <TextView
         android:id="@+id/card_title"
@@ -23,7 +23,11 @@
         android:textColor="@color/grey"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/item_card"
         app:layout_constraintTop_toTopOf="@id/item_card"
         tools:text="title" />
+
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,14 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.databinding.FragmentCardListBinding
 import se.millwood.todo.todolist.TodoListFragment
+import se.millwood.todo.todolist.TodoViewModel
+import se.millwood.todo.todolist.TodoViewModelFactory
 
 class CardListFragment : Fragment() {
 
     private val adapter = CardAdapter()
+
+    private val viewModel: TodoViewModel by activityViewModels()  {
+        TodoViewModelFactory(requireContext().applicationContext)
+    }
 
     private lateinit var binding: FragmentCardListBinding
 
@@ -26,6 +36,16 @@ class CardListFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         setupCreateCardFab()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        lifecycleScope.launch {
+            viewModel.cards.collect { cards ->
+                adapter.submitList(cards)
+            }
+        }
     }
 
     private fun setupCreateCardFab() {

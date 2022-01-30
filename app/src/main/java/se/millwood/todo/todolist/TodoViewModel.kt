@@ -7,22 +7,28 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import se.millwood.todo.cardlist.Card
-import se.millwood.todo.data.TodoRepository
+import se.millwood.todo.data.Repository
 import java.util.*
 
 class TodoViewModel(context: Context) : ViewModel() {
 
-    private val repository = TodoRepository(context)
+    private val repository = Repository(context)
 
     val todos: Flow<List<Todo>> = repository.todos
+    val cards: Flow<List<Card>> = repository.cards
+
+    fun addCard(
+        title: String,
+        cardId: UUID
+    ) = viewModelScope.launch {
+        repository.addCard(Card(title, cardId))
+    }
 
     fun createTodo(
         title: String,
         description: String,
         cardId: UUID
-    ) {
-        addTodo(Todo(title, description, cardId))
-    }
+    ) = addTodo(Todo(title, description, cardId))
 
     fun setIsCompleted(todoId: UUID, isCompleted: Boolean) {
         viewModelScope.launch {

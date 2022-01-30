@@ -19,7 +19,6 @@ class CardAdapter : ListAdapter<Card, CardAdapter.CardViewHolder>(DiffCallback) 
                 cardTitle.text = card.title
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
