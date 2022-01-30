@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import se.millwood.todo.*
+import se.millwood.todo.cardlist.Card
 import se.millwood.todo.cardlist.CardListFragment
 import se.millwood.todo.databinding.FragmentTodoListBinding
 import java.util.*
@@ -50,9 +51,6 @@ class TodoListFragment : Fragment() {
     ): View {
         binding = FragmentTodoListBinding.inflate(inflater)
         binding.recyclerView.adapter = adapter
-        val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
-        setupCreateTodoFab(cardId)
-        setupSaveButton(cardId)
         setupUpButton()
         return binding.root
     }
@@ -60,10 +58,20 @@ class TodoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch {
-            viewModel.todos.collect { todos ->
-                adapter.submitList(todos)
+        if (arguments?.containsKey(CardListFragment.CARD_ID_KEY) == true) {
+            val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
+            lifecycleScope.launch {
+                viewModel.getTodos(UUID.fromString(cardId)).collect { todos ->
+                    adapter.submitList(todos)
+                }
             }
+            setupCreateTodoFab(cardId)
+            setupSaveButton(cardId)
+        }
+        else {
+            val cardId = Card().cardId.toString()
+            setupCreateTodoFab(cardId)
+            setupSaveButton(cardId)
         }
     }
 
@@ -89,7 +97,5 @@ class TodoListFragment : Fragment() {
             findNavController().popBackStack()
         }
     }
-
-
 }
 

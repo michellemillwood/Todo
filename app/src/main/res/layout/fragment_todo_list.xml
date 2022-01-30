@@ -13,6 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
         app:title="NEW CARD"
         app:titleTextColor="@color/grey" />
 
@@ -40,7 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:hint="Card name"
         android:textColor="@color/grey"
-        android:background="@color/lime"
+        android:background="@color/beige"
         />
 
     <androidx.recyclerview.widget.RecyclerView

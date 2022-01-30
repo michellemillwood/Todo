@@ -8,15 +8,20 @@ import androidx.recyclerview.widget.RecyclerView
 import se.millwood.todo.databinding.ItemCardBinding
 import se.millwood.todo.databinding.ItemTodoBinding
 import se.millwood.todo.todolist.TodoAdapter
+import java.util.*
 
-class CardAdapter : ListAdapter<Card, CardAdapter.CardViewHolder>(DiffCallback) {
+class CardAdapter(val onItemClicked: (cardId: UUID) -> Unit)
+    : ListAdapter<Card, CardAdapter.CardViewHolder>(DiffCallback) {
 
-    class CardViewHolder(private val binding: ItemCardBinding) :
+    inner class CardViewHolder(private val binding: ItemCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(card: Card) {
             with(binding) {
                 cardTitle.text = card.title
+                itemCard.setOnClickListener {
+                    onItemClicked(card.cardId)
+                }
             }
         }
     }

@@ -14,7 +14,6 @@ class TodoViewModel(context: Context) : ViewModel() {
 
     private val repository = Repository(context)
 
-    val todos: Flow<List<Todo>> = repository.todos
     val cards: Flow<List<Card>> = repository.cards
 
     fun addCard(
@@ -29,6 +28,8 @@ class TodoViewModel(context: Context) : ViewModel() {
         description: String,
         cardId: UUID
     ) = addTodo(Todo(title, description, cardId))
+
+    fun getTodos(cardId: UUID) = repository.getTodos(cardId)
 
     fun setIsCompleted(todoId: UUID, isCompleted: Boolean) {
         viewModelScope.launch {

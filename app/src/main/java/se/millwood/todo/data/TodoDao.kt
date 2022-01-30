@@ -7,8 +7,9 @@ import java.util.*
 @Dao
 interface TodoDao {
 
-    @Query("SELECT * FROM todo ORDER BY isCompleted")
-    fun getTodos(): Flow<List<TodoEntity>>
+    @Query("SELECT * FROM todo WHERE cardId = :cardId " +
+            "ORDER BY isCompleted")
+    fun getTodos(cardId: UUID): Flow<List<TodoEntity>>
 
     @Query("SELECT * FROM todo WHERE todoId = :id")
     suspend fun getTodoById(id: UUID): TodoEntity

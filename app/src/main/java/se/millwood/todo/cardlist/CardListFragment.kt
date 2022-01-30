@@ -19,9 +19,16 @@ import se.millwood.todo.todolist.TodoViewModelFactory
 
 class CardListFragment : Fragment() {
 
-    private val adapter = CardAdapter()
+    private val adapter: CardAdapter by lazy {
+        CardAdapter(
+            onItemClicked = { cardId ->
+                val bundle = bundleOf(CARD_ID_KEY to cardId.toString())
+                findNavController().navigate(R.id.todoListFragment, bundle)
+            }
+        )
+    }
 
-    private val viewModel: TodoViewModel by activityViewModels()  {
+    private val viewModel: TodoViewModel by activityViewModels() {
         TodoViewModelFactory(requireContext().applicationContext)
     }
 
@@ -40,7 +47,6 @@ class CardListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         lifecycleScope.launch {
             viewModel.cards.collect { cards ->
                 adapter.submitList(cards)
@@ -50,9 +56,7 @@ class CardListFragment : Fragment() {
 
     private fun setupCreateCardFab() {
         binding.fab.setOnClickListener {
-            val newCard = Card()
-            val bundle = bundleOf(CARD_ID_KEY to newCard.cardId.toString())
-            findNavController().navigate(R.id.todoListFragment, bundle)
+            findNavController().navigate(R.id.todoListFragment)
         }
     }
 

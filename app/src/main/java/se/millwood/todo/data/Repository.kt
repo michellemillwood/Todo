@@ -16,10 +16,9 @@ class Repository(context: Context) {
         cardEntity.map { it.toCard() }
     }
 
-    val todos: Flow<List<Todo>> = todoDao.getTodos().map { todoEntity ->
+    fun getTodos(cardId: UUID) = todoDao.getTodos(cardId).map { todoEntity ->
         todoEntity.map { it.toTodo() }
     }
-
 
     suspend fun addCard(card: Card) = cardDao.addCard(CardEntity.from(card))
 
