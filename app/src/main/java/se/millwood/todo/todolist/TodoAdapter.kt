@@ -9,9 +9,9 @@ import se.millwood.todo.databinding.ItemTodoBinding
 import java.util.*
 
 class TodoAdapter(
-    val onItemCheck: (id: UUID, isChecked: Boolean) -> Unit,
-    val onItemDelete: (id: UUID, title: String) -> Unit,
-    val onItemEdit: (id: UUID) -> Unit
+    val onItemCheck: (todoId: UUID, isChecked: Boolean) -> Unit,
+    val onItemDelete: (todoId: UUID, title: String) -> Unit,
+    val onItemEdit: (todoId: UUID, cardId: UUID) -> Unit
 ) : ListAdapter<Todo, TodoAdapter.TodoViewHolder>(DiffCallback) {
 
     inner class TodoViewHolder(private val binding: ItemTodoBinding) :
@@ -30,7 +30,7 @@ class TodoAdapter(
             }
 
             root.setOnClickListener {
-                onItemEdit(todo.todoId)
+                onItemEdit(todo.todoId, todo.cardId)
             }
         }
     }

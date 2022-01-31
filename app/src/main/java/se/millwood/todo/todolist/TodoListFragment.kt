@@ -34,11 +34,12 @@ class TodoListFragment : Fragment() {
                 )
                 findNavController().navigate(R.id.todoDeleteDialogFragment, bundle)
             },
-            onItemEdit = { todoId ->
+            onItemEdit = { todoId, cardId ->
                 val bundle = bundleOf(
-                    TodoEditFragment.TODO_ID_KEY to todoId.toString()
+                    TodoEditDialogFragment.TODO_ID_KEY to todoId.toString(),
+                    CardListFragment.CARD_ID_KEY to cardId.toString()
                 )
-                findNavController().navigate(R.id.todoEditFragment, bundle)
+                findNavController().navigate(R.id.todoEditDialogFragment, bundle)
             }
         )
     }
@@ -83,7 +84,7 @@ class TodoListFragment : Fragment() {
     private fun setupCreateTodoFab(cardId: String?) {
         binding.fab.setOnClickListener {
             val bundle = bundleOf(CardListFragment.CARD_ID_KEY to cardId)
-            findNavController().navigate(R.id.todoEditFragment, bundle)
+            findNavController().navigate(R.id.todoEditDialogFragment, bundle)
         }
     }
 
@@ -100,7 +101,8 @@ class TodoListFragment : Fragment() {
     private fun setupUpdateButton(card: Card) {
         binding.buttonSave.setOnClickListener {
             viewModel.updateCard(
-                card.copy(title = binding.cardTitle.text.toString())
+                card.copy(
+                    title = binding.cardTitle.text.toString())
             )
             findNavController().popBackStack()
         }

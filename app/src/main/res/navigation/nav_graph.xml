@@ -22,7 +22,7 @@
             app:destination="@id/todoDeleteDialogFragment" />
         <action
             android:id="@+id/action_todoListFragment_to_EditFragment"
-            app:destination="@id/todoEditFragment" />
+            app:destination="@id/todoEditDialogFragment" />
     </fragment>
 
     <dialog
@@ -30,11 +30,11 @@
         android:name="se.millwood.todo.todolist.TodoDeleteDialogFragment"
         android:label="todoDeleteTodoDialogFragment" />
 
-    <fragment
-        android:id="@+id/todoEditFragment"
-        android:name="se.millwood.todo.todolist.TodoEditFragment"
-        android:label="todoEditFragment">
-    </fragment>
+    <dialog
+        android:id="@+id/todoEditDialogFragment"
+        android:name="se.millwood.todo.todolist.TodoEditDialogFragment"
+        android:label="todoEditDialogFragment">
+    </dialog>
 
 
 </navigation>
