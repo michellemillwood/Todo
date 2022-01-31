@@ -44,21 +44,4 @@
         android:background="@color/off_white"
     />
 
-    <EditText
-        android:id="@+id/description"
-        android:inputType="textShortMessage|textMultiLine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:layout_margin="16dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        app:layout_constraintStart_toStartOf="parent"
-        android:hint="@string/description"
-        android:textColor="@color/grey"
-        android:background="@color/off_white"/>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

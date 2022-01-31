@@ -21,8 +21,11 @@ class CardListFragment : Fragment() {
 
     private val adapter: CardAdapter by lazy {
         CardAdapter(
-            onItemClicked = { cardId ->
-                val bundle = bundleOf(CARD_ID_KEY to cardId.toString())
+            onItemClicked = { cardId, cardTitle ->
+                val bundle = bundleOf(
+                    CARD_ID_KEY to cardId.toString(),
+                    CARD_TITLE_KEY to cardTitle
+                )
                 findNavController().navigate(R.id.todoListFragment, bundle)
             }
         )
@@ -63,6 +66,7 @@ class CardListFragment : Fragment() {
 
     companion object {
         const val CARD_ID_KEY = "card_id"
+        const val CARD_TITLE_KEY = "card_title"
     }
 
 }

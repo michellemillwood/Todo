@@ -11,7 +11,6 @@ import java.util.*
 @Entity(tableName = "todo")
 data class TodoEntity(
     val title: String,
-    val description: String,
     val cardId: UUID,
     var isCompleted: Boolean = false,
     @PrimaryKey
@@ -22,7 +21,6 @@ data class TodoEntity(
         fun from(todo: Todo): TodoEntity {
             return TodoEntity(
                 todo.title,
-                todo.description,
                 todo.cardId,
                 todo.isCompleted,
                 todo.todoId
@@ -33,7 +31,6 @@ data class TodoEntity(
     fun toTodo(): Todo {
         return Todo(
             title,
-            description,
             cardId,
             isCompleted,
             todoId

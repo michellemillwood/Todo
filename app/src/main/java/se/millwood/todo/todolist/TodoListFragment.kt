@@ -30,8 +30,8 @@ class TodoListFragment : Fragment() {
             onItemCheck = viewModel::setIsCompleted,
             onItemDelete = { todoId, title ->
                 val bundle = bundleOf(
-                    TodoDeleteDialogFragment.ID_KEY to todoId.toString(),
-                    TodoDeleteDialogFragment.TITLE_KEY to title
+                    TodoDeleteDialogFragment.TODO_ID_KEY to todoId.toString(),
+                    TodoDeleteDialogFragment.TODO_TITLE_KEY to title
                 )
                 findNavController().navigate(R.id.todoDeleteDialogFragment, bundle)
             },
@@ -59,7 +59,10 @@ class TodoListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (arguments?.containsKey(CardListFragment.CARD_ID_KEY) == true) {
+            val cardTitle = arguments?.getString(CardListFragment.CARD_TITLE_KEY)
+            binding.cardTitle.setText(cardTitle)
             val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
+
             lifecycleScope.launch {
                 viewModel.getTodos(UUID.fromString(cardId)).collect { todos ->
                     adapter.submitList(todos)
@@ -85,7 +88,7 @@ class TodoListFragment : Fragment() {
     private fun setupSaveButton(cardId: String?) {
         binding.buttonSave.setOnClickListener {
             viewModel.addCard(
-                binding.cardName.text.toString(),
+                binding.cardTitle.text.toString(),
                 UUID.fromString(cardId),
             )
             findNavController().popBackStack()

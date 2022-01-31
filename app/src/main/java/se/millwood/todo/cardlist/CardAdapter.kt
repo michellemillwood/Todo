@@ -10,18 +10,17 @@ import se.millwood.todo.databinding.ItemTodoBinding
 import se.millwood.todo.todolist.TodoAdapter
 import java.util.*
 
-class CardAdapter(val onItemClicked: (cardId: UUID) -> Unit)
-    : ListAdapter<Card, CardAdapter.CardViewHolder>(DiffCallback) {
+class CardAdapter(
+    val onItemClicked: (cardId: UUID, cardTitle: String) -> Unit
+) : ListAdapter<Card, CardAdapter.CardViewHolder>(DiffCallback) {
 
     inner class CardViewHolder(private val binding: ItemCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(card: Card) {
-            with(binding) {
-                cardTitle.text = card.title
-                itemCard.setOnClickListener {
-                    onItemClicked(card.cardId)
-                }
+            binding.cardTitle.text = card.title
+            binding.itemCard.setOnClickListener {
+                onItemClicked(card.cardId, card.title)
             }
         }
     }

@@ -25,9 +25,8 @@ class TodoViewModel(context: Context) : ViewModel() {
 
     fun createTodo(
         title: String,
-        description: String,
         cardId: UUID
-    ) = addTodo(Todo(title, description, cardId))
+    ) = addTodo(Todo(title, cardId))
 
     fun getTodos(cardId: UUID) = repository.getTodos(cardId)
 

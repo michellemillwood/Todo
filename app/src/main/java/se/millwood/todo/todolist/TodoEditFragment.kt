@@ -49,15 +49,14 @@ class TodoEditFragment : Fragment() {
         val todoId = arguments?.getString(TODO_ID_KEY)
         lifecycleScope.launch {
             val todo = viewModel.fetchTodo(UUID.fromString(todoId))
-            populateTodoDetails(todo.title, todo.description)
+            populateTodoDetails(todo.title)
             setupUpdateTodoButton(todo)
         }
         binding.buttonSave.text = "SAVE"
     }
 
-    private fun populateTodoDetails(title: String, description: String) {
+    private fun populateTodoDetails(title: String) {
         binding.title.setText(title)
-        binding.description.setText(description)
     }
 
     private fun setupUpdateTodoButton(todo: Todo) {
@@ -65,7 +64,6 @@ class TodoEditFragment : Fragment() {
             viewModel.updateTodo(
                 todo.copy(
                     title = binding.title.text.toString(),
-                    description = binding.description.text.toString()
                 )
             )
             findNavController().popBackStack()
@@ -76,7 +74,6 @@ class TodoEditFragment : Fragment() {
         binding.buttonSave.setOnClickListener {
             viewModel.createTodo(
                 binding.title.text.toString(),
-                binding.description.text.toString(),
                 cardId
             )
             findNavController().popBackStack()
