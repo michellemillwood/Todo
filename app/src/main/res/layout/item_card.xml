@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="15dp"
-        android:layout_margin="8dp"
         android:clickable="true"
+        android:layout_margin="8dp"
         android:elevation="16dp"
         android:backgroundTint="@color/off_white"
         android:focusable="true" >

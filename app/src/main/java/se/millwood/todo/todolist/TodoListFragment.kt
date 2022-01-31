@@ -57,7 +57,6 @@ class TodoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // Edit card
         if (arguments?.containsKey(CardListFragment.CARD_ID_KEY) == true) {
             val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
@@ -76,8 +75,15 @@ class TodoListFragment : Fragment() {
         // New card
         else {
             val card = Card()
+            viewModel.addCard(card.title, card.cardId)
             setupCreateTodoFab(card.cardId.toString())
-            setupSaveButton(card.cardId.toString())
+            setupUpdateButton(card)
+
+            lifecycleScope.launch {
+                viewModel.getTodos(card.cardId).collect { todos ->
+                    adapter.submitList(todos)
+                }
+            }
         }
     }
 
@@ -85,16 +91,6 @@ class TodoListFragment : Fragment() {
         binding.fab.setOnClickListener {
             val bundle = bundleOf(CardListFragment.CARD_ID_KEY to cardId)
             findNavController().navigate(R.id.todoEditDialogFragment, bundle)
-        }
-    }
-
-    private fun setupSaveButton(cardId: String?) {
-        binding.buttonSave.setOnClickListener {
-            viewModel.addCard(
-                binding.cardTitle.text.toString(),
-                UUID.fromString(cardId),
-            )
-            findNavController().popBackStack()
         }
     }
 
