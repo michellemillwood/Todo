@@ -29,14 +29,14 @@ class TodoListFragment : Fragment() {
             onItemCheck = viewModel::setIsCompleted,
             onItemDelete = { todoId, title ->
                 val bundle = bundleOf(
-                    TodoDeleteDialogFragment.TODO_ID_KEY to todoId.toString(),
-                    TodoDeleteDialogFragment.TODO_TITLE_KEY to title
+                    TODO_ID_KEY to todoId.toString(),
+                    TODO_TITLE_KEY to title
                 )
                 findNavController().navigate(R.id.todoDeleteDialogFragment, bundle)
             },
             onItemEdit = { todoId, cardId ->
                 val bundle = bundleOf(
-                    TodoEditDialogFragment.TODO_ID_KEY to todoId.toString(),
+                    TODO_ID_KEY to todoId.toString(),
                     CardListFragment.CARD_ID_KEY to cardId.toString()
                 )
                 findNavController().navigate(R.id.todoEditDialogFragment, bundle)
@@ -57,35 +57,34 @@ class TodoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Edit card
+
         if (arguments?.containsKey(CardListFragment.CARD_ID_KEY) == true) {
             val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
+            setupCreateTodoFab(cardId)
             lifecycleScope.launch {
                 val card = viewModel.fetchCard(UUID.fromString(cardId))
                 binding.cardTitle.setText(card.title)
                 setupUpdateButton(card)
+                showTodos(card.cardId)
             }
-            lifecycleScope.launch {
-                viewModel.getTodos(UUID.fromString(cardId)).collect { todos ->
-                    adapter.submitList(todos)
-                }
-            }
-            setupCreateTodoFab(cardId)
         }
-        // New card
         else {
             val card = Card()
             viewModel.addCard(card.title, card.cardId)
             setupCreateTodoFab(card.cardId.toString())
             setupUpdateButton(card)
+            showTodos(card.cardId)
+        }
+    }
 
-            lifecycleScope.launch {
-                viewModel.getTodos(card.cardId).collect { todos ->
-                    adapter.submitList(todos)
-                }
+    private fun showTodos(cardId: UUID) {
+        lifecycleScope.launch {
+            viewModel.getTodos(cardId).collect { todos ->
+                adapter.submitList(todos)
             }
         }
     }
+
 
     private fun setupCreateTodoFab(cardId: String?) {
         binding.fab.setOnClickListener {
@@ -108,6 +107,11 @@ class TodoListFragment : Fragment() {
         binding.listFragmentToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    companion object {
+        const val TODO_ID_KEY = "todo_id"
+        const val TODO_TITLE_KEY = "title"
     }
 }
 

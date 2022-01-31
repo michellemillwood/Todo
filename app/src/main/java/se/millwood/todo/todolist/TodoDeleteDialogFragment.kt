@@ -15,18 +15,13 @@ class TodoDeleteDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext()).apply {
-            val todoId = arguments?.getString(TODO_ID_KEY)
-            val title = arguments?.getString(TODO_TITLE_KEY)
+            val todoId = arguments?.getString(TodoListFragment.TODO_ID_KEY)
+            val title = arguments?.getString(TodoListFragment.TODO_TITLE_KEY)
             setMessage("Do you want to delete $title?")
             setPositiveButton("YES") { _, _ ->
                 viewModel.removeTodo(UUID.fromString(todoId))
             }
             setNegativeButton("NO") { _, _ -> dismiss() }
         }.create()
-    }
-
-    companion object {
-        const val TODO_ID_KEY = "todoId"
-        const val TODO_TITLE_KEY = "title"
     }
 }

@@ -1,6 +1,5 @@
 package se.millwood.todo.todolist
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +27,8 @@ class TodoEditDialogFragment : DialogFragment() {
     ): View {
         binding = FragmentEditDialogBinding.inflate(inflater, container, false)
 
-        if (arguments?.containsKey(TODO_ID_KEY) == true) {
-            useEditTodoDialog()
+        if (arguments?.containsKey(TodoListFragment.TODO_ID_KEY) == true) {
+            useUpdateTodoDialog()
         }
         else {
             useCreateTodoDialog()
@@ -37,8 +36,8 @@ class TodoEditDialogFragment : DialogFragment() {
         return binding.root
     }
 
-    private fun useEditTodoDialog() {
-        val todoId = arguments?.getString(TODO_ID_KEY)
+    private fun useUpdateTodoDialog() {
+        val todoId = arguments?.getString(TodoListFragment.TODO_ID_KEY)
         lifecycleScope.launch {
             val todo = viewModel.fetchTodo(UUID.fromString(todoId))
             binding.editTodo.setText(todo.title)
@@ -58,15 +57,13 @@ class TodoEditDialogFragment : DialogFragment() {
         val cardUUID = UUID.fromString(cardId)
         binding.saveButton.setOnClickListener {
             viewModel.createTodo(
-                binding.editTodo.text.toString(),
-                cardUUID
+                title = binding.editTodo.text.toString(),
+                cardId = cardUUID
             )
             dismiss()
         }
     }
 
-    companion object {
-        const val TODO_ID_KEY = "todo_id"
-    }
+
 
 }
