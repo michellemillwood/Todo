@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.databinding.FragmentCardListBinding
-import se.millwood.todo.todolist.TodoListFragment
 import se.millwood.todo.todolist.TodoViewModel
 import se.millwood.todo.todolist.TodoViewModelFactory
 
@@ -22,7 +21,7 @@ class CardListFragment : Fragment() {
 
     private val adapter: CardAdapter by lazy {
         CardAdapter(
-            onItemClicked = { cardId ->
+            onCardClicked = { cardId ->
                 val bundle = bundleOf(
                     CARD_ID_KEY to cardId.toString(),
                 )
@@ -49,7 +48,10 @@ class CardListFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             viewModel.cards.collect { cards ->

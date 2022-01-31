@@ -6,12 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import se.millwood.todo.databinding.ItemCardBinding
-import se.millwood.todo.databinding.ItemTodoBinding
-import se.millwood.todo.todolist.TodoAdapter
 import java.util.*
 
 class CardAdapter(
-    val onItemClicked: (cardId: UUID) -> Unit
+    val onCardClicked: (cardId: UUID) -> Unit
 ) : ListAdapter<Card, CardAdapter.CardViewHolder>(DiffCallback) {
 
     inner class CardViewHolder(private val binding: ItemCardBinding) :
@@ -20,7 +18,7 @@ class CardAdapter(
         fun bind(card: Card) {
             binding.cardTitle.text = card.title
             binding.itemCard.setOnClickListener {
-                onItemClicked(card.cardId)
+                onCardClicked(card.cardId)
             }
         }
     }
