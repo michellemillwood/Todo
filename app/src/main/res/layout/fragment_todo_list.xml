@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/off_white"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
@@ -34,13 +35,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:layout_margin="16dp"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/list_fragment_toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        android:hint="Card name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recycler_view"
+        android:hint="Card title"
+        android:background="@color/off_white"
+        android:gravity="center_horizontal"
         android:textColor="@color/grey"
-        android:background="@color/beige"
         />
 
     <androidx.recyclerview.widget.RecyclerView
