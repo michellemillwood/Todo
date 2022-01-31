@@ -11,7 +11,7 @@ import se.millwood.todo.todolist.TodoAdapter
 import java.util.*
 
 class CardAdapter(
-    val onItemClicked: (cardId: UUID, cardTitle: String) -> Unit
+    val onItemClicked: (cardId: UUID) -> Unit
 ) : ListAdapter<Card, CardAdapter.CardViewHolder>(DiffCallback) {
 
     inner class CardViewHolder(private val binding: ItemCardBinding) :
@@ -20,7 +20,7 @@ class CardAdapter(
         fun bind(card: Card) {
             binding.cardTitle.text = card.title
             binding.itemCard.setOnClickListener {
-                onItemClicked(card.cardId, card.title)
+                onItemClicked(card.cardId)
             }
         }
     }

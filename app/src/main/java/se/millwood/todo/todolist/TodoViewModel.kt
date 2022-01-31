@@ -23,6 +23,14 @@ class TodoViewModel(context: Context) : ViewModel() {
         repository.addCard(Card(title, cardId))
     }
 
+    suspend fun fetchCard(cardId: UUID) = repository.fetchCard(cardId)
+
+    fun updateCard(card: Card) {
+        viewModelScope.launch {
+            repository.updateCard(card)
+        }
+    }
+
     fun createTodo(
         title: String,
         cardId: UUID

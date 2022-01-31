@@ -1,16 +1,21 @@
 package se.millwood.todo.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import se.millwood.todo.cardlist.Card
+import java.util.*
 
 @Dao
 interface CardDao {
 
     @Query("SELECT * FROM card")
     fun getCards(): Flow<List<CardEntity>>
+
+    @Query("SELECT * FROM card WHERE cardId = :id")
+    suspend fun getCardById(id: UUID): CardEntity
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateCard(cardEntity: CardEntity)
 
     @Insert
     suspend fun addCard(cardEntity: CardEntity)

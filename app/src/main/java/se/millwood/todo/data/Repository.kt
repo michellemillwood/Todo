@@ -18,6 +18,14 @@ class Repository(context: Context) {
 
     suspend fun addCard(card: Card) = cardDao.addCard(CardEntity.from(card))
 
+    suspend fun updateCard(card: Card) = cardDao.updateCard(CardEntity.from(card))
+
+
+    suspend fun fetchCard(cardId: UUID): Card {
+        val cardEntity = cardDao.getCardById(cardId)
+        return cardEntity.toCard()
+    }
+
     fun getTodos(cardId: UUID) = todoDao.getTodos(cardId).map { todoEntity ->
         todoEntity.map { it.toTodo() }
     }
