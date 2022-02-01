@@ -71,7 +71,7 @@ class TodoAdapter(
         override fun areItemsTheSame(
             oldItem: Todo,
             newItem: Todo
-        ) = oldItem == newItem
+        ) = oldItem.todoId == newItem.todoId
 
         override fun areContentsTheSame(
             oldItem: Todo,

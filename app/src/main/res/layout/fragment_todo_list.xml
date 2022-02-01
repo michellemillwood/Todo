@@ -17,18 +17,6 @@
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
         app:titleTextColor="@color/grey" />
 
-    <Button
-        android:id="@+id/button_save"
-        app:layout_constraintEnd_toEndOf="@id/list_fragment_toolbar"
-        app:layout_constraintTop_toTopOf="@id/list_fragment_toolbar"
-        app:layout_constraintBottom_toBottomOf="@id/list_fragment_toolbar"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:text="SAVE"
-        android:backgroundTint="@color/beige"
-        android:textColor="@color/grey"
-        />
-
     <EditText
         android:id="@+id/card_title"
         android:inputType="textShortMessage|textMultiLine"

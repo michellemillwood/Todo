@@ -9,10 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import se.millwood.todo.*
-import se.millwood.todo.cardlist.Card
+import se.millwood.todo.R
 import se.millwood.todo.cardlist.CardListFragment
 import se.millwood.todo.databinding.FragmentTodoListBinding
 import java.util.*
@@ -63,19 +64,24 @@ class TodoListFragment : Fragment() {
         lifecycleScope.launch {
             val card = viewModel.fetchCard(UUID.fromString(cardId))
             binding.cardTitle.setText(card.title)
-            setupSaveCardButton(card)
             showTodos(card.cardId)
         }
     }
 
-    private fun setupSaveCardButton(card: Card) {
-        binding.buttonSave.setOnClickListener {
+    override fun onDestroyView() {
+        saveCard()
+        super.onDestroyView()
+    }
+
+    private fun saveCard() {
+        val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
+        CoroutineScope(Dispatchers.Main).launch {
+            val card = viewModel.fetchCard(UUID.fromString(cardId))
             viewModel.updateCard(
                 card.copy(
                     title = binding.cardTitle.text.toString()
                 )
             )
-            findNavController().popBackStack()
         }
     }
 

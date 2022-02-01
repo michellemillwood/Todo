@@ -48,7 +48,7 @@ class CardAdapter(
         override fun areItemsTheSame(
             oldItem: Card,
             newItem: Card
-        ) = oldItem == newItem
+        ) = oldItem.cardId == newItem.cardId
 
         override fun areContentsTheSame(
             oldItem: Card,
