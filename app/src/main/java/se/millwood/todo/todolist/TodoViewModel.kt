@@ -20,7 +20,9 @@ class TodoViewModel(context: Context) : ViewModel() {
         title: String,
         cardId: UUID
     ) = viewModelScope.launch {
-        repository.addCard(Card(title, cardId))
+        repository.addCard(
+            Card(title, cardId)
+        )
     }
 
     suspend fun fetchCard(cardId: UUID) = repository.fetchCard(cardId)
@@ -35,6 +37,12 @@ class TodoViewModel(context: Context) : ViewModel() {
         title: String,
         cardId: UUID
     ) = addTodo(Todo(title, cardId))
+
+    private fun addTodo(todo: Todo) {
+        viewModelScope.launch {
+            repository.addTodo(todo)
+        }
+    }
 
     fun getTodos(cardId: UUID) = repository.getTodos(cardId)
 
@@ -58,11 +66,6 @@ class TodoViewModel(context: Context) : ViewModel() {
 
     suspend fun fetchTodo(todoId: UUID) = repository.fetchTodo(todoId)
 
-    private fun addTodo(todo: Todo) {
-        viewModelScope.launch {
-            repository.addTodo(todo)
-        }
-    }
 }
 
 class TodoViewModelFactory(private val context: Context) : ViewModelProvider.Factory {

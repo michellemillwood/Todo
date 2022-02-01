@@ -19,6 +19,10 @@ import se.millwood.todo.todolist.TodoViewModelFactory
 
 class CardListFragment : Fragment() {
 
+    private val viewModel: TodoViewModel by activityViewModels() {
+        TodoViewModelFactory(requireContext().applicationContext)
+    }
+
     private val adapter: CardAdapter by lazy {
         CardAdapter(
             onCardClicked = { cardId ->
@@ -28,10 +32,6 @@ class CardListFragment : Fragment() {
                 findNavController().navigate(R.id.todoListFragment, bundle)
             }
         )
-    }
-
-    private val viewModel: TodoViewModel by activityViewModels() {
-        TodoViewModelFactory(requireContext().applicationContext)
     }
 
     private lateinit var binding: FragmentCardListBinding
@@ -66,9 +66,7 @@ class CardListFragment : Fragment() {
         }
     }
 
-
     companion object {
         const val CARD_ID_KEY = "card_id"
     }
-
 }

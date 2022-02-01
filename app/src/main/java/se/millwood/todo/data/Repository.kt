@@ -20,7 +20,6 @@ class Repository(context: Context) {
 
     suspend fun updateCard(card: Card) = cardDao.updateCard(CardEntity.from(card))
 
-
     suspend fun fetchCard(cardId: UUID): Card {
         val cardEntity = cardDao.getCardById(cardId)
         return cardEntity.toCard()

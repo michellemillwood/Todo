@@ -20,9 +20,8 @@ interface CardDao {
     @Insert
     suspend fun addCard(cardEntity: CardEntity)
 
-    @Query(
-        "SELECT * FROM card " +
+    @Query("SELECT * FROM card " +
                 "JOIN todo ON card.cardId = todo.cardId"
     )
-    fun loadCardAndTodos(): Map<CardEntity, List<TodoEntity>>
+    suspend fun loadCardAndTodos(): Map<CardEntity, List<TodoEntity>>
 }

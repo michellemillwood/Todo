@@ -33,6 +33,12 @@ class TodoAdapter(
                 onItemEdit(todo.todoId, todo.cardId)
             }
         }
+
+        fun unbind() {
+            with(binding) {
+                checkbox.setOnCheckedChangeListener(null)
+            }
+        }
     }
 
     override fun onCreateViewHolder(
@@ -55,6 +61,11 @@ class TodoAdapter(
         holder.bind(getItem(position))
     }
 
+    override fun onViewRecycled(holder: TodoViewHolder) {
+        holder.unbind()
+        super.onViewRecycled(holder)
+    }
+
     object DiffCallback : DiffUtil.ItemCallback<Todo>() {
 
         override fun areItemsTheSame(
@@ -67,5 +78,4 @@ class TodoAdapter(
             newItem: Todo
         ) = oldItem == newItem
     }
-
 }

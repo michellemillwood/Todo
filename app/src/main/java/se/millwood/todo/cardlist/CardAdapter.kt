@@ -23,7 +23,10 @@ class CardAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CardViewHolder {
         return CardViewHolder(
             ItemCardBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -33,7 +36,10 @@ class CardAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: CardViewHolder,
+        position: Int
+    ) {
         holder.bind(getItem(position))
     }
 
