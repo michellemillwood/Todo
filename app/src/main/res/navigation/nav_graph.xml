@@ -9,14 +9,14 @@
         android:name="se.millwood.todo.cardlist.CardListFragment"
         android:label="CardListFragment" >
         <action
-            android:id="@+id/action_cardListFragment_to_todoListFragment"
-            app:destination="@id/todoListFragment" />
+            android:id="@+id/action_cardListFragment_to_cardFragment"
+            app:destination="@id/cardFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/todoListFragment"
-        android:name="se.millwood.todo.todolist.TodoListFragment"
-        android:label="TodoListFragment" >
+        android:id="@+id/cardFragment"
+        android:name="se.millwood.todo.card.CardFragment"
+        android:label="CardFragment">
         <action
             android:id="@+id/action_todoListFragment_to_todoDeleteDialogFragment"
             app:destination="@id/todoDeleteDialogFragment" />
@@ -27,12 +27,12 @@
 
     <dialog
         android:id="@+id/todoDeleteDialogFragment"
-        android:name="se.millwood.todo.todolist.TodoDeleteDialogFragment"
+        android:name="se.millwood.todo.card.TodoDeleteDialogFragment"
         android:label="TodoDeleteDialogFragment" />
 
     <dialog
         android:id="@+id/todoEditDialogFragment"
-        android:name="se.millwood.todo.todolist.TodoEditDialogFragment"
+        android:name="se.millwood.todo.card.TodoEditDialogFragment"
         android:label="TodoEditDialogFragment">
     </dialog>
 

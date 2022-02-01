@@ -1,35 +1,36 @@
 package se.millwood.todo.cardlist
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
+import se.millwood.todo.ViewModelFactory
 import se.millwood.todo.databinding.FragmentCardListBinding
-import se.millwood.todo.todolist.TodoViewModel
-import se.millwood.todo.todolist.ViewModelFactory
 
 class CardListFragment : Fragment() {
 
-    private val viewModel: CardViewModel by activityViewModels() {
-        ViewModelFactory(requireContext().applicationContext)
+    private val viewModel: CardListViewModel by viewModels {
+        ViewModelFactory(requireContext().applicationContext, this)
     }
 
-    private val adapter: CardAdapter by lazy {
-        CardAdapter(
+    private val adapter: CardListAdapter by lazy {
+        CardListAdapter(
             onCardClicked = { cardId ->
                 val bundle = bundleOf(
-                    CARD_ID_KEY to cardId.toString(),
+                    CARD_ID_KEY to CardArguments(cardId.toString()),
                 )
-                findNavController().navigate(R.id.todoListFragment, bundle)
+                findNavController().navigate(R.id.cardFragment, bundle)
             }
         )
     }
@@ -67,10 +68,16 @@ class CardListFragment : Fragment() {
                 title = card.title,
                 cardId = card.cardId
             )
-            val bundle = bundleOf(CARD_ID_KEY to card.cardId.toString())
-            findNavController().navigate(R.id.todoListFragment, bundle)
+            val bundle = bundleOf(CARD_ID_KEY to CardArguments(card.cardId.toString()))
+            findNavController().navigate(R.id.cardFragment, bundle)
         }
     }
+
+    @Parcelize
+    data class CardArguments(
+        val cardId: String
+    ) : Parcelable
+
 
     companion object {
         const val CARD_ID_KEY = "card_id"

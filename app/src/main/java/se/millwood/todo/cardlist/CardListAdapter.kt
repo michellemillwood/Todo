@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import se.millwood.todo.databinding.ItemCardBinding
 import java.util.*
 
-class CardAdapter(
+class CardListAdapter(
     val onCardClicked: (cardId: UUID) -> Unit
-) : ListAdapter<Card, CardAdapter.CardViewHolder>(DiffCallback) {
+) : ListAdapter<Card, CardListAdapter.CardViewHolder>(DiffCallback) {
 
     inner class CardViewHolder(private val binding: ItemCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -43,7 +43,18 @@ class CardAdapter(
         holder.bind(getItem(position))
     }
 
+    override fun onBindViewHolder(
+        holder: CardViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        super.onBindViewHolder(holder, position, payloads)
+    }
+
     object DiffCallback : DiffUtil.ItemCallback<Card>() {
+        override fun getChangePayload(oldItem: Card, newItem: Card): Any? {
+            return super.getChangePayload(oldItem, newItem)
+        }
 
         override fun areItemsTheSame(
             oldItem: Card,
@@ -55,4 +66,8 @@ class CardAdapter(
             newItem: Card
         ) = oldItem == newItem
     }
+
 }
+
+
+

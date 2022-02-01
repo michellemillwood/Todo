@@ -1,11 +1,8 @@
 package se.millwood.todo.data
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import se.millwood.todo.cardlist.Card
-import se.millwood.todo.todolist.Todo
+import se.millwood.todo.card.Todo
 import java.util.*
 
 @Entity(tableName = "todo")

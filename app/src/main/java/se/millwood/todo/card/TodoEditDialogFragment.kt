@@ -1,21 +1,20 @@
-package se.millwood.todo.todolist
+package se.millwood.todo.card
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import se.millwood.todo.cardlist.CardListFragment
-import se.millwood.todo.databinding.*
-import java.util.*
+import se.millwood.todo.ViewModelFactory
+import se.millwood.todo.databinding.FragmentEditDialogBinding
 
 class TodoEditDialogFragment : DialogFragment() {
 
-    private val viewModel: TodoViewModel by activityViewModels()  {
-        ViewModelFactory(requireContext().applicationContext)
+    private val viewModel: TodoEditViewModel by viewModels  {
+        ViewModelFactory(requireContext().applicationContext, this)
     }
     private lateinit var binding: FragmentEditDialogBinding
 
@@ -25,7 +24,7 @@ class TodoEditDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEditDialogBinding.inflate(inflater, container, false)
-        if (arguments?.containsKey(TodoListFragment.TODO_ID_KEY) == true) {
+        if (viewModel.todoId != null) {
             useUpdateTodoDialog()
         }
         else {
@@ -35,9 +34,8 @@ class TodoEditDialogFragment : DialogFragment() {
     }
 
     private fun useUpdateTodoDialog() {
-        val todoId = arguments?.getString(TodoListFragment.TODO_ID_KEY)
         lifecycleScope.launch {
-            val todo = viewModel.fetchTodo(UUID.fromString(todoId))
+            val todo = viewModel.fetchTodo()
             binding.editTodo.setText(todo.title)
             binding.saveButton.setOnClickListener {
                 viewModel.updateTodo(
@@ -51,17 +49,11 @@ class TodoEditDialogFragment : DialogFragment() {
     }
 
     private fun useCreateTodoDialog() {
-        val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
-        val cardUUID = UUID.fromString(cardId)
         binding.saveButton.setOnClickListener {
             viewModel.createTodo(
-                title = binding.editTodo.text.toString(),
-                cardId = cardUUID
+                title = binding.editTodo.text.toString()
             )
             dismiss()
         }
     }
-
-
-
 }

@@ -8,11 +8,12 @@ import kotlinx.coroutines.launch
 import se.millwood.todo.data.Repository
 import java.util.*
 
-class CardViewModel(context: Context) : ViewModel() {
+class CardListViewModel(context: Context) : ViewModel() {
 
     private val repository = Repository(context)
 
-    val cards: Flow<List<Card>> = repository.cards
+    private val _cards = repository.cards
+    val cards: Flow<List<Card>> get() = _cards
 
     fun addCard(
         title: String,
@@ -22,7 +23,4 @@ class CardViewModel(context: Context) : ViewModel() {
             Card(title, cardId)
         )
     }
-
-
-
 }

@@ -1,4 +1,4 @@
-package se.millwood.todo.todolist
+package se.millwood.todo.card
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -61,12 +61,23 @@ class TodoAdapter(
         holder.bind(getItem(position))
     }
 
+    override fun onBindViewHolder(
+        holder: TodoViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        super.onBindViewHolder(holder, position, payloads)
+    }
+
     override fun onViewRecycled(holder: TodoViewHolder) {
         holder.unbind()
         super.onViewRecycled(holder)
     }
 
     object DiffCallback : DiffUtil.ItemCallback<Todo>() {
+        override fun getChangePayload(oldItem: Todo, newItem: Todo): Any? {
+            return super.getChangePayload(oldItem, newItem)
+        }
 
         override fun areItemsTheSame(
             oldItem: Todo,
@@ -78,4 +89,5 @@ class TodoAdapter(
             newItem: Todo
         ) = oldItem == newItem
     }
+
 }
