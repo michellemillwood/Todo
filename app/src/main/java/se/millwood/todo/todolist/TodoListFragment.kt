@@ -51,32 +51,31 @@ class TodoListFragment : Fragment() {
     ): View {
         binding = FragmentTodoListBinding.inflate(inflater)
         binding.recyclerView.adapter = adapter
-        if (arguments?.containsKey(CardListFragment.CARD_ID_KEY) == true) {
-            editCard()
-        }
-        else {
-            createCard()
-        }
+
+        val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
+        getCard(cardId)
+        setupCreateTodoFab(cardId)
         setupUpButton()
         return binding.root
     }
 
-    private fun createCard() {
-        val card = Card()
-        viewModel.addCard(card.title, card.cardId)
-        setupCreateTodoFab(card.cardId.toString())
-        setupUpdateButton(card)
-        showTodos(card.cardId)
-    }
-
-    private fun editCard() {
-        val cardId = arguments?.getString(CardListFragment.CARD_ID_KEY)
-        setupCreateTodoFab(cardId)
+    private fun getCard(cardId: String?) {
         lifecycleScope.launch {
             val card = viewModel.fetchCard(UUID.fromString(cardId))
             binding.cardTitle.setText(card.title)
-            setupUpdateButton(card)
+            setupSaveCardButton(card)
             showTodos(card.cardId)
+        }
+    }
+
+    private fun setupSaveCardButton(card: Card) {
+        binding.buttonSave.setOnClickListener {
+            viewModel.updateCard(
+                card.copy(
+                    title = binding.cardTitle.text.toString()
+                )
+            )
+            findNavController().popBackStack()
         }
     }
 
@@ -88,22 +87,10 @@ class TodoListFragment : Fragment() {
         }
     }
 
-
     private fun setupCreateTodoFab(cardId: String?) {
         binding.fab.setOnClickListener {
             val bundle = bundleOf(CardListFragment.CARD_ID_KEY to cardId)
             findNavController().navigate(R.id.todoEditDialogFragment, bundle)
-        }
-    }
-
-    private fun setupUpdateButton(card: Card) {
-        binding.buttonSave.setOnClickListener {
-            viewModel.updateCard(
-                card.copy(
-                    title = binding.cardTitle.text.toString()
-                )
-            )
-            findNavController().popBackStack()
         }
     }
 

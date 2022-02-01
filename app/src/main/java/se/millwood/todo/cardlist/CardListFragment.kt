@@ -62,7 +62,13 @@ class CardListFragment : Fragment() {
 
     private fun setupCreateCardFab() {
         binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.todoListFragment)
+            val card = Card()
+            viewModel.addCard(
+                title = card.title,
+                cardId = card.cardId
+            )
+            val bundle = bundleOf(CARD_ID_KEY to card.cardId.toString())
+            findNavController().navigate(R.id.todoListFragment, bundle)
         }
     }
 
