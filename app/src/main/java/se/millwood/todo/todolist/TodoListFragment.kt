@@ -20,7 +20,7 @@ import java.util.*
 class TodoListFragment : Fragment() {
 
     private val viewModel: TodoViewModel by activityViewModels() {
-        TodoViewModelFactory(requireContext().applicationContext)
+        ViewModelFactory(requireContext().applicationContext)
     }
     private lateinit var binding: FragmentTodoListBinding
 

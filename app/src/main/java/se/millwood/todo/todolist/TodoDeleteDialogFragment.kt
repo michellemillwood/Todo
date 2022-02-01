@@ -10,7 +10,7 @@ import java.util.*
 class TodoDeleteDialogFragment : DialogFragment() {
 
     private val viewModel: TodoViewModel by activityViewModels()  {
-        TodoViewModelFactory(requireContext().applicationContext)
+        ViewModelFactory(requireContext().applicationContext)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

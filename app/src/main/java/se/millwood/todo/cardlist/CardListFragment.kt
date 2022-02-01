@@ -15,12 +15,12 @@ import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.databinding.FragmentCardListBinding
 import se.millwood.todo.todolist.TodoViewModel
-import se.millwood.todo.todolist.TodoViewModelFactory
+import se.millwood.todo.todolist.ViewModelFactory
 
 class CardListFragment : Fragment() {
 
-    private val viewModel: TodoViewModel by activityViewModels() {
-        TodoViewModelFactory(requireContext().applicationContext)
+    private val viewModel: CardViewModel by activityViewModels() {
+        ViewModelFactory(requireContext().applicationContext)
     }
 
     private val adapter: CardAdapter by lazy {

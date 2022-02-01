@@ -7,14 +7,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import se.millwood.todo.cardlist.Card
+import se.millwood.todo.cardlist.CardViewModel
 import se.millwood.todo.data.Repository
 import java.util.*
 
 class TodoViewModel(context: Context) : ViewModel() {
 
     private val repository = Repository(context)
-
-    val cards: Flow<List<Card>> = repository.cards
 
     fun addCard(
         title: String,
@@ -68,11 +67,15 @@ class TodoViewModel(context: Context) : ViewModel() {
 
 }
 
-class TodoViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TodoViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return TodoViewModel(context) as T
+        }
+        else if (modelClass.isAssignableFrom(CardViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return CardViewModel(context) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

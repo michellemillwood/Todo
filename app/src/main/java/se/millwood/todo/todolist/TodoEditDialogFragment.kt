@@ -15,10 +15,9 @@ import java.util.*
 class TodoEditDialogFragment : DialogFragment() {
 
     private val viewModel: TodoViewModel by activityViewModels()  {
-        TodoViewModelFactory(requireContext().applicationContext)
+        ViewModelFactory(requireContext().applicationContext)
     }
     private lateinit var binding: FragmentEditDialogBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +25,6 @@ class TodoEditDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEditDialogBinding.inflate(inflater, container, false)
-
         if (arguments?.containsKey(TodoListFragment.TODO_ID_KEY) == true) {
             useUpdateTodoDialog()
         }
