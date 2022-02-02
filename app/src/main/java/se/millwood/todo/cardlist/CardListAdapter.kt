@@ -1,25 +1,36 @@
 package se.millwood.todo.cardlist
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import se.millwood.todo.data.Card
+import se.millwood.todo.data.CardWithTodos
 import se.millwood.todo.databinding.ItemCardBinding
 import java.util.*
 
 class CardListAdapter(
     val onCardClicked: (cardId: UUID) -> Unit
-) : ListAdapter<Card, CardListAdapter.CardViewHolder>(DiffCallback) {
+) : ListAdapter<CardWithTodos, CardListAdapter.CardViewHolder>(DiffCallback) {
 
     inner class CardViewHolder(private val binding: ItemCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(card: Card) {
-            binding.cardTitle.text = card.title
+        fun bind(cardWithTodos: CardWithTodos) {
+            binding.cardTitle.text = cardWithTodos.card.title
             binding.itemCard.setOnClickListener {
-                onCardClicked(card.cardId)
+                onCardClicked(cardWithTodos.card.cardId)
+            }
+            if (cardWithTodos.todos.isNotEmpty()) {
+                cardWithTodos.todos.take(5).forEach {
+                    val todoTextView = TextView(binding.root.context).apply {
+                        text = it.title
+                        binding.gradient.visibility = View.VISIBLE
+                    }
+                    binding.todos.addView(todoTextView)
+                }
             }
         }
     }
@@ -41,7 +52,8 @@ class CardListAdapter(
         holder: CardViewHolder,
         position: Int
     ) {
-        holder.bind(getItem(position))
+        val cardWithTodos = getItem(position)
+        holder.bind(cardWithTodos)
     }
 
     override fun onBindViewHolder(
@@ -52,20 +64,22 @@ class CardListAdapter(
         super.onBindViewHolder(holder, position, payloads)
     }
 
-    object DiffCallback : DiffUtil.ItemCallback<Card>() {
-        override fun getChangePayload(oldItem: Card, newItem: Card): Any? {
+    object DiffCallback : DiffUtil.ItemCallback<CardWithTodos>() {
+        override fun getChangePayload(oldItem: CardWithTodos, newItem: CardWithTodos): Any? {
             return super.getChangePayload(oldItem, newItem)
         }
 
         override fun areItemsTheSame(
-            oldItem: Card,
-            newItem: Card
-        ) = oldItem.cardId == newItem.cardId
+            oldItem: CardWithTodos,
+            newItem: CardWithTodos
+        )
+        = oldItem.card.cardId == newItem.card.cardId
 
         override fun areContentsTheSame(
-            oldItem: Card,
-            newItem: Card
-        ) = oldItem == newItem
+            oldItem: CardWithTodos,
+            newItem: CardWithTodos
+        )
+        = oldItem == newItem
     }
 
 }

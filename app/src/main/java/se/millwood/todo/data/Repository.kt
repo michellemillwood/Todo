@@ -14,6 +14,10 @@ class Repository(context: Context) {
         cardEntity.map { it.toCard() }
     }
 
+    val cardsWithTodos: Flow<List<CardWithTodos>> = cardDao.loadCardAndTodos().map { cards ->
+        cards.map { CardWithTodos.from(it) }
+    }
+
     suspend fun addCard(
         card: Card
     ) = cardDao.addCard(CardEntity.from(card))

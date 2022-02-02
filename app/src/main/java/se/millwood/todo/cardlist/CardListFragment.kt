@@ -56,7 +56,7 @@ class CardListFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
-            viewModel.cards.collect { cards ->
+            viewModel.cardsWithTodos.collect { cards ->
                 adapter.submitList(cards)
             }
         }
