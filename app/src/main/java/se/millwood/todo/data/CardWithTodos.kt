@@ -5,7 +5,6 @@ data class CardWithTodos(
     val todos: List<Todo>
 
 ) {
-
     companion object {
         fun from(cardWithTodosEntity: CardWithTodosEntity): CardWithTodos {
             return CardWithTodos(

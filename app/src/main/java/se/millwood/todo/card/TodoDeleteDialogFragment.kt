@@ -10,14 +10,14 @@ import se.millwood.todo.ViewModelFactory
 class TodoDeleteDialogFragment : DialogFragment() {
 
     private val viewModel: TodoDeleteViewModel by viewModels  {
-        ViewModelFactory(requireContext().applicationContext, this)
+        ViewModelFactory(requireContext().applicationContext, arguments)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext()).apply {
             setMessage("Do you want to delete ${viewModel.title}?")
             setPositiveButton("YES") { _, _ ->
-                viewModel.removeTodo()
+                viewModel.deleteTodo()
             }
             setNegativeButton("NO") { _, _ -> dismiss() }
         }.create()

@@ -16,9 +16,9 @@ class TodoDeleteViewModel(context: Context, arguments: Bundle) : ViewModel() {
     val title = args?.title
 
 
-    fun removeTodo() {
+    fun deleteTodo() {
         viewModelScope.launch {
-            repository.removeTodo(UUID.fromString(todoId))
+            repository.deleteTodo(UUID.fromString(todoId))
         }
     }
 }

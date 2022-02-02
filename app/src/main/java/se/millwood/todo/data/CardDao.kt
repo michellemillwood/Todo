@@ -19,8 +19,10 @@ interface CardDao {
     @Insert
     suspend fun addCard(cardEntity: CardEntity)
 
-
     @Transaction
     @Query("SELECT * FROM card")
     fun loadCardAndTodos(): Flow<List<CardWithTodosEntity>>
+
+    @Query("DELETE FROM card WHERE cardId = :cardId")
+    suspend fun deleteCard(cardId: UUID)
 }

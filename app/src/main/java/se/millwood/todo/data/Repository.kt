@@ -10,10 +10,6 @@ class Repository(context: Context) {
     private val cardDao = TodoDatabase.getDatabase(context).cardDao()
     private val todoDao = TodoDatabase.getDatabase(context).todoDao()
 
-    val cards: Flow<List<Card>> = cardDao.getCards().map { cardEntity ->
-        cardEntity.map { it.toCard() }
-    }
-
     val cardsWithTodos: Flow<List<CardWithTodos>> = cardDao.loadCardAndTodos().map { cards ->
         cards.map { CardWithTodos.from(it) }
     }
@@ -23,15 +19,20 @@ class Repository(context: Context) {
     ) = cardDao.addCard(CardEntity.from(card))
 
     suspend fun updateCard(
-        card: Card
-    ) = cardDao.updateCard(CardEntity.from(card))
+        cardTitle: String,
+        cardId: UUID
+    ) = cardDao.updateCard(CardEntity(cardTitle, cardId))
+
+    suspend fun deleteCardWithTodos(
+        cardId: UUID
+    ) {
+        todoDao.deleteCardTodos(cardId)
+        cardDao.deleteCard(cardId)
+    }
 
     suspend fun fetchCard(
         cardId: UUID
-    ): Card {
-        val cardEntity = cardDao.getCardById(cardId)
-        return cardEntity.toCard()
-    }
+    ): Card = cardDao.getCardById(cardId).toCard()
 
     fun getTodos(
         cardId: UUID
@@ -54,10 +55,7 @@ class Repository(context: Context) {
 
     suspend fun fetchTodo(
         todoId: UUID
-    ): Todo {
-        val todoEntity = todoDao.getTodoById(todoId)
-        return todoEntity.toTodo()
-    }
+    ): Todo = todoDao.getTodoById(todoId).toTodo()
 
-    suspend fun removeTodo(todoId: UUID) = todoDao.delete(todoId)
+    suspend fun deleteTodo(todoId: UUID) = todoDao.deleteTodo(todoId)
 }

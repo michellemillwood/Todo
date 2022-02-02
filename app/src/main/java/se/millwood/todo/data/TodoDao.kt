@@ -24,6 +24,8 @@ interface TodoDao {
     suspend fun setIsCompleted(id: UUID, isCompleted: Boolean)
 
     @Query("DELETE FROM todo WHERE todoId = :id")
-    suspend fun delete(id: UUID)
+    suspend fun deleteTodo(id: UUID)
 
+    @Query("DELETE FROM todo WHERE cardId = :cardId")
+    suspend fun deleteCardTodos(cardId: UUID)
 }

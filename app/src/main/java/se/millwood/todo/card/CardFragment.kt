@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,7 +21,7 @@ import se.millwood.todo.databinding.FragmentCardBinding
 class CardFragment : Fragment() {
 
     private val viewModel: CardViewModel by viewModels {
-        ViewModelFactory(requireContext().applicationContext, this)
+        ViewModelFactory(requireContext().applicationContext, arguments)
     }
     private lateinit var binding: FragmentCardBinding
 
@@ -49,45 +50,29 @@ class CardFragment : Fragment() {
     ): View {
         binding = FragmentCardBinding.inflate(inflater)
         binding.recyclerView.adapter = adapter
-        getCard()
+        getCardAndTodos()
         setupCreateTodoFab(viewModel.cardId)
         setupUpButton()
+        binding.cardTitle.doOnTextChanged { title, _, _, _ ->
+            saveCardTitle(title.toString())
+        }
         return binding.root
     }
 
-    private fun getCard() {
+    private fun getCardAndTodos() {
         lifecycleScope.launch {
-            viewModel.card.collect { card ->
+            viewModel.cardFlow.collect { card ->
                 binding.cardTitle.setText(card.title)
-                showTodos()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        saveCard()
-        super.onDestroyView()
-    }
-
-    private fun saveCard() {
-        lifecycleScope.launch {
-            viewModel.card.collect { card ->
-                viewModel.updateCard(
-                    card.copy(
-                        title = binding.cardTitle.text.toString()
-                    )
-                )
-            }
-        }
-    }
-
-    private fun showTodos() {
         lifecycleScope.launch {
             viewModel.getTodos().collect { todos ->
                 adapter.submitList(todos)
             }
         }
     }
+
+    private fun saveCardTitle(title: String) = viewModel.updateCardTitle(title)
 
     private fun setupCreateTodoFab(cardId: String?) {
         if (cardId == null) return

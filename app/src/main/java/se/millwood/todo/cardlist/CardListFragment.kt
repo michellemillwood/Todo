@@ -10,19 +10,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.ViewModelFactory
-import se.millwood.todo.data.Card
 import se.millwood.todo.databinding.FragmentCardListBinding
 
 class CardListFragment : Fragment() {
 
     private val viewModel: CardListViewModel by viewModels {
-        ViewModelFactory(requireContext().applicationContext, this)
+        ViewModelFactory(requireContext().applicationContext, arguments)
     }
 
     private val adapter: CardListAdapter by lazy {
@@ -36,6 +38,28 @@ class CardListFragment : Fragment() {
         )
     }
 
+    private val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
+        ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
+        }
+
+        override fun onSwiped(
+            viewHolder: RecyclerView.ViewHolder,
+            swipeDir: Int
+        ) {
+            val position = viewHolder.adapterPosition
+            viewModel.deleteCardWithTodos(adapter.currentList[position])
+        }
+    }
+
     private lateinit var binding: FragmentCardListBinding
 
     override fun onCreateView(
@@ -45,7 +69,11 @@ class CardListFragment : Fragment() {
     ): View {
         binding = FragmentCardListBinding.inflate(inflater)
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+        binding.recyclerView.layoutManager = StaggeredGridLayoutManager(
+            2,
+            LinearLayoutManager.VERTICAL
+        )
+        ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(binding.recyclerView)
         setupCreateCardFab()
         return binding.root
     }
@@ -64,12 +92,8 @@ class CardListFragment : Fragment() {
 
     private fun setupCreateCardFab() {
         binding.fab.setOnClickListener {
-            val card = Card()
-            viewModel.addCard(
-                title = card.title,
-                cardId = card.cardId
-            )
-            val bundle = bundleOf(CARD_ID_KEY to CardArguments(card.cardId.toString()))
+            val cardId = viewModel.createCard()
+            val bundle = bundleOf(CARD_ID_KEY to CardArguments(cardId.toString()))
             findNavController().navigate(R.id.cardFragment, bundle)
         }
     }

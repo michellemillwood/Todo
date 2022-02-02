@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import se.millwood.todo.data.Card
 import se.millwood.todo.cardlist.CardListFragment
+import se.millwood.todo.data.Card
 import se.millwood.todo.data.Repository
 import java.util.*
 
@@ -17,21 +17,24 @@ class CardViewModel(context: Context, arguments: Bundle) : ViewModel() {
 
     private val repository = Repository(context)
 
-    private val _card = MutableStateFlow<Card?>(null)
-    val card: Flow<Card> get() = _card.filterNotNull()
+    private val _cardFlow = MutableStateFlow<Card?>(null)
+    val cardFlow: Flow<Card> get() = _cardFlow.filterNotNull()
 
     private val args: CardListFragment.CardArguments? = arguments.getParcelable(CardListFragment.CARD_ID_KEY)
     val cardId = args?.cardId
 
     init {
         viewModelScope.launch {
-            _card.value = repository.fetchCard(UUID.fromString(args?.cardId))
+            _cardFlow.value = repository.fetchCard(UUID.fromString(cardId))
         }
     }
 
-    fun updateCard(card: Card) {
+    fun updateCardTitle(cardTitle: String) {
         viewModelScope.launch {
-            repository.updateCard(card)
+            repository.updateCard(
+                cardTitle = cardTitle,
+                cardId = UUID.fromString(cardId)
+            )
         }
     }
 

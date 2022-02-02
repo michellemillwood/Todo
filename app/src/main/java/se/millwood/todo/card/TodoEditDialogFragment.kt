@@ -14,7 +14,7 @@ import se.millwood.todo.databinding.FragmentEditDialogBinding
 class TodoEditDialogFragment : DialogFragment() {
 
     private val viewModel: TodoEditViewModel by viewModels  {
-        ViewModelFactory(requireContext().applicationContext, this)
+        ViewModelFactory(requireContext().applicationContext, arguments)
     }
     private lateinit var binding: FragmentEditDialogBinding
 

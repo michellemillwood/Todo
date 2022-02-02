@@ -16,12 +16,19 @@ class CardListViewModel(context: Context) : ViewModel() {
 
     val cardsWithTodos: Flow<List<CardWithTodos>> = repository.cardsWithTodos
 
-    fun addCard(
-        title: String,
-        cardId: UUID
-    ) = viewModelScope.launch {
-        repository.addCard(
-            Card(title, cardId)
-        )
+    fun deleteCardWithTodos(
+        cardWithTodos: CardWithTodos
+    ) {
+        viewModelScope.launch {
+            repository.deleteCardWithTodos(cardWithTodos.card.cardId)
+        }
+    }
+
+    fun createCard(): UUID {
+        val card = Card()
+        viewModelScope.launch {
+            repository.addCard(card)
+        }
+        return card.cardId
     }
 }
