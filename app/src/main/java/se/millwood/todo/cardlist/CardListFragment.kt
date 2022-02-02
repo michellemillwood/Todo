@@ -79,7 +79,6 @@ class CardListFragment : Fragment() {
         val cardId: String
     ) : Parcelable
 
-
     companion object {
         const val CARD_ID_KEY = "card_id"
     }

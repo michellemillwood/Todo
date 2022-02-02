@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="240dp">
+    android:layout_height="220dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/item_card"
@@ -13,8 +13,8 @@
         android:backgroundTint="@color/off_white"
         android:clickable="true"
         android:elevation="16dp"
-        android:focusable="true"
-        app:cardCornerRadius="15dp">
+        app:cardCornerRadius="15dp"
+        android:focusable="true">
 
         <TextView
             android:id="@+id/card_title"
@@ -23,6 +23,7 @@
             android:paddingTop="18dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
             android:textColor="@color/grey"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -36,10 +37,10 @@
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:text="todo"
             android:orientation="vertical" />
 
         <View
-            android:visibility="invisible"
             android:id="@+id/gradient"
             android:layout_width="match_parent"
             android:layout_height="40dp"

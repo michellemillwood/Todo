@@ -23,14 +23,15 @@ class CardListAdapter(
             binding.itemCard.setOnClickListener {
                 onCardClicked(cardWithTodos.card.cardId)
             }
-            if (cardWithTodos.todos.isNotEmpty()) {
-                cardWithTodos.todos.take(5).forEach {
-                    val todoTextView = TextView(binding.root.context).apply {
-                        text = it.title
-                        binding.gradient.visibility = View.VISIBLE
-                    }
-                    binding.todos.addView(todoTextView)
+            if (cardWithTodos.todos.isEmpty()) {
+                binding.gradient.visibility = View.INVISIBLE
+            }
+            cardWithTodos.todos.take(5).forEach {
+                val todoTextView = TextView(binding.root.context).apply {
+                    text = it.title
+                    textSize = 16F
                 }
+                binding.todos.addView(todoTextView)
             }
         }
     }

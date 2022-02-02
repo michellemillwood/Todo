@@ -13,7 +13,9 @@ class TodoEditViewModel(context: Context, arguments: Bundle) : ViewModel() {
 
     private val repository = Repository(context)
 
-    private val editArgs = arguments.getParcelable<CardFragment.TodoEditArguments>(CardFragment.TODO_EDIT_ARGUMENTS)
+    private val editArgs = arguments.getParcelable<CardFragment.TodoEditArguments>(
+        CardFragment.TODO_EDIT_ARGUMENTS
+    )
     private val cardId = editArgs?.cardId
     val todoId = editArgs?.todoId
 
