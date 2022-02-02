@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import se.millwood.todo.data.Card
 import se.millwood.todo.databinding.ItemCardBinding
 import java.util.*
 

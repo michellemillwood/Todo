@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import se.millwood.todo.cardlist.Card
+import se.millwood.todo.data.Card
 import se.millwood.todo.cardlist.CardListFragment
 import se.millwood.todo.data.Repository
 import java.util.*

@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import se.millwood.todo.card.CardViewModel
-import se.millwood.todo.card.DeleteTodoViewModel
+import se.millwood.todo.card.TodoDeleteViewModel
 import se.millwood.todo.card.TodoEditViewModel
 import se.millwood.todo.cardlist.CardListViewModel
 
@@ -26,8 +26,8 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(TodoEditViewModel::class.java) -> {
                 TodoEditViewModel(context, fragment.arguments ?: Bundle.EMPTY) as T
             }
-            modelClass.isAssignableFrom(DeleteTodoViewModel::class.java) -> {
-                DeleteTodoViewModel(context, fragment.arguments ?: Bundle.EMPTY) as T
+            modelClass.isAssignableFrom(TodoDeleteViewModel::class.java) -> {
+                TodoDeleteViewModel(context, fragment.arguments ?: Bundle.EMPTY) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

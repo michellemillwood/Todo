@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import se.millwood.todo.data.Todo
 import se.millwood.todo.databinding.ItemTodoBinding
 import java.util.*
 

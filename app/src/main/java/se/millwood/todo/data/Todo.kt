@@ -1,4 +1,4 @@
-package se.millwood.todo.card
+package se.millwood.todo.data
 
 import java.util.*
 

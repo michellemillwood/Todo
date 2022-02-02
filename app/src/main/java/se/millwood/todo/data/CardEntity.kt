@@ -2,7 +2,6 @@ package se.millwood.todo.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import se.millwood.todo.cardlist.Card
 import java.util.*
 
 @Entity(tableName = "card")

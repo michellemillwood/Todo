@@ -3,8 +3,6 @@ package se.millwood.todo.data
 import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import se.millwood.todo.card.Todo
-import se.millwood.todo.cardlist.Card
 import java.util.*
 
 class Repository(context: Context) {

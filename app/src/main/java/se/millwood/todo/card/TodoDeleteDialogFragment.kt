@@ -9,7 +9,7 @@ import se.millwood.todo.ViewModelFactory
 
 class TodoDeleteDialogFragment : DialogFragment() {
 
-    private val viewModel: DeleteTodoViewModel by viewModels  {
+    private val viewModel: TodoDeleteViewModel by viewModels  {
         ViewModelFactory(requireContext().applicationContext, this)
     }
 

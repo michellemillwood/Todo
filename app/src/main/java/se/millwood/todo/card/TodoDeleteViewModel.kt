@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import se.millwood.todo.data.Repository
 import java.util.*
 
-class DeleteTodoViewModel(context: Context, arguments: Bundle) : ViewModel() {
+class TodoDeleteViewModel(context: Context, arguments: Bundle) : ViewModel() {
 
     private val repository = Repository(context)
     private val args = arguments.getParcelable<CardFragment.TodoDeleteArguments>(CardFragment.TODO_DELETE_ARGUMENTS)

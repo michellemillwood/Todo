@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import se.millwood.todo.data.Repository
+import se.millwood.todo.data.Todo
 import java.util.*
 
 class TodoEditViewModel(context: Context, arguments: Bundle) : ViewModel() {

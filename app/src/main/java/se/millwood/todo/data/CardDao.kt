@@ -2,7 +2,6 @@ package se.millwood.todo.data
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import se.millwood.todo.cardlist.Card
 import java.util.*
 
 @Dao

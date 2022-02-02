@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.ViewModelFactory
+import se.millwood.todo.data.Card
 import se.millwood.todo.databinding.FragmentCardListBinding
 
 class CardListFragment : Fragment() {
