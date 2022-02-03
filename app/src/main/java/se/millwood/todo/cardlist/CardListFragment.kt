@@ -75,7 +75,14 @@ class CardListFragment : Fragment() {
         )
         ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(binding.recyclerView)
         setupCreateCardFab()
+        setupSettingsButton()
         return binding.root
+    }
+
+    private fun setupSettingsButton() {
+        binding.settingsButton.setOnClickListener {
+            findNavController().navigate(R.id.settingsFragment)
+        }
     }
 
     override fun onViewCreated(

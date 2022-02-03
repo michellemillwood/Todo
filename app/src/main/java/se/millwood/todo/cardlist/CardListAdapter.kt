@@ -23,7 +23,7 @@ class CardListAdapter(
             binding.itemCard.setOnClickListener {
                 onCardClicked(cardWithTodos.card.cardId)
             }
-            if (cardWithTodos.todos.isEmpty()) {
+            if (cardWithTodos.todos.size < 6) {
                 binding.gradient.visibility = View.INVISIBLE
             }
             cardWithTodos.todos.take(5).forEach {

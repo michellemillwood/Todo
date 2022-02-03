@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_cardListFragment_to_cardFragment"
             app:destination="@id/cardFragment" />
+        <action
+            android:id="@+id/action_cardListFragment_to_settingsFragment"
+            app:destination="@+id/settingsFragment" />
     </fragment>
 
     <fragment
@@ -36,5 +39,9 @@
         android:label="TodoEditDialogFragment">
     </dialog>
 
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="se.millwood.todo.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 
 </navigation>
