@@ -32,7 +32,7 @@ class CardViewModel(context: Context, arguments: Bundle) : ViewModel() {
     fun updateCardTitle(cardTitle: String) {
         viewModelScope.launch {
             repository.updateCard(
-                cardTitle = cardTitle,
+                title = cardTitle,
                 cardId = UUID.fromString(cardId)
             )
         }
@@ -40,9 +40,15 @@ class CardViewModel(context: Context, arguments: Bundle) : ViewModel() {
 
     fun getTodos() = repository.getTodos(UUID.fromString(cardId))
 
-    fun setIsCompleted(todoId: UUID, isCompleted: Boolean) {
+    fun setIsCompleted(
+        todoId: UUID,
+        isCompleted: Boolean
+    ) {
         viewModelScope.launch {
-            repository.setIsCompleted(todoId, isCompleted)
+            repository.setIsCompleted(
+                todoId,
+                isCompleted
+            )
         }
     }
 }

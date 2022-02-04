@@ -31,7 +31,9 @@ class CardListFragment : Fragment() {
         CardListAdapter(
             onCardClicked = { cardId ->
                 val bundle = bundleOf(
-                    CARD_ID_KEY to CardArguments(cardId.toString()),
+                    CARD_ID_KEY to CardArguments(
+                        cardId.toString()
+                    ),
                 )
                 findNavController().navigate(R.id.cardFragment, bundle)
             }
@@ -76,8 +78,6 @@ class CardListFragment : Fragment() {
         ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(binding.recyclerView)
         setupCreateCardFab()
         setupSettingsButton()
-
-
         return binding.root
     }
 
@@ -102,7 +102,11 @@ class CardListFragment : Fragment() {
     private fun setupCreateCardFab() {
         binding.fab.setOnClickListener {
             val cardId = viewModel.createCard()
-            val bundle = bundleOf(CARD_ID_KEY to CardArguments(cardId.toString()))
+            val bundle = bundleOf(
+                CARD_ID_KEY to CardArguments(
+                    cardId.toString()
+                )
+            )
             findNavController().navigate(R.id.cardFragment, bundle)
         }
     }

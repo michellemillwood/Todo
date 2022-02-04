@@ -8,13 +8,16 @@ import java.util.*
 class CardEntity(
     val title: String,
     @PrimaryKey
-    val cardId: UUID = UUID.randomUUID()) {
+    val cardId: UUID = UUID.randomUUID(),
+    val timeStamp: Long = System.currentTimeMillis()
+) {
 
     companion object {
         fun from(card: Card): CardEntity {
             return CardEntity(
                 card.title,
-                card.cardId
+                card.cardId,
+                card.timeStamp
             )
         }
     }
@@ -22,7 +25,8 @@ class CardEntity(
     fun toCard(): Card {
         return Card(
             title,
-            cardId
+            cardId,
+            timeStamp
         )
     }
 }

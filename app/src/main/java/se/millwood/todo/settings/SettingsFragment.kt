@@ -32,7 +32,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setSortOrder(sharedPrefs: SharedPreferences) {
-        when (sharedPrefs.getString(SORT_ORDER_KEY, SortOrder.ALPHABETICAL.name)) {
+        when (sharedPrefs.getString(SORT_ORDER_KEY, SortOrder.LAST_EDITED.name)) {
 
             SortOrder.ALPHABETICAL.name -> {
                 binding.radioButtonAlphabetical.isChecked = true

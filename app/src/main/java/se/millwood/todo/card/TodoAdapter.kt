@@ -11,7 +11,7 @@ import java.util.*
 
 class TodoAdapter(
     val onItemCheck: (todoId: UUID, isChecked: Boolean) -> Unit,
-    val onItemDelete: (todoId: UUID, title: String) -> Unit,
+    val onItemDelete: (todoId: UUID, cardId: UUID, title: String) -> Unit,
     val onItemEdit: (todoId: UUID, cardId: UUID) -> Unit
 ) : ListAdapter<Todo, TodoAdapter.TodoViewHolder>(DiffCallback) {
 
@@ -23,15 +23,25 @@ class TodoAdapter(
             checkbox.isChecked = todo.isCompleted
 
             checkbox.setOnCheckedChangeListener { _, isChecked ->
-               onItemCheck(todo.todoId, isChecked)
+               onItemCheck(
+                   todo.todoId,
+                   isChecked
+               )
             }
 
             deleteTodo.setOnClickListener {
-                onItemDelete(todo.todoId, todo.title)
+                onItemDelete(
+                    todo.todoId,
+                    todo.cardId,
+                    todo.title
+                )
             }
 
             root.setOnClickListener {
-                onItemEdit(todo.todoId, todo.cardId)
+                onItemEdit(
+                    todo.todoId,
+                    todo.cardId
+                )
             }
         }
 

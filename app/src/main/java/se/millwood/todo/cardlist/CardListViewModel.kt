@@ -22,7 +22,7 @@ class CardListViewModel(context: Context) : ViewModel() {
     )
     private val sortOrder = sharedPrefs.getString(
         SORT_ORDER_KEY,
-        SettingsFragment.Companion.SortOrder.ALPHABETICAL.name
+        SettingsFragment.Companion.SortOrder.LAST_EDITED.name
     )
 
     val cardsWithTodos: Flow<List<CardWithTodos>> = repository.getCardWithTodos(

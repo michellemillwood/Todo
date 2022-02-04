@@ -4,5 +4,6 @@ import java.util.*
 
 data class Card(
     val title: String = "",
-    val cardId: UUID = UUID.randomUUID()
+    val cardId: UUID = UUID.randomUUID(),
+    val timeStamp: Long = System.currentTimeMillis()
 )

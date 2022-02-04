@@ -28,15 +28,22 @@ class CardFragment : Fragment() {
     private val adapter: TodoAdapter by lazy {
         TodoAdapter(
             onItemCheck = viewModel::setIsCompleted,
-            onItemDelete = { todoId, title ->
+            onItemDelete = { todoId, cardId, title ->
                 val bundle = bundleOf(
-                    TODO_DELETE_ARGUMENTS to TodoDeleteArguments(todoId.toString(), title)
+                    TODO_DELETE_ARGUMENTS to TodoDeleteArguments(
+                        cardId.toString(),
+                        todoId.toString(),
+                        title
+                    )
                 )
                 findNavController().navigate(R.id.todoDeleteDialogFragment, bundle)
             },
             onItemEdit = { todoId, cardId ->
                 val bundle = bundleOf(
-                    TODO_EDIT_ARGUMENTS to TodoEditArguments(cardId.toString(), todoId.toString())
+                    TODO_EDIT_ARGUMENTS to TodoEditArguments(
+                        cardId.toString(),
+                        todoId.toString()
+                    )
                 )
                 findNavController().navigate(R.id.todoEditDialogFragment, bundle)
             }
@@ -53,9 +60,7 @@ class CardFragment : Fragment() {
         getCardAndTodos()
         setupCreateTodoFab(viewModel.cardId)
         setupUpButton()
-        binding.cardTitle.doOnTextChanged { title, _, _, _ ->
-            saveCardTitle(title.toString())
-        }
+
         return binding.root
     }
 
@@ -63,6 +68,9 @@ class CardFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.cardFlow.collect { card ->
                 binding.cardTitle.setText(card.title)
+                binding.cardTitle.doOnTextChanged { title, _, _, _ ->
+                    saveCardTitle(title.toString())
+                }
             }
         }
         lifecycleScope.launch {
@@ -97,6 +105,7 @@ class CardFragment : Fragment() {
 
     @Parcelize
     data class TodoDeleteArguments(
+        val cardId: String,
         val todoId: String,
         val title: String
     ) : Parcelable

@@ -24,7 +24,7 @@ class Repository(context: Context) {
                 it.sortedBy { card -> card.card.title.lowercase() }
             }
             SettingsFragment.Companion.SortOrder.LAST_EDITED -> cardsWithTodos.map {
-              it
+                it.sortedByDescending { card -> card.card.timeStamp }
             }
             SettingsFragment.Companion.SortOrder.TODO_LIST_SIZE -> cardsWithTodos.map {
                 it.sortedByDescending { card -> card.todos.size }
@@ -37,9 +37,9 @@ class Repository(context: Context) {
     ) = cardDao.addCard(CardEntity.from(card))
 
     suspend fun updateCard(
-        cardTitle: String,
+        title: String,
         cardId: UUID
-    ) = cardDao.updateCard(CardEntity(cardTitle, cardId))
+    ) = cardDao.updateCard(CardEntity(title, cardId))
 
     suspend fun deleteCardWithTodos(
         cardId: UUID
@@ -75,5 +75,11 @@ class Repository(context: Context) {
         todoId: UUID
     ): Todo = todoDao.getTodoById(todoId).toTodo()
 
-    suspend fun deleteTodo(todoId: UUID) = todoDao.deleteTodo(todoId)
+    suspend fun deleteTodo(
+        cardId: UUID,
+        todoId: UUID
+    ) {
+        cardDao.updateCardTimeStamp(cardId, System.currentTimeMillis())
+        todoDao.deleteTodo(todoId)
+    }
 }

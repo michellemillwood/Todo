@@ -25,4 +25,7 @@ interface CardDao {
 
     @Query("DELETE FROM card WHERE cardId = :cardId")
     suspend fun deleteCard(cardId: UUID)
+
+    @Query("UPDATE card SET timeStamp = :timeStamp WHERE cardId = :cardId")
+    suspend fun updateCardTimeStamp(cardId: UUID, timeStamp: Long)
 }

@@ -21,7 +21,9 @@ class CardListAdapter(
         fun bind(cardWithTodos: CardWithTodos) {
             binding.cardTitle.text = cardWithTodos.card.title
             binding.itemCard.setOnClickListener {
-                onCardClicked(cardWithTodos.card.cardId)
+                onCardClicked(
+                    cardWithTodos.card.cardId
+                )
             }
             if (cardWithTodos.todos.size < 6) {
                 binding.gradient.visibility = View.INVISIBLE
