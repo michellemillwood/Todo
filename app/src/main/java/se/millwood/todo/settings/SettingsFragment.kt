@@ -20,7 +20,10 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSettingsBinding.inflate(inflater)
-        val sharedPrefs = requireContext().getSharedPreferences(SETTINGS, Context.MODE_PRIVATE)
+        val sharedPrefs = requireContext().getSharedPreferences(
+            SETTINGS,
+            Context.MODE_PRIVATE
+        )
         val editor = sharedPrefs.edit()
         setSortOrder(sharedPrefs)
         saveSortOrder(editor)
@@ -29,9 +32,17 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setSortOrder(sharedPrefs: SharedPreferences) {
-        when (sharedPrefs.getString(SORT_ORDER, "")) {
-            SORT_ALPHABETICAL -> binding.radioButtonAlphabetical.isChecked = true
-            SORT_LAST_EDITED -> binding.radioButtonLastEdited.isChecked = true
+        when (sharedPrefs.getString(SORT_ORDER_KEY, SortOrder.ALPHABETICAL.name)) {
+
+            SortOrder.ALPHABETICAL.name -> {
+                binding.radioButtonAlphabetical.isChecked = true
+            }
+            SortOrder.LAST_EDITED.name -> {
+                binding.radioButtonLastEdited.isChecked = true
+            }
+            SortOrder.TODO_LIST_SIZE.name -> {
+                binding.radioButtonTodoSize.isChecked = true
+            }
         }
     }
 
@@ -39,10 +50,19 @@ class SettingsFragment : Fragment() {
         binding.sortOrderRadioButtons.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 binding.radioButtonAlphabetical.id -> {
-                    editor.putString(SORT_ORDER, SORT_ALPHABETICAL)
+                    editor.putString(
+                        SORT_ORDER_KEY,
+                        SortOrder.ALPHABETICAL.name)
                 }
                 binding.radioButtonLastEdited.id -> {
-                    editor.putString(SORT_ORDER, SORT_LAST_EDITED)
+                    editor.putString(
+                        SORT_ORDER_KEY,
+                        SortOrder.LAST_EDITED.name)
+                }
+                binding.radioButtonTodoSize.id -> {
+                    editor.putString(
+                        SORT_ORDER_KEY,
+                        SortOrder.TODO_LIST_SIZE.name)
                 }
             }
             editor.apply()
@@ -57,9 +77,12 @@ class SettingsFragment : Fragment() {
 
     companion object {
         const val SETTINGS = "settings"
-        const val SORT_ORDER = "sort_order"
-        const val SORT_ALPHABETICAL = "alphabetical"
-        const val SORT_LAST_EDITED = "last_edited"
-    }
+        const val SORT_ORDER_KEY = "sort_order"
 
+        enum class SortOrder {
+            ALPHABETICAL,
+            LAST_EDITED,
+            TODO_LIST_SIZE
+        }
+    }
 }

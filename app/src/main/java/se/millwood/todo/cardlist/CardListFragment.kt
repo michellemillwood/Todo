@@ -76,6 +76,8 @@ class CardListFragment : Fragment() {
         ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(binding.recyclerView)
         setupCreateCardFab()
         setupSettingsButton()
+
+
         return binding.root
     }
 

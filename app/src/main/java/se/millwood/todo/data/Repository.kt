@@ -3,6 +3,7 @@ package se.millwood.todo.data
 import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import se.millwood.todo.settings.SettingsFragment
 import java.util.*
 
 class Repository(context: Context) {
@@ -10,8 +11,25 @@ class Repository(context: Context) {
     private val cardDao = TodoDatabase.getDatabase(context).cardDao()
     private val todoDao = TodoDatabase.getDatabase(context).todoDao()
 
-    val cardsWithTodos: Flow<List<CardWithTodos>> = cardDao.loadCardAndTodos().map { cards ->
+    private val cardsWithTodos: Flow<List<CardWithTodos>> = cardDao.loadCardAndTodos().map { cards ->
         cards.map { CardWithTodos.from(it) }
+    }
+
+    fun getCardWithTodos(
+        sortOrder: SettingsFragment.Companion.SortOrder
+    ): Flow<List<CardWithTodos>> {
+
+        return when (sortOrder) {
+            SettingsFragment.Companion.SortOrder.ALPHABETICAL -> cardsWithTodos.map {
+                it.sortedBy { card -> card.card.title.lowercase() }
+            }
+            SettingsFragment.Companion.SortOrder.LAST_EDITED -> cardsWithTodos.map {
+              it
+            }
+            SettingsFragment.Companion.SortOrder.TODO_LIST_SIZE -> cardsWithTodos.map {
+                it.sortedByDescending { card -> card.todos.size }
+            }
+        }
     }
 
     suspend fun addCard(
