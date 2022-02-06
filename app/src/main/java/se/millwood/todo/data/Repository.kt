@@ -11,11 +11,11 @@ class Repository(context: Context) {
     private val cardDao = TodoDatabase.getDatabase(context).cardDao()
     private val todoDao = TodoDatabase.getDatabase(context).todoDao()
 
-    private val cardsWithTodos: Flow<List<CardWithTodos>> = cardDao.loadCardAndTodos().map { cards ->
+    private val cardsWithTodos: Flow<List<CardWithTodos>> = cardDao.getCardsWithTodos().map { cards ->
         cards.map { CardWithTodos.from(it) }
     }
 
-    fun getCardWithTodos(
+    fun getCardsWithTodos(
         sortOrder: SettingsFragment.Companion.SortOrder
     ): Flow<List<CardWithTodos>> {
 

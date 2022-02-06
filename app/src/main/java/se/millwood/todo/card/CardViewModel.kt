@@ -20,7 +20,11 @@ class CardViewModel(context: Context, arguments: Bundle) : ViewModel() {
     private val _cardFlow = MutableStateFlow<Card?>(null)
     val cardFlow: Flow<Card> get() = _cardFlow.filterNotNull()
 
-    private val args: CardListFragment.CardArguments? = arguments.getParcelable(CardListFragment.CARD_ID_KEY)
+    private val args: CardListFragment.CardArguments? =
+        arguments.getParcelable(
+            CardListFragment.CARD_ID_KEY
+        )
+
     val cardId = args?.cardId
 
     init {

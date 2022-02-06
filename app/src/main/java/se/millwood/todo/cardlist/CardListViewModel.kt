@@ -20,15 +20,15 @@ class CardListViewModel(context: Context) : ViewModel() {
         SettingsFragment.SETTINGS,
         Context.MODE_PRIVATE
     )
-    private val sortOrder = sharedPrefs.getString(
+
+    private fun getSortOrder() = sharedPrefs.getString(
         SORT_ORDER_KEY,
         SettingsFragment.Companion.SortOrder.LAST_EDITED.name
     )
 
-    val cardsWithTodos: Flow<List<CardWithTodos>> = repository.getCardWithTodos(
-        SettingsFragment.Companion.SortOrder.valueOf(sortOrder!!)
+    fun getCardsWithTodos(): Flow<List<CardWithTodos>> = repository.getCardsWithTodos(
+        sortOrder = SettingsFragment.Companion.SortOrder.valueOf(getSortOrder()!!)
     )
-
 
     fun deleteCardWithTodos(
         cardWithTodos: CardWithTodos

@@ -7,9 +7,6 @@ import java.util.*
 @Dao
 interface CardDao {
 
-    @Query("SELECT * FROM card")
-    fun getCards(): Flow<List<CardEntity>>
-
     @Query("SELECT * FROM card WHERE cardId = :id")
     suspend fun getCardById(id: UUID): CardEntity
 
@@ -21,7 +18,7 @@ interface CardDao {
 
     @Transaction
     @Query("SELECT * FROM card")
-    fun loadCardAndTodos(): Flow<List<CardWithTodosEntity>>
+    fun getCardsWithTodos(): Flow<List<CardWithTodosEntity>>
 
     @Query("DELETE FROM card WHERE cardId = :cardId")
     suspend fun deleteCard(cardId: UUID)

@@ -93,7 +93,7 @@ class CardListFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
-            viewModel.cardsWithTodos.collect { cards ->
+            viewModel.getCardsWithTodos().collect { cards ->
                 adapter.submitList(cards)
             }
         }
