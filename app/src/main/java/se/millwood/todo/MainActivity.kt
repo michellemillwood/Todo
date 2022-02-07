@@ -1,9 +1,17 @@
 package se.millwood.todo
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import se.millwood.todo.databinding.ActivityMainBinding
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
+    name = "settings"
+)
 
 class MainActivity : AppCompatActivity() {
 

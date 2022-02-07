@@ -8,27 +8,13 @@ import kotlinx.coroutines.launch
 import se.millwood.todo.data.Card
 import se.millwood.todo.data.CardWithTodos
 import se.millwood.todo.data.Repository
-import se.millwood.todo.settings.SettingsFragment
-import se.millwood.todo.settings.SettingsFragment.Companion.SORT_ORDER_KEY
 import java.util.*
 
 class CardListViewModel(context: Context) : ViewModel() {
 
     private val repository = Repository(context)
 
-    private val sharedPrefs = context.getSharedPreferences(
-        SettingsFragment.SETTINGS,
-        Context.MODE_PRIVATE
-    )
-
-    private fun getSortOrder() = sharedPrefs.getString(
-        SORT_ORDER_KEY,
-        SettingsFragment.Companion.SortOrder.LAST_EDITED.name
-    )
-
-    fun getCardsWithTodos(): Flow<List<CardWithTodos>> = repository.getCardsWithTodos(
-        sortOrder = SettingsFragment.Companion.SortOrder.valueOf(getSortOrder()!!)
-    )
+    fun getCardsWithTodos(): Flow<List<CardWithTodos>> = repository.getCardsWithTodos()
 
     fun deleteCardWithTodos(
         cardWithTodos: CardWithTodos
