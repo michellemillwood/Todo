@@ -65,21 +65,15 @@ class CardFragment : Fragment() {
 
     private fun getCardAndTodos() {
         lifecycleScope.launch {
-            viewModel.cardFlow.collect { card ->
-                binding.cardTitle.setText(card.title)
-                binding.cardTitle.doOnTextChanged { title, _, _, _ ->
-                    saveCardTitle(title.toString())
-                }
+            binding.cardTitle.setText(viewModel.getCardTitle())
+            binding.cardTitle.doOnTextChanged { title, _, _, _ ->
+                viewModel.updateCardTitle(title.toString())
             }
-        }
-        lifecycleScope.launch {
             viewModel.getTodos().collect { todos ->
                 adapter.submitList(todos)
             }
         }
     }
-
-    private fun saveCardTitle(title: String) = viewModel.updateCardTitle(title)
 
     private fun setupCreateTodoFab(cardId: String?) {
         if (cardId == null) return

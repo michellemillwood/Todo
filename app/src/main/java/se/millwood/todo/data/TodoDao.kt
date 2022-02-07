@@ -1,6 +1,9 @@
 package se.millwood.todo.data
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
@@ -11,17 +14,17 @@ interface TodoDao {
             "ORDER BY isCompleted")
     fun getTodos(cardId: UUID): Flow<List<TodoEntity>>
 
-    @Query("SELECT * FROM todo WHERE todoId = :id")
-    suspend fun getTodoById(id: UUID): TodoEntity
+    @Query("SELECT title FROM todo WHERE todoId = :todoId")
+    suspend fun getTodoTitle(todoId: UUID): String
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateTodo(todoEntity: TodoEntity)
+    @Query("UPDATE todo SET title = :title WHERE todoId = :todoId")
+    suspend fun updateTodoTitle(todoId: UUID, title: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTodo(todoEntity: TodoEntity)
 
-    @Query("UPDATE todo SET isCompleted = :isCompleted WHERE todoId = :id")
-    suspend fun setIsCompleted(id: UUID, isCompleted: Boolean)
+    @Query("UPDATE todo SET isCompleted = :isCompleted WHERE todoId = :todoId")
+    suspend fun updateTodoIsCompleted(todoId: UUID, isCompleted: Boolean)
 
     @Query("DELETE FROM todo WHERE todoId = :id")
     suspend fun deleteTodo(id: UUID)

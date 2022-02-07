@@ -3,8 +3,6 @@ package se.millwood.todo.card
 import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import se.millwood.todo.data.Repository
 import se.millwood.todo.data.Todo
 import java.util.*
@@ -19,26 +17,23 @@ class TodoEditViewModel(context: Context, arguments: Bundle) : ViewModel() {
     private val cardId = editArgs?.cardId
     val todoId = editArgs?.todoId
 
-    fun createTodo(
-        title: String
-    ) = addTodo(
-        Todo(
-            title = title,
-            cardId = UUID.fromString(cardId)
+    suspend fun createTodo(title: String) {
+        repository.addTodo(
+            cardId = UUID.fromString(cardId),
+            todo = Todo(
+                title = title,
+                cardId = UUID.fromString(cardId)
+            )
         )
-    )
-
-    private fun addTodo(todo: Todo) {
-        viewModelScope.launch {
-            repository.addTodo(todo)
-        }
     }
 
-    fun updateTodo(todo: Todo) {
-        viewModelScope.launch {
-            repository.updateTodo(todo)
-        }
+    suspend fun updateTodo(title: String) {
+        repository.updateTodo(
+            cardId = UUID.fromString(cardId),
+            todoId = UUID.fromString(todoId),
+            title = title
+        )
     }
 
-    suspend fun fetchTodo() = repository.fetchTodo(UUID.fromString(todoId))
+    suspend fun getTodoTitle() = repository.getTodoTitle(UUID.fromString(todoId))
 }

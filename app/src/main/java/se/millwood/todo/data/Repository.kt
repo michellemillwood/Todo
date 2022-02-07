@@ -36,10 +36,14 @@ class Repository(context: Context) {
         card: Card
     ) = cardDao.addCard(CardEntity.from(card))
 
-    suspend fun updateCard(
+    suspend fun updateCardTitle(
         title: String,
         cardId: UUID
     ) = cardDao.updateCard(CardEntity(title, cardId))
+
+    suspend fun getCardTitle(
+        cardId: UUID
+    ) = cardDao.getCardTitle(cardId)
 
     suspend fun deleteCardWithTodos(
         cardId: UUID
@@ -48,10 +52,6 @@ class Repository(context: Context) {
         cardDao.deleteCard(cardId)
     }
 
-    suspend fun fetchCard(
-        cardId: UUID
-    ): Card = cardDao.getCardById(cardId).toCard()
-
     fun getTodos(
         cardId: UUID
     ) = todoDao.getTodos(cardId).map { todoEntity ->
@@ -59,21 +59,34 @@ class Repository(context: Context) {
     }
 
     suspend fun updateTodo(
-        todo: Todo
-    ) = todoDao.updateTodo(TodoEntity.from(todo))
+        cardId: UUID,
+        todoId: UUID,
+        title: String
+    ) {
+        cardDao.updateCardTimeStamp(cardId, System.currentTimeMillis())
+        todoDao.updateTodoTitle(todoId, title)
+    }
 
     suspend fun addTodo(
+        cardId: UUID,
         todo: Todo
-    ) = todoDao.addTodo(TodoEntity.from(todo))
+    ) {
+        cardDao.updateCardTimeStamp(cardId, System.currentTimeMillis())
+        todoDao.addTodo(TodoEntity.from(todo))
+    }
 
     suspend fun setIsCompleted(
+        cardId: UUID,
         todoId: UUID,
         isCompleted: Boolean
-    ) = todoDao.setIsCompleted(todoId, isCompleted)
+    ) {
+        cardDao.updateCardTimeStamp(cardId, System.currentTimeMillis())
+        todoDao.updateTodoIsCompleted(todoId, isCompleted)
+    }
 
-    suspend fun fetchTodo(
+    suspend fun getTodoTitle(
         todoId: UUID
-    ): Todo = todoDao.getTodoById(todoId).toTodo()
+    ): String = todoDao.getTodoTitle(todoId)
 
     suspend fun deleteTodo(
         cardId: UUID,

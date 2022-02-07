@@ -16,6 +16,9 @@ interface CardDao {
     @Insert
     suspend fun addCard(cardEntity: CardEntity)
 
+    @Query("SELECT title FROM card WHERE cardId = :cardId")
+    suspend fun getCardTitle(cardId: UUID): String
+
     @Transaction
     @Query("SELECT * FROM card")
     fun getCardsWithTodos(): Flow<List<CardWithTodosEntity>>
