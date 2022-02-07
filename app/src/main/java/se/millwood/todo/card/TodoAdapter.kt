@@ -11,8 +11,8 @@ import java.util.*
 
 class TodoAdapter(
     val onItemCheck: (todoId: UUID, isChecked: Boolean) -> Unit,
-    val onItemDelete: (todoId: UUID, cardId: UUID, title: String) -> Unit,
-    val onItemEdit: (todoId: UUID, cardId: UUID) -> Unit
+    val onItemDelete: (todoId: UUID, title: String) -> Unit,
+    val onItemEdit: (todoId: UUID) -> Unit
 ) : ListAdapter<Todo, TodoAdapter.TodoViewHolder>(DiffCallback) {
 
     inner class TodoViewHolder(private val binding: ItemTodoBinding) :
@@ -32,7 +32,6 @@ class TodoAdapter(
             deleteTodo.setOnClickListener {
                 onItemDelete(
                     todo.todoId,
-                    todo.cardId,
                     todo.title
                 )
             }
@@ -40,7 +39,6 @@ class TodoAdapter(
             root.setOnClickListener {
                 onItemEdit(
                     todo.todoId,
-                    todo.cardId
                 )
             }
         }

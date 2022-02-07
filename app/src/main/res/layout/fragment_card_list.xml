@@ -15,13 +15,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="MY TODO CARDS"
         app:titleTextColor="@color/grey">
-        <Button
+        <ImageButton
             android:id="@+id/settings_button"
             android:backgroundTint="@color/beige"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="SETTINGS" />
+            android:padding="8dp"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_baseline_settings_24" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

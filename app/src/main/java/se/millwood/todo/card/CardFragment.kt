@@ -28,21 +28,21 @@ class CardFragment : Fragment() {
     private val adapter: TodoAdapter by lazy {
         TodoAdapter(
             onItemCheck = viewModel::setIsCompleted,
-            onItemDelete = { todoId, cardId, title ->
+            onItemDelete = { todoId, title ->
                 val bundle = bundleOf(
                     TODO_DELETE_ARGUMENTS to TodoDeleteArguments(
-                        cardId.toString(),
-                        todoId.toString(),
-                        title
+                        cardId = viewModel.cardId.toString(),
+                        todoId = todoId.toString(),
+                        title = title
                     )
                 )
                 findNavController().navigate(R.id.todoDeleteDialogFragment, bundle)
             },
-            onItemEdit = { todoId, cardId ->
+            onItemEdit = { todoId ->
                 val bundle = bundleOf(
                     TODO_EDIT_ARGUMENTS to TodoEditArguments(
-                        cardId.toString(),
-                        todoId.toString()
+                        cardId = viewModel.cardId.toString(),
+                        todoId = todoId.toString()
                     )
                 )
                 findNavController().navigate(R.id.todoEditDialogFragment, bundle)
@@ -60,7 +60,6 @@ class CardFragment : Fragment() {
         getCardAndTodos()
         setupCreateTodoFab(viewModel.cardId)
         setupUpButton()
-
         return binding.root
     }
 
@@ -86,7 +85,10 @@ class CardFragment : Fragment() {
         if (cardId == null) return
         binding.fab.setOnClickListener {
             val bundle = bundleOf(
-                TODO_EDIT_ARGUMENTS to TodoEditArguments(cardId, null)
+                TODO_EDIT_ARGUMENTS to TodoEditArguments(
+                    cardId = cardId,
+                    todoId = null
+                )
             )
             findNavController().navigate(R.id.todoEditDialogFragment, bundle)
         }

@@ -21,7 +21,12 @@ class TodoEditViewModel(context: Context, arguments: Bundle) : ViewModel() {
 
     fun createTodo(
         title: String
-    ) = addTodo(Todo(title, UUID.fromString(cardId)))
+    ) = addTodo(
+        Todo(
+            title = title,
+            cardId = UUID.fromString(cardId)
+        )
+    )
 
     private fun addTodo(todo: Todo) {
         viewModelScope.launch {

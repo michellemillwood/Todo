@@ -23,7 +23,11 @@ class TodoEditDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentEditDialogBinding.inflate(inflater, container, false)
+        binding = FragmentEditDialogBinding.inflate(
+            inflater,
+            container,
+            false
+        )
         if (viewModel.todoId != null) {
             useUpdateTodoDialog()
         }
