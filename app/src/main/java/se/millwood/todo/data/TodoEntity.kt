@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity(tableName = "todo")
 data class TodoEntity(
-    val title: String,
+    val todoTitle: String,
     val cardId: UUID,
     var isCompleted: Boolean = false,
     @PrimaryKey
@@ -26,7 +26,7 @@ data class TodoEntity(
 
     fun toTodo(): Todo {
         return Todo(
-            title,
+            todoTitle,
             cardId,
             isCompleted,
             todoId

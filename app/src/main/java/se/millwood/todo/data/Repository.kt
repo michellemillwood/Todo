@@ -1,39 +1,19 @@
 package se.millwood.todo.data
 
 import android.content.Context
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
-import se.millwood.todo.dataStore
 import se.millwood.todo.settings.SettingsFragment
-import se.millwood.todo.settings.SettingsFragment.Companion.SortOrder.ALPHABETICAL
-import se.millwood.todo.settings.SettingsFragment.Companion.SortOrder.TODO_LIST_SIZE
 import java.util.*
 
-class Repository(private val context: Context) {
+class Repository(context: Context) {
 
     private val cardDao = TodoDatabase.getDatabase(context).cardDao()
     private val todoDao = TodoDatabase.getDatabase(context).todoDao()
 
-    private val cardsWithTodos: Flow<List<CardWithTodos>> = cardDao.getCardsWithTodos().map { cards ->
-        cards.map { CardWithTodos.from(it) }
-    }
-
-    fun getCardsWithTodos(): Flow<List<CardWithTodos>> {
-        return context.dataStore.data.flatMapConcat { preferences ->
-            when (preferences[SettingsFragment.sortOrderKey]) {
-               ALPHABETICAL.name -> cardsWithTodos.map {
-                    it.sortedBy { card -> card.card.title.lowercase() }
-                }
-                TODO_LIST_SIZE.name -> cardsWithTodos.map {
-                    it.sortedByDescending { card -> card.todos.size }
-                }
-                else -> cardsWithTodos.map {
-                    it.sortedByDescending { card -> card.card.timeStamp }
-                }
-            }
+    fun getCardsWithTodos(sortOrder: SettingsFragment.Companion.SortOrder) =
+        cardDao.getCardsWithTodos(sortOrder.name).map { cards ->
+            cards.map { CardWithTodos.from(it) }
         }
-    }
 
     suspend fun addCard(
         card: Card

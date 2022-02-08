@@ -14,10 +14,10 @@ interface TodoDao {
             "ORDER BY isCompleted")
     fun getTodos(cardId: UUID): Flow<List<TodoEntity>>
 
-    @Query("SELECT title FROM todo WHERE todoId = :todoId")
+    @Query("SELECT todoTitle FROM todo WHERE todoId = :todoId")
     suspend fun getTodoTitle(todoId: UUID): String
 
-    @Query("UPDATE todo SET title = :title WHERE todoId = :todoId")
+    @Query("UPDATE todo SET todoTitle = :title WHERE todoId = :todoId")
     suspend fun updateTodoTitle(todoId: UUID, title: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

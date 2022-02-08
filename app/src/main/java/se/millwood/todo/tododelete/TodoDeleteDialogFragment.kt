@@ -1,4 +1,4 @@
-package se.millwood.todo.card
+package se.millwood.todo.tododelete
 
 import android.app.AlertDialog
 import android.app.Dialog

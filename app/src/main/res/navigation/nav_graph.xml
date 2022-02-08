@@ -30,12 +30,12 @@
 
     <dialog
         android:id="@+id/todoDeleteDialogFragment"
-        android:name="se.millwood.todo.card.TodoDeleteDialogFragment"
+        android:name="se.millwood.todo.tododelete.TodoDeleteDialogFragment"
         android:label="TodoDeleteDialogFragment" />
 
     <dialog
         android:id="@+id/todoEditDialogFragment"
-        android:name="se.millwood.todo.card.TodoEditDialogFragment"
+        android:name="se.millwood.todo.todoedit.TodoEditDialogFragment"
         android:label="TodoEditDialogFragment">
     </dialog>
 

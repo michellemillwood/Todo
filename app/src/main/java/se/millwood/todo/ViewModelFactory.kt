@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import se.millwood.todo.card.CardViewModel
-import se.millwood.todo.card.TodoDeleteViewModel
-import se.millwood.todo.card.TodoEditViewModel
+import se.millwood.todo.tododelete.TodoDeleteViewModel
+import se.millwood.todo.todoedit.TodoEditViewModel
 import se.millwood.todo.cardlist.CardListViewModel
 
 class ViewModelFactory(

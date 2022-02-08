@@ -1,4 +1,4 @@
-package se.millwood.todo.card
+package se.millwood.todo.todoedit
 
 import android.os.Bundle
 import android.view.LayoutInflater

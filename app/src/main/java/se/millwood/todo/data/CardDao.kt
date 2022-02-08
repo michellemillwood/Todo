@@ -20,8 +20,14 @@ interface CardDao {
     suspend fun getCardTitle(cardId: UUID): String
 
     @Transaction
-    @Query("SELECT * FROM card")
-    fun getCardsWithTodos(): Flow<List<CardWithTodosEntity>>
+    @Query("SELECT card.title, card.cardId, card.timeStamp FROM card " +
+            "LEFT JOIN todo ON todo.cardId = card.cardId " +
+            "GROUP BY todo.cardId " +
+            "ORDER BY " +
+            "CASE WHEN :sortOrder = 'LAST_EDITED' THEN timeStamp END DESC, " +
+            "CASE WHEN :sortOrder = 'ALPHABETICAL' THEN LOWER(card.title) END ASC, " +
+            "CASE WHEN :sortOrder = 'TODO_LIST_SIZE' THEN COUNT(todo.cardId) END DESC")
+    fun getCardsWithTodos(sortOrder: String): Flow<List<CardWithTodosEntity>>
 
     @Query("DELETE FROM card WHERE cardId = :cardId")
     suspend fun deleteCard(cardId: UUID)

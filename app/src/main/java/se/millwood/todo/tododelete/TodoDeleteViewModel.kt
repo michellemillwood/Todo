@@ -1,4 +1,4 @@
-package se.millwood.todo.card
+package se.millwood.todo.tododelete
 
 import android.content.Context
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import se.millwood.todo.card.CardFragment
 import se.millwood.todo.data.Repository
 import java.util.*
 
