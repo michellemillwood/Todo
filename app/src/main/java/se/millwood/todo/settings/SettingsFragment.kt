@@ -4,27 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import se.millwood.todo.dataStore
+import se.millwood.todo.DataStoreManager
+import se.millwood.todo.SortOrder
 import se.millwood.todo.databinding.FragmentSettingsBinding
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
+
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
 
     lateinit var binding: FragmentSettingsBinding
 
-    private fun saveSortOrderPreferences(sortOrder: SortOrder) {
-        lifecycleScope.launch {
-            requireContext().dataStore.edit { preferences ->
-                preferences[sortOrderKey] = sortOrder.name
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,20 +38,15 @@ class SettingsFragment : Fragment() {
 
     private fun setSavedSortOrder() {
         lifecycleScope.launch {
-            val preferences = requireContext().dataStore.data.first()
-            when (preferences[sortOrderKey]) {
-                SortOrder.ALPHABETICAL.name -> {
+            when (dataStoreManager.sortOrder.first()) {
+                SortOrder.ALPHABETICAL -> {
                     binding.radioButtonAlphabetical.isChecked = true
                 }
-                SortOrder.LAST_EDITED.name -> {
+                SortOrder.LAST_EDITED -> {
                     binding.radioButtonLastEdited.isChecked = true
                 }
-                SortOrder.TODO_LIST_SIZE.name -> {
+                SortOrder.TODO_LIST_SIZE -> {
                     binding.radioButtonTodoSize.isChecked = true
-                }
-                else -> {
-                    saveSortOrderPreferences(SortOrder.LAST_EDITED)
-                    binding.radioButtonLastEdited.isChecked = true
                 }
             }
         }
@@ -75,18 +68,16 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private fun saveSortOrderPreferences(sortOrder: SortOrder) {
+        lifecycleScope.launch {
+            dataStoreManager.updateSortKey(sortOrder)
+        }
+    }
+
     private fun setupUpButton() {
         binding.settingsFragmentToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }
 
-    companion object {
-        enum class SortOrder {
-            ALPHABETICAL,
-            LAST_EDITED,
-            TODO_LIST_SIZE
-        }
-        val sortOrderKey = stringPreferencesKey("sort_order")
-    }
 }

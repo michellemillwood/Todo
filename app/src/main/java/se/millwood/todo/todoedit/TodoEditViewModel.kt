@@ -1,18 +1,22 @@
 package se.millwood.todo.todoedit
 
-import android.content.Context
-import android.os.Bundle
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import se.millwood.todo.card.CardFragment
 import se.millwood.todo.data.Repository
 import se.millwood.todo.data.Todo
 import java.util.*
+import javax.inject.Inject
 
-class TodoEditViewModel(context: Context, arguments: Bundle) : ViewModel() {
+@HiltViewModel
+class TodoEditViewModel @Inject constructor(
+    private val repository: Repository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val repository = Repository(context)
 
-    private val editArgs = arguments.getParcelable<CardFragment.TodoEditArguments>(
+    private val editArgs = savedStateHandle.get<CardFragment.TodoEditArguments>(
         CardFragment.TODO_EDIT_ARGUMENTS
     )
     private val cardId = editArgs?.cardId

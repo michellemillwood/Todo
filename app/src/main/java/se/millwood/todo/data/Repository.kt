@@ -1,16 +1,18 @@
 package se.millwood.todo.data
 
-import android.content.Context
 import kotlinx.coroutines.flow.map
-import se.millwood.todo.settings.SettingsFragment
+import se.millwood.todo.SortOrder
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class Repository(context: Context) {
+@Singleton
+class Repository @Inject constructor(database: TodoDatabase) {
 
-    private val cardDao = TodoDatabase.getDatabase(context).cardDao()
-    private val todoDao = TodoDatabase.getDatabase(context).todoDao()
+    private val cardDao = database.cardDao()
+    private val todoDao = database.todoDao()
 
-    fun getCardsWithTodos(sortOrder: SettingsFragment.Companion.SortOrder) =
+    fun getCardsWithTodos(sortOrder: SortOrder) =
         cardDao.getCardsWithTodos(sortOrder.name).map { cards ->
             cards.map { CardWithTodos.from(it) }
         }

@@ -1,20 +1,24 @@
 package se.millwood.todo.card
 
-import android.content.Context
-import android.os.Bundle
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import se.millwood.todo.cardlist.CardListFragment
 import se.millwood.todo.data.Repository
 import java.util.*
+import javax.inject.Inject
 
-class CardViewModel(context: Context, arguments: Bundle) : ViewModel() {
+@HiltViewModel
+class CardViewModel @Inject constructor(
+    private val repository: Repository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val repository = Repository(context)
 
     private val args: CardListFragment.CardArguments? =
-        arguments.getParcelable(
+        savedStateHandle.get(
             CardListFragment.CARD_ID_KEY
         )
 

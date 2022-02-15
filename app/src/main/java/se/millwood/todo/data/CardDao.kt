@@ -22,7 +22,7 @@ interface CardDao {
     @Transaction
     @Query("SELECT card.title, card.cardId, card.timeStamp FROM card " +
             "LEFT JOIN todo ON todo.cardId = card.cardId " +
-            "GROUP BY todo.cardId " +
+            "GROUP BY card.cardId " +
             "ORDER BY " +
             "CASE WHEN :sortOrder = 'LAST_EDITED' THEN timeStamp END DESC, " +
             "CASE WHEN :sortOrder = 'ALPHABETICAL' THEN LOWER(card.title) END ASC, " +

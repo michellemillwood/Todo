@@ -11,18 +11,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
-import se.millwood.todo.ViewModelFactory
 import se.millwood.todo.databinding.FragmentCardBinding
 
+@AndroidEntryPoint
 class CardFragment : Fragment() {
 
-    private val viewModel: CardViewModel by viewModels {
-        ViewModelFactory(requireContext().applicationContext, arguments)
-    }
+    private val viewModel: CardViewModel by viewModels()
+
     private lateinit var binding: FragmentCardBinding
 
     private val adapter: TodoAdapter by lazy {

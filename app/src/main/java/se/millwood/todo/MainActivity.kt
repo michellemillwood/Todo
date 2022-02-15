@@ -7,12 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.AndroidEntryPoint
 import se.millwood.todo.databinding.ActivityMainBinding
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-    name = "settings"
-)
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

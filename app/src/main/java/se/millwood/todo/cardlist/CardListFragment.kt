@@ -14,18 +14,17 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
-import se.millwood.todo.ViewModelFactory
 import se.millwood.todo.databinding.FragmentCardListBinding
 
+@AndroidEntryPoint
 class CardListFragment : Fragment() {
 
-    private val viewModel: CardListViewModel by viewModels {
-        ViewModelFactory(requireContext().applicationContext, arguments)
-    }
+    private val viewModel: CardListViewModel by viewModels()
 
     private val adapter: CardListAdapter by lazy {
         CardListAdapter(

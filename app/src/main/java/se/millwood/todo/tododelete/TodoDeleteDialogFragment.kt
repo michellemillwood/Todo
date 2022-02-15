@@ -5,13 +5,12 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import se.millwood.todo.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TodoDeleteDialogFragment : DialogFragment() {
 
-    private val viewModel: TodoDeleteViewModel by viewModels  {
-        ViewModelFactory(requireContext().applicationContext, arguments)
-    }
+    private val viewModel: TodoDeleteViewModel by viewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext()).apply {

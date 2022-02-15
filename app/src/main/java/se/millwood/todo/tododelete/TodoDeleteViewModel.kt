@@ -1,20 +1,24 @@
 package se.millwood.todo.tododelete
 
-import android.content.Context
-import android.os.Bundle
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import se.millwood.todo.card.CardFragment
 import se.millwood.todo.data.Repository
 import java.util.*
+import javax.inject.Inject
 
-class TodoDeleteViewModel(context: Context, arguments: Bundle) : ViewModel() {
+@HiltViewModel
+class TodoDeleteViewModel @Inject constructor(
+    private val repository: Repository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val repository = Repository(context)
 
-    private val args = arguments.getParcelable<CardFragment.TodoDeleteArguments>(
+    private val args = savedStateHandle.get<CardFragment.TodoDeleteArguments>(
         CardFragment.TODO_DELETE_ARGUMENTS
     )
     private val cardId = args?.cardId
