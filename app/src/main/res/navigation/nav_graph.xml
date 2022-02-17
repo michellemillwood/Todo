@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_cardListFragment_to_settingsFragment"
             app:destination="@+id/settingsFragment" />
+        <action
+            android:id="@+id/action_cardListFragment_to_imagePickerFragment"
+            app:destination="@id/imagePickerFragment" />
     </fragment>
 
     <fragment
@@ -43,5 +46,9 @@
         android:id="@+id/settingsFragment"
         android:name="se.millwood.todo.settings.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/imagePickerFragment"
+        android:name="se.millwood.todo.imagepicker.ImagePickerFragment"
+        android:label="ImagePickerFragment" />
 
 </navigation>

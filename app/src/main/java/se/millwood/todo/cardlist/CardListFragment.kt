@@ -84,6 +84,9 @@ class CardListFragment : Fragment() {
         binding.settingsButton.setOnClickListener {
             findNavController().navigate(R.id.settingsFragment)
         }
+        binding.testImagesButton.setOnClickListener {
+            findNavController().navigate(R.id.imagePickerFragment)
+        }
     }
 
     override fun onViewCreated(
