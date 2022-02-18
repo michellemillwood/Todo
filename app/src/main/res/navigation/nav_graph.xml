@@ -14,9 +14,6 @@
         <action
             android:id="@+id/action_cardListFragment_to_settingsFragment"
             app:destination="@+id/settingsFragment" />
-        <action
-            android:id="@+id/action_cardListFragment_to_imagePickerFragment"
-            app:destination="@id/imagePickerFragment" />
     </fragment>
 
     <fragment
@@ -29,6 +26,9 @@
         <action
             android:id="@+id/action_todoListFragment_to_todoEditDialogFragment"
             app:destination="@id/todoEditDialogFragment" />
+        <action
+            android:id="@+id/action_cardFragment_to_imagePickerFragment"
+            app:destination="@id/imagePickerFragment" />
     </fragment>
 
     <dialog

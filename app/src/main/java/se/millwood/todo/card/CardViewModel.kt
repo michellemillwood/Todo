@@ -16,13 +16,18 @@ class CardViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-
     private val args: CardListFragment.CardArguments? =
         savedStateHandle.get(
             CardListFragment.CARD_ID_KEY
         )
 
     val cardId = args?.cardId
+
+    /* val image: Flow<Uri>> = flow {
+        emit(repository.getImageUri(cardId))
+    }
+        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1) */
+
 
     suspend fun getCardTitle() = repository.getCardTitle(UUID.fromString(cardId))
 

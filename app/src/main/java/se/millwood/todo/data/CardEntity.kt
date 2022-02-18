@@ -7,6 +7,7 @@ import java.util.*
 @Entity(tableName = "card")
 class CardEntity(
     val title: String,
+    val imageUrl: String,
     @PrimaryKey
     val cardId: UUID = UUID.randomUUID(),
     val timeStamp: Long = System.currentTimeMillis()
@@ -15,18 +16,20 @@ class CardEntity(
     companion object {
         fun from(card: Card): CardEntity {
             return CardEntity(
-                card.title,
-                card.cardId,
-                card.timeStamp
+                title = card.title,
+                imageUrl = card.imageUrl,
+                cardId = card.cardId,
+                timeStamp = card.timeStamp
             )
         }
     }
 
     fun toCard(): Card {
         return Card(
-            title,
-            cardId,
-            timeStamp
+            title = title,
+            imageUrl = imageUrl,
+            cardId = cardId,
+            timeStamp = timeStamp
         )
     }
 }

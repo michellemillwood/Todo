@@ -17,10 +17,11 @@
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
         app:titleTextColor="@color/grey" />
 
+
     <EditText
         android:id="@+id/card_title"
         android:inputType="textShortMessage|textMultiLine"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:layout_margin="16dp"
@@ -28,13 +29,23 @@
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/list_fragment_toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/card_image"
         app:layout_constraintBottom_toTopOf="@id/recycler_view"
         android:hint="Card title"
         android:background="@color/off_white"
-        android:gravity="center_horizontal"
+        android:gravity="start"
         android:textColor="@color/grey"
         />
+
+    <ImageView
+        android:id="@+id/card_image"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/ic_baseline_add_photo_alternate_24"
+        app:layout_constraintStart_toEndOf="@id/card_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recycler_view"
+        app:layout_constraintTop_toBottomOf="@id/list_fragment_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

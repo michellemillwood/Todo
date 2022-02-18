@@ -12,7 +12,10 @@ import se.millwood.todo.network.ImageApiService
 import javax.inject.Inject
 
 @HiltViewModel
-class ImagePickerViewModel @Inject constructor(apiService: ImageApiService) : ViewModel() {
+class ImagePickerViewModel @Inject constructor(
+    apiService: ImageApiService,
+) : ViewModel() {
+
 
     val images: Flow<List<Uri>> = flow {
         emit(apiService.getImageUris())

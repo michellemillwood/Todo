@@ -59,8 +59,21 @@ class CardFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         getCardAndTodos()
         setupCreateTodoFab(viewModel.cardId)
+        setupImagePickerButton(viewModel.cardId)
         setupUpButton()
         return binding.root
+    }
+
+    private fun setupImagePickerButton(cardId: String?) {
+        if (cardId == null) return
+        binding.cardImage.setOnClickListener {
+            val bundle = bundleOf(
+                IMAGE_PICKER_ARGUMENTS to ImagePickerArguments(
+                    cardId = cardId
+                )
+            )
+            findNavController().navigate(R.id.imagePickerFragment, bundle)
+        }
     }
 
     private fun getCardAndTodos() {
@@ -74,6 +87,25 @@ class CardFragment : Fragment() {
             }
         }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    /*
+    private fun loadCardImage() {
+        viewLifecycleOwner.lifecycle.coroutineScope.launch {
+            viewModel.image
+                .collectLatest { imageUri ->
+                    Coil.execute(
+                        ImageRequest.Builder(requireContext())
+                            .data(imageUri)
+                            .target(binding.image)
+                            .build()
+                    )
+                }
+        }
+    }*/
 
     private fun setupCreateTodoFab(cardId: String?) {
         if (cardId == null) return
@@ -97,6 +129,7 @@ class CardFragment : Fragment() {
     companion object {
         const val TODO_DELETE_ARGUMENTS = "todo_delete_args"
         const val TODO_EDIT_ARGUMENTS = "todo_edit_args"
+        const val IMAGE_PICKER_ARGUMENTS = "image_picker_args"
     }
 
     @Parcelize
@@ -110,5 +143,10 @@ class CardFragment : Fragment() {
     data class TodoEditArguments(
         val cardId: String,
         val todoId: String?
+    ) : Parcelable
+
+    @Parcelize
+    data class ImagePickerArguments(
+        val cardId: String,
     ) : Parcelable
 }

@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
-import coil.Coil
-import coil.request.ImageRequest
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -17,33 +16,42 @@ import se.millwood.todo.databinding.FragmentImagePickerBinding
 @AndroidEntryPoint
 class ImagePickerFragment : Fragment() {
 
+    private val viewModel: ImagePickerViewModel by viewModels()
+
     private lateinit var binding: FragmentImagePickerBinding
 
-    private val viewModel: ImagePickerViewModel by viewModels()
+    private val adapter: ImageListAdapter by lazy {
+        ImageListAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentImagePickerBinding.inflate(inflater, container, false)
+        binding = FragmentImagePickerBinding.inflate(inflater)
+        binding.recyclerView.adapter = adapter
+        setupUpButton()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadImages()
+    }
 
+    private fun loadImages() {
         viewLifecycleOwner.lifecycle.coroutineScope.launch {
             viewModel.images
                 .collectLatest { images ->
-                    val uri = images.first()
-                    Coil.execute(
-                        ImageRequest.Builder(requireContext())
-                            .data(uri)
-                            .target(binding.image)
-                            .build()
-                    )
+                    adapter.submitList(images)
                 }
+        }
+    }
+
+    private fun setupUpButton() {
+        binding.imageFragmentToolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
