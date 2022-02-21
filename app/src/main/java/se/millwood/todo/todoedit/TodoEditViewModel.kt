@@ -32,8 +32,8 @@ class TodoEditViewModel @Inject constructor(
         )
     }
 
-    suspend fun updateTodo(title: String) {
-        repository.updateTodo(
+    suspend fun updateTodoTitle(title: String) {
+        repository.updateTodoTitle(
             cardId = UUID.fromString(cardId),
             todoId = UUID.fromString(todoId),
             title = title

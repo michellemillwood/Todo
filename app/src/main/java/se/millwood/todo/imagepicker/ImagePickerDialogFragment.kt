@@ -4,24 +4,34 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import se.millwood.todo.databinding.FragmentImagePickerBinding
 
 @AndroidEntryPoint
-class ImagePickerFragment : Fragment() {
+class ImagePickerDialogFragment : DialogFragment() {
 
     private val viewModel: ImagePickerViewModel by viewModels()
 
     private lateinit var binding: FragmentImagePickerBinding
 
     private val adapter: ImageListAdapter by lazy {
-        ImageListAdapter()
+        ImageListAdapter(
+            onImageSelected = { imageUri ->
+                setFragmentResult(
+                    IMAGE_URI_KEY,
+                    bundleOf("imageUri" to imageUri.toString())
+                )
+                dismiss()
+            }
+        )
     }
 
     override fun onCreateView(
@@ -29,15 +39,15 @@ class ImagePickerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentImagePickerBinding.inflate(inflater)
+        binding = FragmentImagePickerBinding.inflate(
+            inflater,
+            container,
+            false
+        )
         binding.recyclerView.adapter = adapter
-        setupUpButton()
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
         loadImages()
+        return binding.root
     }
 
     private fun loadImages() {
@@ -49,10 +59,8 @@ class ImagePickerFragment : Fragment() {
         }
     }
 
-    private fun setupUpButton() {
-        binding.imageFragmentToolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
+    companion object {
+        const val IMAGE_URI_KEY = "image_uri_key"
     }
 
 }

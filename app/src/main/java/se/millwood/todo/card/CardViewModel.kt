@@ -1,9 +1,11 @@
 package se.millwood.todo.card
 
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import se.millwood.todo.cardlist.CardListFragment
 import se.millwood.todo.data.Repository
@@ -23,11 +25,7 @@ class CardViewModel @Inject constructor(
 
     val cardId = args?.cardId
 
-    /* val image: Flow<Uri>> = flow {
-        emit(repository.getImageUri(cardId))
-    }
-        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1) */
-
+    val image: Flow<Uri?> = repository.getCardImage(UUID.fromString(cardId))
 
     suspend fun getCardTitle() = repository.getCardTitle(UUID.fromString(cardId))
 
@@ -37,7 +35,16 @@ class CardViewModel @Inject constructor(
         viewModelScope.launch {
             repository.updateCardTitle(
                 title = cardTitle,
-                cardId = UUID.fromString(cardId)
+                cardId = UUID.fromString(cardId),
+            )
+        }
+    }
+
+    fun updateCardImage(imageUri: Uri) {
+        viewModelScope.launch {
+            repository.updateCardImage(
+                UUID.fromString(cardId),
+                imageUri
             )
         }
     }

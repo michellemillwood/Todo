@@ -10,7 +10,9 @@ import coil.Coil
 import coil.request.ImageRequest
 import se.millwood.todo.databinding.ItemImageBinding
 
-class ImageListAdapter : ListAdapter<Uri, ImageListAdapter.ImageViewHolder>(DiffCallback) {
+class ImageListAdapter(
+    val onImageSelected: (imageUri: Uri) -> Unit
+) : ListAdapter<Uri, ImageListAdapter.ImageViewHolder>(DiffCallback) {
 
     class ImageViewHolder(val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -33,6 +35,9 @@ class ImageListAdapter : ListAdapter<Uri, ImageListAdapter.ImageViewHolder>(Diff
                 .build()
         )
 
+        holder.binding.itemImage.setOnClickListener {
+            onImageSelected(uri)
+        }
     }
 
     object DiffCallback : DiffUtil.ItemCallback<Uri>() {

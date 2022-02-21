@@ -1,5 +1,6 @@
 package se.millwood.todo.card
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -8,15 +9,21 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.Coil
+import coil.request.ImageRequest
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.databinding.FragmentCardBinding
+import se.millwood.todo.imagepicker.ImagePickerDialogFragment
 
 @AndroidEntryPoint
 class CardFragment : Fragment() {
@@ -59,20 +66,19 @@ class CardFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         getCardAndTodos()
         setupCreateTodoFab(viewModel.cardId)
-        setupImagePickerButton(viewModel.cardId)
+        setupImagePickerButton()
         setupUpButton()
+        loadCardImage()
+        setFragmentResultListener(ImagePickerDialogFragment.IMAGE_URI_KEY) { requestKey, bundle ->
+            val imageUri = bundle.getString("imageUri")
+            viewModel.updateCardImage(Uri.parse(imageUri))
+        }
         return binding.root
     }
 
-    private fun setupImagePickerButton(cardId: String?) {
-        if (cardId == null) return
+    private fun setupImagePickerButton() {
         binding.cardImage.setOnClickListener {
-            val bundle = bundleOf(
-                IMAGE_PICKER_ARGUMENTS to ImagePickerArguments(
-                    cardId = cardId
-                )
-            )
-            findNavController().navigate(R.id.imagePickerFragment, bundle)
+            findNavController().navigate(R.id.imagePickerDialogFragment)
         }
     }
 
@@ -88,24 +94,19 @@ class CardFragment : Fragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    /*
     private fun loadCardImage() {
         viewLifecycleOwner.lifecycle.coroutineScope.launch {
             viewModel.image
                 .collectLatest { imageUri ->
                     Coil.execute(
                         ImageRequest.Builder(requireContext())
-                            .data(imageUri)
-                            .target(binding.image)
+                            .data(imageUri ?: R.drawable.ic_baseline_add_photo_alternate_24)
+                            .target(binding.cardImage)
                             .build()
                     )
                 }
         }
-    }*/
+    }
 
     private fun setupCreateTodoFab(cardId: String?) {
         if (cardId == null) return

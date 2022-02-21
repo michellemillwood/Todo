@@ -27,8 +27,8 @@
             android:id="@+id/action_todoListFragment_to_todoEditDialogFragment"
             app:destination="@id/todoEditDialogFragment" />
         <action
-            android:id="@+id/action_cardFragment_to_imagePickerFragment"
-            app:destination="@id/imagePickerFragment" />
+            android:id="@+id/action_cardFragment_to_imagePickerDialogFragment"
+            app:destination="@id/imagePickerDialogFragment" />
     </fragment>
 
     <dialog
@@ -46,9 +46,9 @@
         android:id="@+id/settingsFragment"
         android:name="se.millwood.todo.settings.SettingsFragment"
         android:label="SettingsFragment" />
-    <fragment
-        android:id="@+id/imagePickerFragment"
-        android:name="se.millwood.todo.imagepicker.ImagePickerFragment"
-        android:label="ImagePickerFragment" />
+    <dialog
+        android:id="@+id/imagePickerDialogFragment"
+        android:name="se.millwood.todo.imagepicker.ImagePickerDialogFragment"
+        android:label="ImagePickerDialogFragment" />
 
 </navigation>

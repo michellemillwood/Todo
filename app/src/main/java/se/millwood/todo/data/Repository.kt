@@ -1,5 +1,6 @@
 package se.millwood.todo.data
 
+import android.net.Uri
 import kotlinx.coroutines.flow.map
 import se.millwood.todo.SortOrder
 import java.util.*
@@ -21,10 +22,29 @@ class Repository @Inject constructor(database: TodoDatabase) {
         card: Card
     ) = cardDao.addCard(CardEntity.from(card))
 
+    suspend fun updateCardImage(
+        cardId: UUID,
+        imageUri: Uri
+    ) {
+        cardDao.updateCardTimeStamp(cardId)
+        cardDao.updateCardImage(cardId, imageUri.toString())
+    }
+
+
     suspend fun updateCardTitle(
         title: String,
         cardId: UUID
-    ) = cardDao.updateCard(CardEntity(title, cardId))
+    ) {
+        cardDao.updateCardTimeStamp(cardId)
+        cardDao.updateCardTitle(title, cardId)
+    }
+
+    fun getCardImage(
+        cardId: UUID
+    ) = cardDao.getCardImage(cardId).map {
+        if (it == null) null
+        else Uri.parse(it)
+    }
 
     suspend fun getCardTitle(
         cardId: UUID
@@ -43,12 +63,12 @@ class Repository @Inject constructor(database: TodoDatabase) {
         todoEntity.map { it.toTodo() }
     }
 
-    suspend fun updateTodo(
+    suspend fun updateTodoTitle(
         cardId: UUID,
         todoId: UUID,
         title: String
     ) {
-        cardDao.updateCardTimeStamp(cardId, System.currentTimeMillis())
+        cardDao.updateCardTimeStamp(cardId)
         todoDao.updateTodoTitle(todoId, title)
     }
 
@@ -56,7 +76,7 @@ class Repository @Inject constructor(database: TodoDatabase) {
         cardId: UUID,
         todo: Todo
     ) {
-        cardDao.updateCardTimeStamp(cardId, System.currentTimeMillis())
+        cardDao.updateCardTimeStamp(cardId)
         todoDao.addTodo(TodoEntity.from(todo))
     }
 
@@ -65,7 +85,7 @@ class Repository @Inject constructor(database: TodoDatabase) {
         todoId: UUID,
         isCompleted: Boolean
     ) {
-        cardDao.updateCardTimeStamp(cardId, System.currentTimeMillis())
+        cardDao.updateCardTimeStamp(cardId)
         todoDao.updateTodoIsCompleted(todoId, isCompleted)
     }
 
@@ -77,7 +97,7 @@ class Repository @Inject constructor(database: TodoDatabase) {
         cardId: UUID,
         todoId: UUID
     ) {
-        cardDao.updateCardTimeStamp(cardId, System.currentTimeMillis())
+        cardDao.updateCardTimeStamp(cardId)
         todoDao.deleteTodo(todoId)
     }
 }

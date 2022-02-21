@@ -7,7 +7,7 @@ import java.util.*
 @Entity(tableName = "card")
 class CardEntity(
     val title: String,
-    val imageUrl: String,
+    val imageUrl: String? = null,
     @PrimaryKey
     val cardId: UUID = UUID.randomUUID(),
     val timeStamp: Long = System.currentTimeMillis()

@@ -14,8 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ImagePickerViewModel @Inject constructor(
     apiService: ImageApiService,
-) : ViewModel() {
-
+    ) : ViewModel() {
 
     val images: Flow<List<Uri>> = flow {
         emit(apiService.getImageUris())

@@ -45,7 +45,7 @@ class TodoEditDialogFragment : DialogFragment() {
             binding.editTodo.setText(todoTitle)
             binding.saveButton.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.updateTodo(
+                    viewModel.updateTodoTitle(
                         title = binding.editTodo.text.toString(),
                     )
                 }
