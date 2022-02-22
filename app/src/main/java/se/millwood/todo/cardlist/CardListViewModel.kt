@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
-import se.millwood.todo.DataStoreManager
+import se.millwood.todo.settings.DataStoreManager
 import se.millwood.todo.data.Card
 import se.millwood.todo.data.CardWithTodos
 import se.millwood.todo.data.Repository

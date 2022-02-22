@@ -1,4 +1,4 @@
-package se.millwood.todo
+package se.millwood.todo.settings
 
 import android.content.Context
 import androidx.datastore.core.DataStore

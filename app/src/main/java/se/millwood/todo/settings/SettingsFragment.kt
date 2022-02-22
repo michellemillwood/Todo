@@ -10,8 +10,6 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import se.millwood.todo.DataStoreManager
-import se.millwood.todo.SortOrder
 import se.millwood.todo.databinding.FragmentSettingsBinding
 import javax.inject.Inject
 

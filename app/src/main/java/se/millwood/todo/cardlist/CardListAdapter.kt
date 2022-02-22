@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.Coil
+import coil.request.ImageRequest
 import se.millwood.todo.data.CardWithTodos
 import se.millwood.todo.databinding.ItemCardBinding
 import java.util.*
@@ -20,6 +22,12 @@ class CardListAdapter(
 
         fun bind(cardWithTodos: CardWithTodos) {
             binding.cardTitle.text = cardWithTodos.card.title
+                Coil.enqueue(
+                    ImageRequest.Builder(itemView.context)
+                        .data(cardWithTodos.card.imageUrl)
+                        .target(binding.cardImage)
+                        .build()
+                )
             binding.itemCard.setOnClickListener {
                 onCardClicked(
                     cardWithTodos.card.cardId
@@ -41,7 +49,7 @@ class CardListAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): CardViewHolder {
+    ): CardListAdapter.CardViewHolder {
         return CardViewHolder(
             ItemCardBinding.inflate(
                 LayoutInflater.from(parent.context),

@@ -30,11 +30,12 @@ class TodoEditDialogFragment : DialogFragment() {
             container,
             false
         )
-        if (viewModel.todoId != null) {
-            useUpdateTodoDialog()
+        if (viewModel.todoId == null) {
+            useCreateTodoDialog()
+
         }
         else {
-            useCreateTodoDialog()
+            useUpdateTodoDialog()
         }
         return binding.root
     }

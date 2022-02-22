@@ -9,6 +9,9 @@ import se.millwood.todo.data.Todo
 import se.millwood.todo.databinding.ItemTodoBinding
 import java.util.*
 
+private const val nameChangedPayload = "name_changed"
+private const val checkBoxChangedPayload = "checkbox_checked"
+
 class TodoAdapter(
     val onItemCheck: (todoId: UUID, isChecked: Boolean) -> Unit,
     val onItemDelete: (todoId: UUID, title: String) -> Unit,
@@ -41,6 +44,13 @@ class TodoAdapter(
                     todo.todoId,
                 )
             }
+        }
+        fun bindName(todo: Todo) {
+            binding.titleTodo.text = todo.title
+        }
+
+        fun bindCheckBox(todo: Todo) {
+            binding.checkbox.isChecked = todo.isCompleted
         }
 
         fun unbind() {
@@ -75,16 +85,35 @@ class TodoAdapter(
         position: Int,
         payloads: MutableList<Any>
     ) {
-        super.onBindViewHolder(holder, position, payloads)
+        when {
+            nameChangedPayload in payloads -> {
+                holder.bindName(getItem(position))
+            }
+            checkBoxChangedPayload in payloads -> {
+                holder.bindCheckBox(getItem(position))
+            }
+            else -> {
+                super.onBindViewHolder(holder, position, payloads)
+            }
+        }
     }
 
-    override fun onViewRecycled(holder: TodoViewHolder) {
+    override fun onViewRecycled(holder: TodoAdapter.TodoViewHolder) {
         holder.unbind()
         super.onViewRecycled(holder)
     }
 
     object DiffCallback : DiffUtil.ItemCallback<Todo>() {
         override fun getChangePayload(oldItem: Todo, newItem: Todo): Any? {
+            if (oldItem == newItem) {
+                return super.getChangePayload(oldItem, newItem)
+            }
+            if (oldItem.copy(title = "") == newItem.copy(title = "")) {
+                return nameChangedPayload
+            }
+            if (oldItem.copy(isCompleted = true) == newItem.copy(isCompleted = true)) {
+                return checkBoxChangedPayload
+            }
             return super.getChangePayload(oldItem, newItem)
         }
 

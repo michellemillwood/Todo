@@ -26,7 +26,7 @@ interface CardDao {
     suspend fun getCardTitle(cardId: UUID): String
 
     @Transaction
-    @Query("SELECT card.title, card.cardId, card.timeStamp FROM card " +
+    @Query("SELECT card.title, card.imageUrl, card.cardId, card.timeStamp FROM card " +
             "LEFT JOIN todo ON todo.cardId = card.cardId " +
             "GROUP BY card.cardId " +
             "ORDER BY " +

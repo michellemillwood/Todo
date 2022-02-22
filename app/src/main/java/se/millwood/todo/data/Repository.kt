@@ -2,7 +2,7 @@ package se.millwood.todo.data
 
 import android.net.Uri
 import kotlinx.coroutines.flow.map
-import se.millwood.todo.SortOrder
+import se.millwood.todo.settings.SortOrder
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -130,7 +130,6 @@ class CardFragment : Fragment() {
     companion object {
         const val TODO_DELETE_ARGUMENTS = "todo_delete_args"
         const val TODO_EDIT_ARGUMENTS = "todo_edit_args"
-        const val IMAGE_PICKER_ARGUMENTS = "image_picker_args"
     }
 
     @Parcelize
@@ -144,10 +143,5 @@ class CardFragment : Fragment() {
     data class TodoEditArguments(
         val cardId: String,
         val todoId: String?
-    ) : Parcelable
-
-    @Parcelize
-    data class ImagePickerArguments(
-        val cardId: String,
     ) : Parcelable
 }
