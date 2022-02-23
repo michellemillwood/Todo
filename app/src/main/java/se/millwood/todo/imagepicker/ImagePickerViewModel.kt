@@ -16,7 +16,6 @@ class ImagePickerViewModel @Inject constructor(apiService: ImageApiService) : Vi
 
     val images: Flow<List<Uri>> = flow {
         emit(apiService.getImageUris())
-    }
-        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
 }

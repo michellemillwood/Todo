@@ -69,6 +69,7 @@ class CardFragment : Fragment() {
         setupImagePickerButton()
         setupUpButton()
         loadCardImage()
+        binding.cardFragmentToolbar.inflateMenu(R.menu.menu_card)
         setFragmentResultListener(ImagePickerDialogFragment.IMAGE_URI_KEY) { requestKey, bundle ->
             val imageUri = bundle.getString("imageUri")
             viewModel.updateCardImage(Uri.parse(imageUri))
@@ -122,7 +123,7 @@ class CardFragment : Fragment() {
     }
 
     private fun setupUpButton() {
-        binding.listFragmentToolbar.setNavigationOnClickListener {
+        binding.cardFragmentToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }
