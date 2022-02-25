@@ -13,6 +13,7 @@ private const val nameChangedPayload = "name_changed"
 private const val checkBoxChangedPayload = "checkbox_checked"
 
 class TodoAdapter(
+    val onItemAlarm: (todoId: UUID) -> Unit,
     val onItemCheck: (todoId: UUID, isChecked: Boolean) -> Unit,
     val onItemDelete: (todoId: UUID, title: String) -> Unit,
     val onItemEdit: (todoId: UUID) -> Unit
@@ -24,6 +25,12 @@ class TodoAdapter(
         fun bind(todo: Todo) = with(binding) {
             titleTodo.text = todo.title
             checkbox.isChecked = todo.isCompleted
+
+            alarm.setOnClickListener {
+                onItemAlarm(
+                    todo.todoId
+                )
+            }
 
             checkbox.setOnCheckedChangeListener { _, isChecked ->
                onItemCheck(

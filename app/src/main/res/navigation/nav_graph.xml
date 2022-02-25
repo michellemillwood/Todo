@@ -27,6 +27,9 @@
             android:id="@+id/action_todoListFragment_to_todoEditDialogFragment"
             app:destination="@id/todoEditDialogFragment" />
         <action
+            android:id="@+id/action_cardFragment_to_dateAndTimePickerFragment"
+            app:destination="@id/dateAndTimePickerFragment" />
+        <action
             android:id="@+id/action_cardFragment_to_imagePickerDialogFragment"
             app:destination="@id/imagePickerDialogFragment" />
     </fragment>
@@ -39,8 +42,7 @@
     <dialog
         android:id="@+id/todoEditDialogFragment"
         android:name="se.millwood.todo.todoedit.TodoEditDialogFragment"
-        android:label="TodoEditDialogFragment">
-    </dialog>
+        android:label="TodoEditDialogFragment" />
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -50,5 +52,10 @@
         android:id="@+id/imagePickerDialogFragment"
         android:name="se.millwood.todo.imagepicker.ImagePickerDialogFragment"
         android:label="ImagePickerDialogFragment" />
+    <fragment
+        android:id="@+id/dateAndTimePickerFragment"
+        android:name="se.millwood.todo.datetimepicker.DateAndTimePickerFragment"
+        android:label="DateAndTimePickerFragment" >
+    </fragment>
 
 </navigation>

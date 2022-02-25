@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/title_todo"
+        app:layout_constraintStart_toEndOf="@id/alarm"
         app:layout_constraintEnd_toStartOf="@id/delete_todo" />
 
     <ImageView
@@ -42,6 +42,18 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/ic_baseline_delete_forever_24"
+        />
+
+    <ImageView
+        android:id="@+id/alarm"
+        app:layout_constraintStart_toEndOf="@id/title_todo"
+        app:layout_constraintEnd_toStartOf="@id/checkbox"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="8dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_baseline_notification_add_24"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

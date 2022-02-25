@@ -2,13 +2,15 @@ package se.millwood.todo.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.Instant
 import java.util.*
 
 @Entity(tableName = "todo")
 data class TodoEntity(
     val todoTitle: String,
     val cardId: UUID,
-    var isCompleted: Boolean = false,
+    val alarmTime: Instant? = null,
+    val isCompleted: Boolean = false,
     @PrimaryKey
     val todoId: UUID = UUID.randomUUID()
 ) {
@@ -16,20 +18,22 @@ data class TodoEntity(
     companion object {
         fun from(todo: Todo): TodoEntity {
             return TodoEntity(
-                todo.title,
-                todo.cardId,
-                todo.isCompleted,
-                todo.todoId
+                todoTitle = todo.title,
+                cardId = todo.cardId,
+                alarmTime = todo.alarmTime,
+                isCompleted = todo.isCompleted,
+                todoId = todo.todoId
             )
         }
     }
 
     fun toTodo(): Todo {
         return Todo(
-            todoTitle,
-            cardId,
-            isCompleted,
-            todoId
+            title = todoTitle,
+            cardId = cardId,
+            alarmTime = alarmTime,
+            isCompleted = isCompleted,
+            todoId = todoId
         )
     }
 }

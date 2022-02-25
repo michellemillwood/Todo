@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import java.time.Instant
 import java.util.*
 
 @Dao
@@ -16,6 +17,9 @@ interface TodoDao {
 
     @Query("SELECT todoTitle FROM todo WHERE todoId = :todoId")
     suspend fun getTodoTitle(todoId: UUID): String
+
+    @Query("UPDATE todo SET alarmTime = :alarmTime WHERE todoId = :todoId")
+    suspend fun setTodoAlarm(todoId: UUID, alarmTime: Instant)
 
     @Query("UPDATE todo SET todoTitle = :title WHERE todoId = :todoId")
     suspend fun updateTodoTitle(todoId: UUID, title: String)

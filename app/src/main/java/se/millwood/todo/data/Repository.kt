@@ -3,6 +3,7 @@ package se.millwood.todo.data
 import android.net.Uri
 import kotlinx.coroutines.flow.map
 import se.millwood.todo.settings.SortOrder
+import java.time.Instant
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,6 +18,15 @@ class Repository @Inject constructor(database: TodoDatabase) {
         cardDao.getCardsWithTodos(sortOrder.name).map { cards ->
             cards.map { CardWithTodos.from(it) }
         }
+
+    suspend fun setTodoAlarm(
+        todoId: UUID,
+        cardId: UUID,
+        alarmTime: Instant
+    ) {
+        cardDao.updateCardTimeStamp(cardId)
+        todoDao.setTodoAlarm(todoId, alarmTime)
+    }
 
     suspend fun addCard(
         card: Card

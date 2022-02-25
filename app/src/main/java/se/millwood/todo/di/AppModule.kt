@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import se.millwood.todo.data.TodoDatabase
+import java.util.*
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -20,4 +21,7 @@ object AppModule {
             TodoDatabase::class.java,
             "todo_database"
         ).build()
+
+    @Provides
+    fun provideCalendar(): Calendar = Calendar.getInstance()
 }
