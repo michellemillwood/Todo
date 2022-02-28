@@ -40,17 +40,6 @@ class CardViewModel @Inject constructor(
         }
     }
 
-
-    fun setTodoAlarm(todoId: UUID, alarmDateTime: Calendar) {
-        viewModelScope.launch {
-            repository.setTodoAlarm(
-                todoId = todoId,
-                cardId = UUID.fromString(cardId),
-                alarmTime = alarmDateTime.toInstant()
-            )
-        }
-    }
-
     fun updateCardImage(imageUri: Uri) {
         viewModelScope.launch {
             repository.updateCardImage(

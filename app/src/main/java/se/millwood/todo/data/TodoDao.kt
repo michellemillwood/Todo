@@ -11,18 +11,22 @@ import java.util.*
 @Dao
 interface TodoDao {
 
-    @Query("SELECT * FROM todo WHERE cardId = :cardId " +
+    @Query("SELECT * FROM todo " +
+            "WHERE cardId = :cardId " +
             "ORDER BY isCompleted")
     fun getTodos(cardId: UUID): Flow<List<TodoEntity>>
 
     @Query("SELECT todoTitle FROM todo WHERE todoId = :todoId")
     suspend fun getTodoTitle(todoId: UUID): String
 
+    @Query("SELECT alarmTime FROM todo WHERE todoId = :todoId")
+    suspend fun getTodoAlarm(todoId: UUID): Instant
+
     @Query("UPDATE todo SET alarmTime = :alarmTime WHERE todoId = :todoId")
     suspend fun setTodoAlarm(todoId: UUID, alarmTime: Instant)
 
-    @Query("UPDATE todo SET todoTitle = :title WHERE todoId = :todoId")
-    suspend fun updateTodoTitle(todoId: UUID, title: String)
+    @Query("UPDATE todo SET todoTitle = :title, alarmTime = :alarm WHERE todoId = :todoId")
+    suspend fun updateTodoTitleAndAlarm(todoId: UUID, title: String, alarm: Instant?)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTodo(todoEntity: TodoEntity)

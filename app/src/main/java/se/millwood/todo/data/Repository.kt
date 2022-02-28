@@ -19,14 +19,9 @@ class Repository @Inject constructor(database: TodoDatabase) {
             cards.map { CardWithTodos.from(it) }
         }
 
-    suspend fun setTodoAlarm(
-        todoId: UUID,
-        cardId: UUID,
-        alarmTime: Instant
-    ) {
-        cardDao.updateCardTimeStamp(cardId)
-        todoDao.setTodoAlarm(todoId, alarmTime)
-    }
+    suspend fun getTodoAlarm(
+        todoId: UUID
+    ) = todoDao.getTodoAlarm(todoId)
 
     suspend fun addCard(
         card: Card
@@ -39,7 +34,6 @@ class Repository @Inject constructor(database: TodoDatabase) {
         cardDao.updateCardTimeStamp(cardId)
         cardDao.updateCardImage(cardId, imageUri.toString())
     }
-
 
     suspend fun updateCardTitle(
         title: String,
@@ -73,13 +67,14 @@ class Repository @Inject constructor(database: TodoDatabase) {
         todoEntity.map { it.toTodo() }
     }
 
-    suspend fun updateTodoTitle(
+    suspend fun updateTodoTitleAndAlarm(
         cardId: UUID,
         todoId: UUID,
-        title: String
+        title: String,
+        alarm: Instant?
     ) {
         cardDao.updateCardTimeStamp(cardId)
-        todoDao.updateTodoTitle(todoId, title)
+        todoDao.updateTodoTitleAndAlarm(todoId, title, alarm)
     }
 
     suspend fun addTodo(

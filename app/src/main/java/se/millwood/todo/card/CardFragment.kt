@@ -23,9 +23,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.databinding.FragmentCardBinding
-import se.millwood.todo.datetimepicker.DateAndTimePickerFragment
 import se.millwood.todo.imagepicker.ImagePickerDialogFragment
-import java.util.*
 
 @AndroidEntryPoint
 class CardFragment : Fragment() {
@@ -36,14 +34,6 @@ class CardFragment : Fragment() {
 
     private val adapter: TodoAdapter by lazy {
         TodoAdapter(
-            onItemAlarm = { todoId ->
-                setFragmentResultListener(
-                    DateAndTimePickerFragment.DATE_TIME_KEY) { _, bundle ->
-                    val alarmDateTime = bundle.getSerializable("alarmTime") as Calendar
-                    viewModel.setTodoAlarm(todoId, alarmDateTime)
-                }
-                findNavController().navigate(R.id.dateAndTimePickerFragment)
-            },
             onItemCheck = viewModel::setIsCompleted,
             onItemDelete = { todoId, title ->
                 val bundle = bundleOf(
@@ -154,11 +144,5 @@ class CardFragment : Fragment() {
     data class TodoEditArguments(
         val cardId: String,
         val todoId: String?
-    ) : Parcelable
-
-    @Parcelize
-    data class TodoAlarmArguments(
-        val cardId: String,
-        val todoId: String
     ) : Parcelable
 }

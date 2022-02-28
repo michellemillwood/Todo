@@ -6,4 +6,4 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class DateAndTimePickerViewModel @Inject constructor(val calendar: Calendar) : ViewModel()
+class DateAndTimePickerDialogViewModel @Inject constructor(val calendar: Calendar) : ViewModel()

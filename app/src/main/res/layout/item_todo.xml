@@ -8,13 +8,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <ImageView
+        android:id="@+id/alarm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/title_todo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="8dp"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_notifications_none_24"
+        />
+
     <TextView
         android:id="@+id/title_todo"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:textSize="16sp"
-        android:paddingStart="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/alarm"
         app:layout_constraintEnd_toStartOf="@id/checkbox"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/alarm"
+        app:layout_constraintStart_toEndOf="@id/title_todo"
         app:layout_constraintEnd_toStartOf="@id/delete_todo" />
 
     <ImageView
@@ -42,18 +54,6 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/ic_baseline_delete_forever_24"
-        />
-
-    <ImageView
-        android:id="@+id/alarm"
-        app:layout_constraintStart_toEndOf="@id/title_todo"
-        app:layout_constraintEnd_toStartOf="@id/checkbox"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="8dp"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/ic_baseline_notification_add_24"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

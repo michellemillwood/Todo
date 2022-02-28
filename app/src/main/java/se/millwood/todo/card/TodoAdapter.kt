@@ -2,9 +2,11 @@ package se.millwood.todo.card
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import se.millwood.todo.R
 import se.millwood.todo.data.Todo
 import se.millwood.todo.databinding.ItemTodoBinding
 import java.util.*
@@ -13,7 +15,6 @@ private const val nameChangedPayload = "name_changed"
 private const val checkBoxChangedPayload = "checkbox_checked"
 
 class TodoAdapter(
-    val onItemAlarm: (todoId: UUID) -> Unit,
     val onItemCheck: (todoId: UUID, isChecked: Boolean) -> Unit,
     val onItemDelete: (todoId: UUID, title: String) -> Unit,
     val onItemEdit: (todoId: UUID) -> Unit
@@ -26,9 +27,14 @@ class TodoAdapter(
             titleTodo.text = todo.title
             checkbox.isChecked = todo.isCompleted
 
-            alarm.setOnClickListener {
-                onItemAlarm(
-                    todo.todoId
+            if (todo.alarmTime != null) {
+                alarm.setImageDrawable(AppCompatResources.getDrawable(
+                    alarm.context, R.drawable.ic_baseline_notifications_24)
+                )
+            }
+            else {
+                alarm.setImageDrawable(AppCompatResources.getDrawable(
+                    alarm.context, R.drawable.ic_baseline_notifications_none_24)
                 )
             }
 

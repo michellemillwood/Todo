@@ -9,11 +9,13 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import se.millwood.todo.data.TodoDatabase
 import java.util.*
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): TodoDatabase =
         Room.databaseBuilder(
