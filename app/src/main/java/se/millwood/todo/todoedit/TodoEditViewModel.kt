@@ -4,10 +4,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import se.millwood.todo.card.CardFragment
 import se.millwood.todo.data.Repository
-import se.millwood.todo.data.Todo
 import java.time.Instant
 import java.util.*
 import javax.inject.Inject
@@ -23,35 +23,25 @@ class TodoEditViewModel @Inject constructor(
     )
     private val cardId = editArgs?.cardId
     val todoId = editArgs?.todoId
-    var alarm: Instant? = null
+    val alarm: Flow<Instant?> = repository.getTodoAlarm(UUID.fromString(todoId))
 
-    fun createTodo(title: String) {
+    fun updateTodoTitle(title: String) {
         viewModelScope.launch {
-            repository.addTodo(
-                cardId = UUID.fromString(cardId),
-                todo = Todo(
-                    title = title,
-                    cardId = UUID.fromString(cardId),
-                    alarmTime = alarm
-                )
-            )
-        }
-    }
-
-    fun updateTodoTitleAndAlarm(title: String) {
-        viewModelScope.launch {
-            repository.updateTodoTitleAndAlarm(
+            repository.updateTodoTitle(
                 cardId = UUID.fromString(cardId),
                 todoId = UUID.fromString(todoId),
-                title = title,
-                alarm = alarm
+                title = title
             )
         }
     }
 
-    fun getTodoAlarm() {
+    fun updateTodoAlarm(alarm: Instant?) {
         viewModelScope.launch {
-            alarm = repository.getTodoAlarm(UUID.fromString(todoId))
+            repository.updateTodoAlarm(
+                cardId = UUID.fromString(cardId),
+                todoId = UUID.fromString(todoId),
+                alarm = alarm
+            )
         }
     }
 

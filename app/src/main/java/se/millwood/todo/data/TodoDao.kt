@@ -20,13 +20,16 @@ interface TodoDao {
     suspend fun getTodoTitle(todoId: UUID): String
 
     @Query("SELECT alarmTime FROM todo WHERE todoId = :todoId")
-    suspend fun getTodoAlarm(todoId: UUID): Instant
+    fun getTodoAlarm(todoId: UUID): Flow<Instant?>
 
     @Query("UPDATE todo SET alarmTime = :alarmTime WHERE todoId = :todoId")
     suspend fun setTodoAlarm(todoId: UUID, alarmTime: Instant)
 
-    @Query("UPDATE todo SET todoTitle = :title, alarmTime = :alarm WHERE todoId = :todoId")
-    suspend fun updateTodoTitleAndAlarm(todoId: UUID, title: String, alarm: Instant?)
+    @Query("UPDATE todo SET todoTitle = :title WHERE todoId = :todoId")
+    suspend fun updateTodoTitle(todoId: UUID, title: String)
+
+    @Query("UPDATE todo SET alarmTime = :alarm WHERE todoId = :todoId")
+    suspend fun updateTodoAlarm(todoId: UUID, alarm: Instant?)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTodo(todoEntity: TodoEntity)

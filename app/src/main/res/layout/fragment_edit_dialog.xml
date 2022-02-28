@@ -1,48 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="250dp"
+    android:minHeight="250dp"
+    android:minWidth="300dp"
     android:layout_gravity="center"
     android:background="@color/beige"
     android:paddingStart="8dp"
-    android:paddingEnd="8dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingEnd="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/alarm_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/alarm_icon"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_baseline_notifications_none_24"
+            app:layout_constraintEnd_toStartOf="@id/alarm_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/alarm_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:layout_constraintStart_toEndOf="@id/alarm_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2020-03-02" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/clear_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:src="@drawable/ic_baseline_clear_24"
+        app:layout_constraintStart_toEndOf="@id/alarm_container"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edit_todo"
-        android:inputType="text"
         android:layout_width="0dp"
-        android:padding="16dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:inputType="text"
+        android:padding="16dp"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/save_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/save_button" />
-
-    <Button
-        android:id="@+id/add_alarm_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/edit_todo"
-        app:layout_constraintStart_toStartOf="@id/edit_todo"
-        app:layout_constraintEnd_toStartOf="@id/save_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="set alarm"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/save_button"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/edit_todo"
-        app:layout_constraintEnd_toEndOf="@id/edit_todo"
-        app:layout_constraintStart_toEndOf="@id/add_alarm_button"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:text="save"
-        />
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

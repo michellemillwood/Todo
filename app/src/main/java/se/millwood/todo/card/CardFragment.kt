@@ -112,10 +112,11 @@ class CardFragment : Fragment() {
     private fun setupCreateTodoFab(cardId: String?) {
         if (cardId == null) return
         binding.fab.setOnClickListener {
+            val todoId = viewModel.createTodo()
             val bundle = bundleOf(
                 TODO_EDIT_ARGUMENTS to TodoEditArguments(
                     cardId = cardId,
-                    todoId = null
+                    todoId = todoId.toString()
                 )
             )
             findNavController().navigate(R.id.todoEditDialogFragment, bundle)
@@ -143,6 +144,6 @@ class CardFragment : Fragment() {
     @Parcelize
     data class TodoEditArguments(
         val cardId: String,
-        val todoId: String?
+        val todoId: String
     ) : Parcelable
 }

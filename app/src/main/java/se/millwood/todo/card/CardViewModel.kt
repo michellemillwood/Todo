@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import se.millwood.todo.cardlist.CardListFragment
 import se.millwood.todo.data.Repository
+import se.millwood.todo.data.Todo
 import java.util.*
 import javax.inject.Inject
 
@@ -22,7 +23,6 @@ class CardViewModel @Inject constructor(
         savedStateHandle.get(
             CardListFragment.CARD_ID_KEY
         )
-
     val cardId = args?.cardId
 
     val image: Flow<Uri?> = repository.getCardImage(UUID.fromString(cardId))
@@ -38,6 +38,19 @@ class CardViewModel @Inject constructor(
                 cardId = UUID.fromString(cardId),
             )
         }
+    }
+
+    fun createTodo(): UUID {
+        val todo = Todo(
+            title = "",
+            cardId = UUID.fromString(cardId)
+        )
+        viewModelScope.launch {
+            repository.addTodo(
+                todo = todo
+            )
+        }
+        return todo.todoId
     }
 
     fun updateCardImage(imageUri: Uri) {
