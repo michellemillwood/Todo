@@ -17,7 +17,6 @@ class TodoDeleteViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-
     private val args = savedStateHandle.get<CardFragment.TodoDeleteArguments>(
         CardFragment.TODO_DELETE_ARGUMENTS
     )

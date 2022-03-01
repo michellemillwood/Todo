@@ -36,23 +36,31 @@ class TodoEditDialogFragment : DialogFragment() {
     ): View {
         binding = FragmentEditDialogBinding.inflate(inflater, container, false)
         setupSaveButton()
+        setupAlarmButton()
+        setupClearAlarmButton()
         lifecycleScope.launch {
             binding.editTodo.setText(viewModel.getTodoTitle())
             observeSetAlarm()
         }
-
         setFragmentResultListener(
             DateAndTimePickerDialogFragment.DATE_TIME_KEY
         ) { _, bundle ->
             val alarmDateTime = bundle.getSerializable("alarmTime") as Calendar
             viewModel.updateTodoAlarm(alarmDateTime.toInstant())
         }
+        return binding.root
+    }
 
+    private fun setupAlarmButton() {
         binding.alarmContainer.setOnClickListener {
             findNavController().navigate(R.id.dateAndTimePickerDialogFragment)
         }
+    }
 
-        return binding.root
+    private fun setupClearAlarmButton() {
+        binding.clearAlarm.setOnClickListener {
+            viewModel.updateTodoAlarm(alarm = null)
+        }
     }
 
     private suspend fun observeSetAlarm() {
@@ -70,6 +78,17 @@ class TodoEditDialogFragment : DialogFragment() {
                         R.drawable.ic_baseline_notifications_24
                     )
                 )
+                binding.clearAlarm.visibility = View.VISIBLE
+            }
+            else {
+                binding.alarmDate.text = "Add alarm"
+                binding.alarmIcon.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        binding.alarmIcon.context,
+                        R.drawable.ic_baseline_notifications_none_24
+                    )
+                )
+                binding.clearAlarm.visibility = View.GONE
             }
         }
     }
