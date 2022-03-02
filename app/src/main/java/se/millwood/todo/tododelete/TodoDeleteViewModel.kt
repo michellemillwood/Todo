@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import se.millwood.todo.alarmmanager.TodoAlarmManager
 import se.millwood.todo.card.CardFragment
 import se.millwood.todo.data.Repository
 import java.util.*
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TodoDeleteViewModel @Inject constructor(
     private val repository: Repository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val alarmManager: TodoAlarmManager
 ) : ViewModel() {
 
     private val args = savedStateHandle.get<CardFragment.TodoDeleteArguments>(
@@ -25,7 +27,12 @@ class TodoDeleteViewModel @Inject constructor(
     val title = args?.title
 
     fun deleteTodo() {
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.IO).launch {
+            alarmManager.updateTodoAlarm(
+                cardId = UUID.fromString(cardId),
+                todoId = UUID.fromString(todoId),
+                alarmTime = null
+            )
             repository.deleteTodo(
                 UUID.fromString(cardId),
                 UUID.fromString(todoId),

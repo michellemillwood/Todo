@@ -1,5 +1,6 @@
 package se.millwood.todo.di
 
+import android.app.AlarmManager
 import android.content.Context
 import androidx.room.Room
 import dagger.Module
@@ -26,4 +27,10 @@ object AppModule {
 
     @Provides
     fun provideCalendar(): Calendar = Calendar.getInstance()
+
+    @Singleton
+    @Provides
+    fun provideAlarmManager(@ApplicationContext context: Context): AlarmManager {
+        return context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    }
 }

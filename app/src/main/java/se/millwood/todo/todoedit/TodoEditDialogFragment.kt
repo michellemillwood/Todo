@@ -17,7 +17,6 @@ import se.millwood.todo.R
 import se.millwood.todo.databinding.FragmentEditDialogBinding
 import se.millwood.todo.datetimepicker.DateAndTimePickerDialogFragment
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
@@ -67,9 +66,7 @@ class TodoEditDialogFragment : DialogFragment() {
         viewModel.alarm.collect { alarmTime ->
             if (alarmTime != null) {
                 val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).withZone(
-                    ZoneId.from(
-                        ZoneOffset.UTC
-                    )
+                    ZoneId.systemDefault()
                 )
                 binding.alarmDate.text = formatter.format(alarmTime)
                 binding.alarmIcon.setImageDrawable(
@@ -79,8 +76,7 @@ class TodoEditDialogFragment : DialogFragment() {
                     )
                 )
                 binding.clearAlarm.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 binding.alarmDate.text = "Add alarm"
                 binding.alarmIcon.setImageDrawable(
                     AppCompatResources.getDrawable(

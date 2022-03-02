@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import se.millwood.todo.alarmmanager.TodoAlarmManager
 import se.millwood.todo.card.CardFragment
 import se.millwood.todo.data.Repository
 import java.time.Instant
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TodoEditViewModel @Inject constructor(
     private val repository: Repository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val alarmManager: TodoAlarmManager,
 ) : ViewModel() {
 
     private val editArgs = savedStateHandle.get<CardFragment.TodoEditArguments>(
@@ -37,10 +39,10 @@ class TodoEditViewModel @Inject constructor(
 
     fun updateTodoAlarm(alarm: Instant?) {
         viewModelScope.launch {
-            repository.updateTodoAlarm(
+            alarmManager.updateTodoAlarm(
                 cardId = UUID.fromString(cardId),
                 todoId = UUID.fromString(todoId),
-                alarm = alarm
+                alarmTime = alarm
             )
         }
     }
