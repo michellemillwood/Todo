@@ -25,9 +25,7 @@ class CardListViewModel @Inject constructor(
         repository.getCardsWithTodos(it)
     }
 
-    fun deleteCardWithTodos(
-        cardWithTodos: CardWithTodos
-    ) {
+    fun deleteCardWithTodos(cardWithTodos: CardWithTodos) {
         viewModelScope.launch {
             cardWithTodos.todos.forEach {
                 alarmManager.updateTodoAlarm(

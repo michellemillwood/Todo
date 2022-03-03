@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -51,7 +51,7 @@ class ImagePickerDialogFragment : DialogFragment() {
     }
 
     private fun loadImages() {
-        viewLifecycleOwner.lifecycle.coroutineScope.launch {
+        lifecycleScope.launch {
             viewModel.images
                 .collectLatest { images ->
                     adapter.submitList(images)

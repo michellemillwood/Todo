@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.parcel.Parcelize
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.databinding.FragmentCardListBinding
+import se.millwood.todo.uitools.SwipeHandler
 
 @AndroidEntryPoint
 class CardListFragment : Fragment() {
@@ -39,28 +39,6 @@ class CardListFragment : Fragment() {
         )
     }
 
-    private val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
-        ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
-            return false
-        }
-
-        override fun onSwiped(
-            viewHolder: RecyclerView.ViewHolder,
-            swipeDir: Int
-        ) {
-            val position = viewHolder.adapterPosition
-            viewModel.deleteCardWithTodos(adapter.currentList[position])
-        }
-    }
-
     private lateinit var binding: FragmentCardListBinding
 
     override fun onCreateView(
@@ -74,7 +52,10 @@ class CardListFragment : Fragment() {
             2,
             LinearLayoutManager.VERTICAL
         )
-        ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(binding.recyclerView)
+        val swipeHandler = SwipeHandler { position ->
+            viewModel.deleteCardWithTodos(adapter.currentList[position])
+        }
+        ItemTouchHelper(swipeHandler).attachToRecyclerView(binding.recyclerView)
         setupCreateCardFab()
         setupSettingsButton()
         return binding.root

@@ -76,9 +76,6 @@ class CardListAdapter(
     }
 
     object DiffCallback : DiffUtil.ItemCallback<CardWithTodos>() {
-        override fun getChangePayload(oldItem: CardWithTodos, newItem: CardWithTodos): Any? {
-            return super.getChangePayload(oldItem, newItem)
-        }
 
         override fun areItemsTheSame(
             oldItem: CardWithTodos,

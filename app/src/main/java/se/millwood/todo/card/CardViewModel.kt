@@ -31,7 +31,7 @@ class CardViewModel @Inject constructor(
 
     suspend fun getCardTitle() = repository.getCardTitle(UUID.fromString(cardId))
 
-    fun getTodos() = repository.getTodos(UUID.fromString(cardId))
+    fun getTodos(): Flow<List<Todo>> = repository.getTodos(UUID.fromString(cardId))
 
     fun updateCardTitle(cardTitle: String) {
         viewModelScope.launch {
@@ -48,9 +48,7 @@ class CardViewModel @Inject constructor(
             cardId = UUID.fromString(cardId)
         )
         viewModelScope.launch {
-            repository.addTodo(
-                todo = todo
-            )
+            repository.addTodo(todo)
         }
         return todo.todoId
     }

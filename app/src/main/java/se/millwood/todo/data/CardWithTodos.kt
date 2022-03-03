@@ -3,7 +3,6 @@ package se.millwood.todo.data
 data class CardWithTodos(
     val card: Card,
     val todos: List<Todo>
-
 ) {
     companion object {
         fun from(cardWithTodosEntity: CardWithTodosEntity): CardWithTodos {

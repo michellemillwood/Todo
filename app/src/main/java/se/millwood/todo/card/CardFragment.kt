@@ -65,12 +65,13 @@ class CardFragment : Fragment() {
         binding = FragmentCardBinding.inflate(inflater)
         binding.recyclerView.adapter = adapter
         getCardAndTodos()
-        setupCreateTodoFab(viewModel.cardId)
+        setupCreateTodoFab()
         setupImagePickerButton()
         setupUpButton()
         loadCardImage()
         setFragmentResultListener(
-            ImagePickerDialogFragment.IMAGE_URI_KEY) { _, bundle ->
+            ImagePickerDialogFragment.IMAGE_URI_KEY
+        ) { _, bundle ->
             val imageUri = bundle.getString("imageUri")
             viewModel.updateCardImage(Uri.parse(imageUri))
         }
@@ -109,13 +110,12 @@ class CardFragment : Fragment() {
         }
     }
 
-    private fun setupCreateTodoFab(cardId: String?) {
-        if (cardId == null) return
+    private fun setupCreateTodoFab() {
         binding.fab.setOnClickListener {
             val todoId = viewModel.createTodo()
             val bundle = bundleOf(
                 TODO_EDIT_ARGUMENTS to TodoEditArguments(
-                    cardId = cardId,
+                    cardId = viewModel.cardId.toString(),
                     todoId = todoId.toString()
                 )
             )

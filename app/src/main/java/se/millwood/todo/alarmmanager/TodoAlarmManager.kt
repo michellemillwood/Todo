@@ -26,7 +26,11 @@ class TodoAlarmManager @Inject constructor(
             todoId = todoId,
             alarm = alarmTime
         )
-        setAlarm(cardId, todoId, alarmTime)
+        setAlarm(
+            cardId = cardId,
+            todoId = todoId,
+            alarmTime = alarmTime
+        )
     }
 
     private fun setAlarm(
