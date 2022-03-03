@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import coil.Coil
 import coil.request.ImageRequest
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.databinding.FragmentCardBinding
 import se.millwood.todo.imagepicker.ImagePickerDialogFragment
+import se.millwood.todo.uitools.SwipeHandler
 
 @AndroidEntryPoint
 class CardFragment : Fragment() {
@@ -69,6 +71,10 @@ class CardFragment : Fragment() {
         setupImagePickerButton()
         setupUpButton()
         loadCardImage()
+        val swipeHandler = SwipeHandler { position ->
+            viewModel.deleteTodo(adapter.currentList[position])
+        }
+        ItemTouchHelper(swipeHandler).attachToRecyclerView(binding.recyclerView)
         setFragmentResultListener(
             ImagePickerDialogFragment.IMAGE_URI_KEY
         ) { _, bundle ->

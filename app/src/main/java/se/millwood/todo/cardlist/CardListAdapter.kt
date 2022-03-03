@@ -34,7 +34,10 @@ class CardListAdapter(
                 )
             }
             if (cardWithTodos.todos.size < 6) {
-                binding.gradient.visibility = View.INVISIBLE
+                binding.gradient.visibility = View.GONE
+            }
+            else {
+                binding.gradient.visibility = View.VISIBLE
             }
             cardWithTodos.todos.take(5).forEach {
                 val todoTextView = TextView(binding.root.context).apply {
