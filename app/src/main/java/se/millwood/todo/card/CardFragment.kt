@@ -2,7 +2,6 @@ package se.millwood.todo.card
 
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +17,14 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import coil.Coil
 import coil.request.ImageRequest
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.databinding.FragmentCardBinding
 import se.millwood.todo.imagepicker.ImagePickerDialogFragment
+import se.millwood.todo.tododelete.TodoDeleteDialogFragment
+import se.millwood.todo.todoedit.TodoEditDialogFragment
 import se.millwood.todo.uitools.SwipeHandler
 
 @AndroidEntryPoint
@@ -37,19 +37,9 @@ class CardFragment : Fragment() {
     private val adapter: TodoAdapter by lazy {
         TodoAdapter(
             onItemCheck = viewModel::setIsCompleted,
-            onItemDelete = { todoId, title ->
-                val bundle = bundleOf(
-                    TODO_DELETE_ARGUMENTS to TodoDeleteArguments(
-                        cardId = viewModel.cardId.toString(),
-                        todoId = todoId.toString(),
-                        title = title
-                    )
-                )
-                findNavController().navigate(R.id.todoDeleteDialogFragment, bundle)
-            },
             onItemEdit = { todoId ->
                 val bundle = bundleOf(
-                    TODO_EDIT_ARGUMENTS to TodoEditArguments(
+                    TodoEditDialogFragment.TODO_EDIT_ARGS to TodoEditDialogFragment.TodoEditArguments(
                         cardId = viewModel.cardId.toString(),
                         todoId = todoId.toString()
                     )
@@ -71,14 +61,24 @@ class CardFragment : Fragment() {
         setupImagePickerButton()
         setupUpButton()
         loadCardImage()
-        val swipeHandler = SwipeHandler { position ->
-            viewModel.deleteTodo(adapter.currentList[position])
+        setupSwipeToDelete()
+        setFragmentResultListener(TodoDeleteDialogFragment.TODO_DELETE_FRAGMENT_RESULT_KEY) { _, bundle ->
+            val todoId = bundle.getString(TodoDeleteDialogFragment.TODO_ID_KEY)
+            val shouldDelete = bundle.getBoolean(TodoDeleteDialogFragment.SHOULD_DELETE_KEY)
+            if (shouldDelete) {
+                if (todoId != null) {
+                    viewModel.deleteTodo(todoId)
+                }
+            } else {
+                lifecycleScope.launch {
+                    viewModel.getTodos().collectLatest { todos ->
+                        adapter.submitList(todos)
+                    }
+                }
+            }
         }
-        ItemTouchHelper(swipeHandler).attachToRecyclerView(binding.recyclerView)
-        setFragmentResultListener(
-            ImagePickerDialogFragment.IMAGE_URI_KEY
-        ) { _, bundle ->
-            val imageUri = bundle.getString("imageUri")
+        setFragmentResultListener(ImagePickerDialogFragment.IMAGE_FRAGMENT_RESULT_KEY) { _, bundle ->
+            val imageUri = bundle.getString(ImagePickerDialogFragment.IMAGE_URI_KEY)
             viewModel.updateCardImage(Uri.parse(imageUri))
         }
         return binding.root
@@ -120,7 +120,7 @@ class CardFragment : Fragment() {
         binding.fab.setOnClickListener {
             val todoId = viewModel.createTodo()
             val bundle = bundleOf(
-                TODO_EDIT_ARGUMENTS to TodoEditArguments(
+                TodoEditDialogFragment.TODO_EDIT_ARGS to TodoEditDialogFragment.TodoEditArguments(
                     cardId = viewModel.cardId.toString(),
                     todoId = todoId.toString()
                 )
@@ -135,21 +135,20 @@ class CardFragment : Fragment() {
         }
     }
 
-    companion object {
-        const val TODO_DELETE_ARGUMENTS = "todo_delete_args"
-        const val TODO_EDIT_ARGUMENTS = "todo_edit_args"
+    private fun setupSwipeToDelete() {
+        val swipeHandler = SwipeHandler { position ->
+            val todo = adapter.currentList[position]
+            adapter.submitList(adapter.currentList.minus(todo))
+            val bundle = bundleOf(
+                TodoDeleteDialogFragment.TODO_DELETE_ARGS to TodoDeleteDialogFragment.TodoDeleteArguments(
+                    todoId = todo.todoId.toString(),
+                    title = todo.title
+                )
+            )
+            findNavController().navigate(R.id.todoDeleteDialogFragment, bundle)
+        }
+        ItemTouchHelper(swipeHandler).attachToRecyclerView(binding.recyclerView)
     }
 
-    @Parcelize
-    data class TodoDeleteArguments(
-        val cardId: String,
-        val todoId: String,
-        val title: String
-    ) : Parcelable
 
-    @Parcelize
-    data class TodoEditArguments(
-        val cardId: String,
-        val todoId: String
-    ) : Parcelable
 }

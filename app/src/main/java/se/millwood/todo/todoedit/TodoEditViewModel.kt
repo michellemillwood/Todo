@@ -4,10 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import se.millwood.todo.alarmmanager.TodoAlarmManager
-import se.millwood.todo.card.CardFragment
 import se.millwood.todo.data.Repository
 import java.time.Instant
 import java.util.*
@@ -20,8 +21,8 @@ class TodoEditViewModel @Inject constructor(
     private val alarmManager: TodoAlarmManager,
 ) : ViewModel() {
 
-    private val editArgs = savedStateHandle.get<CardFragment.TodoEditArguments>(
-        CardFragment.TODO_EDIT_ARGUMENTS
+    private val editArgs = savedStateHandle.get<TodoEditDialogFragment.TodoEditArguments>(
+        TodoEditDialogFragment.TODO_EDIT_ARGS
     )
     private val cardId = editArgs?.cardId
     val todoId = editArgs?.todoId
@@ -33,6 +34,20 @@ class TodoEditViewModel @Inject constructor(
                 cardId = UUID.fromString(cardId),
                 todoId = UUID.fromString(todoId),
                 title = title
+            )
+        }
+    }
+
+    fun deleteTodo(todoId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            alarmManager.updateTodoAlarm(
+                cardId = UUID.fromString(cardId),
+                todoId = UUID.fromString(todoId),
+                alarmTime = null
+            )
+            repository.deleteTodo(
+                cardId = UUID.fromString(cardId),
+                todoId = UUID.fromString(todoId)
             )
         }
     }

@@ -26,8 +26,8 @@ class ImagePickerDialogFragment : DialogFragment() {
         ImageListAdapter(
             onImageSelected = { imageUri ->
                 setFragmentResult(
-                    IMAGE_URI_KEY,
-                    bundleOf("imageUri" to imageUri.toString())
+                    IMAGE_FRAGMENT_RESULT_KEY,
+                    bundleOf(IMAGE_URI_KEY to imageUri.toString())
                 )
                 dismiss()
             }
@@ -60,6 +60,7 @@ class ImagePickerDialogFragment : DialogFragment() {
     }
 
     companion object {
+        const val IMAGE_FRAGMENT_RESULT_KEY = "image_fragment_key"
         const val IMAGE_URI_KEY = "image_uri_key"
     }
 

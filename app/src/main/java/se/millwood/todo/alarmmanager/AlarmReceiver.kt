@@ -12,9 +12,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
-import se.millwood.todo.card.CardFragment
 import se.millwood.todo.data.Repository
 import se.millwood.todo.notification.NotificationChannel
+import se.millwood.todo.todoedit.TodoEditDialogFragment
 import java.util.*
 import javax.inject.Inject
 
@@ -30,7 +30,7 @@ class AlarmReceiver : BroadcastReceiver() {
             CoroutineScope(Dispatchers.IO).launch {
                 val todosWithAlarms = repository.getTodosWithAlarms()
                 todosWithAlarms.forEach {
-                    alarmManager.updateTodoAlarm(
+                    alarmManager.setAlarm(
                         cardId = it.cardId,
                         todoId = it.todoId,
                         alarmTime = it.alarmTime
@@ -47,7 +47,7 @@ class AlarmReceiver : BroadcastReceiver() {
             }
 
             val bundle = bundleOf(
-                CardFragment.TODO_EDIT_ARGUMENTS to CardFragment.TodoEditArguments(
+                TodoEditDialogFragment.TODO_EDIT_ARGS to TodoEditDialogFragment.TodoEditArguments(
                     cardId = cardId,
                     todoId = todoId
                 )

@@ -43,6 +43,6 @@ interface TodoDao {
     @Query("DELETE FROM todo WHERE cardId = :cardId")
     suspend fun deleteCardTodos(cardId: UUID)
 
-    @Query("SELECT * FROM todo WHERE alarmTime != null")
+    @Query("SELECT * FROM todo WHERE alarmTime IS NOT NULL")
     suspend fun getTodosWithAlarms(): List<TodoEntity>
 }

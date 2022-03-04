@@ -33,7 +33,7 @@ class DateAndTimePickerDialogFragment : DialogFragment(), DatePicker.OnDateChang
         binding.timePicker.setOnTimeChangedListener(this)
         binding.setAlarmButton.setOnClickListener {
             setFragmentResult(
-                DATE_TIME_KEY,
+                DATE_TIME_FRAGMENT_RESULT_KEY,
                 bundleOf("alarmTime" to viewModel.calendar)
             )
             findNavController().popBackStack()
@@ -56,6 +56,6 @@ class DateAndTimePickerDialogFragment : DialogFragment(), DatePicker.OnDateChang
     }
 
     companion object {
-        const val DATE_TIME_KEY = "date_time_key"
+        const val DATE_TIME_FRAGMENT_RESULT_KEY = "date_time_key"
     }
 }

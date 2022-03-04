@@ -1,21 +1,25 @@
 package se.millwood.todo.todoedit
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import se.millwood.todo.R
 import se.millwood.todo.databinding.FragmentEditDialogBinding
 import se.millwood.todo.datetimepicker.DateAndTimePickerDialogFragment
+import se.millwood.todo.tododelete.TodoDeleteDialogFragment
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -36,18 +40,43 @@ class TodoEditDialogFragment : DialogFragment() {
         binding = FragmentEditDialogBinding.inflate(inflater, container, false)
         setupSaveButton()
         setupAlarmButton()
+        setupDeleteButton()
         setupClearAlarmButton()
         lifecycleScope.launch {
             binding.editTodo.setText(viewModel.getTodoTitle())
             observeSetAlarm()
         }
         setFragmentResultListener(
-            DateAndTimePickerDialogFragment.DATE_TIME_KEY
+            DateAndTimePickerDialogFragment.DATE_TIME_FRAGMENT_RESULT_KEY
         ) { _, bundle ->
             val alarmDateTime = bundle.getSerializable("alarmTime") as Calendar
             viewModel.updateTodoAlarm(alarmDateTime.toInstant())
         }
+        setFragmentResultListener(
+            TodoDeleteDialogFragment.TODO_DELETE_FRAGMENT_RESULT_KEY
+        ) { _, bundle ->
+            val shouldBeDeleted = bundle.getBoolean(TodoDeleteDialogFragment.SHOULD_DELETE_KEY)
+            if (shouldBeDeleted) {
+                viewModel.todoId?.let { viewModel.deleteTodo(it) }
+                dismiss()
+            }
+        }
         return binding.root
+    }
+
+    private fun setupDeleteButton() {
+        binding.deleteTodo.setOnClickListener {
+            lifecycleScope.launch {
+                val bundle = bundleOf(
+                    TodoDeleteDialogFragment.TODO_DELETE_ARGS to
+                            TodoDeleteDialogFragment.TodoDeleteArguments(
+                                todoId = viewModel.todoId.toString(),
+                                title = viewModel.getTodoTitle()
+                            )
+                )
+                findNavController().navigate(R.id.todoDeleteDialogFragment, bundle)
+            }
+        }
     }
 
     private fun setupAlarmButton() {
@@ -96,6 +125,17 @@ class TodoEditDialogFragment : DialogFragment() {
             )
             dismiss()
         }
+    }
+
+    @Parcelize
+    data class TodoEditArguments(
+        val cardId: String,
+        val todoId: String
+    ) : Parcelable
+
+
+    companion object {
+        const val TODO_EDIT_ARGS = "todo_edit_args"
     }
 
 }

@@ -62,16 +62,16 @@ class CardViewModel @Inject constructor(
         }
     }
 
-    fun deleteTodo(todo: Todo) {
+    fun deleteTodo(todoId: String) {
         viewModelScope.launch {
             alarmManager.updateTodoAlarm(
                 cardId = UUID.fromString(cardId),
-                todoId = todo.todoId,
+                todoId = UUID.fromString(todoId),
                 alarmTime = null
             )
             repository.deleteTodo(
                 cardId = UUID.fromString(cardId),
-                todoId = todo.todoId
+                todoId = UUID.fromString(todoId)
             )
         }
     }

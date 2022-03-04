@@ -16,7 +16,6 @@ private const val checkBoxChangedPayload = "checkbox_checked"
 
 class TodoAdapter(
     val onItemCheck: (todoId: UUID, isChecked: Boolean) -> Unit,
-    val onItemDelete: (todoId: UUID, title: String) -> Unit,
     val onItemEdit: (todoId: UUID) -> Unit
 ) : ListAdapter<Todo, TodoAdapter.TodoViewHolder>(DiffCallback) {
 
@@ -37,21 +36,12 @@ class TodoAdapter(
                     alarm.context, R.drawable.ic_baseline_notifications_none_24)
                 )
             }
-
             checkbox.setOnCheckedChangeListener { _, isChecked ->
                onItemCheck(
                    todo.todoId,
                    isChecked
                )
             }
-
-            deleteTodo.setOnClickListener {
-                onItemDelete(
-                    todo.todoId,
-                    todo.title
-                )
-            }
-
             root.setOnClickListener {
                 onItemEdit(
                     todo.todoId,

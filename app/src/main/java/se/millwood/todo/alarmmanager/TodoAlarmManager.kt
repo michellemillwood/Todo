@@ -33,7 +33,7 @@ class TodoAlarmManager @Inject constructor(
         )
     }
 
-    private fun setAlarm(
+    fun setAlarm(
         cardId: UUID,
         todoId: UUID,
         alarmTime: Instant?
