@@ -22,38 +22,49 @@ import javax.inject.Inject
 class AlarmReceiver : BroadcastReceiver() {
 
     @Inject lateinit var repository: Repository
-
+    @Inject lateinit var alarmManager: TodoAlarmManager
 
     override fun onReceive(context: Context, intent: Intent) {
 
-        val cardId = intent.getStringExtra(TodoAlarmManager.CARD_ID) ?: return
-        val todoId = intent.getStringExtra(TodoAlarmManager.TODO_ID) ?: return
-
-        CoroutineScope(Dispatchers.IO).launch {
-            repository.updateTodoAlarm(UUID.fromString(cardId), UUID.fromString(todoId), null)
-        }
-
-        val bundle = bundleOf(
-            CardFragment.TODO_EDIT_ARGUMENTS to CardFragment.TodoEditArguments(
-                cardId = cardId,
-                todoId = todoId
-            )
-        )
-
-        val pendingIntent = NavDeepLinkBuilder(context)
-            .setGraph(R.navigation.nav_graph)
-            .setDestination(R.id.todoEditDialogFragment)
-            .setArguments(bundle)
-            .createPendingIntent()
-
-        if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
-            // reset all alarms from db
+        if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val todosWithAlarms = repository.getTodosWithAlarms()
+                todosWithAlarms.forEach {
+                    alarmManager.updateTodoAlarm(
+                        cardId = it.cardId,
+                        todoId = it.todoId,
+                        alarmTime = it.alarmTime
+                    )
+                }
+            }
         }
         else {
+            val cardId = intent.getStringExtra(TodoAlarmManager.CARD_ID) ?: return
+            val todoId = intent.getStringExtra(TodoAlarmManager.TODO_ID) ?: return
+
+            CoroutineScope(Dispatchers.IO).launch {
+                repository.updateTodoAlarm(UUID.fromString(cardId), UUID.fromString(todoId), null)
+            }
+
+            val bundle = bundleOf(
+                CardFragment.TODO_EDIT_ARGUMENTS to CardFragment.TodoEditArguments(
+                    cardId = cardId,
+                    todoId = todoId
+                )
+            )
+
+            val pendingIntent = NavDeepLinkBuilder(context)
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.todoEditDialogFragment)
+                .setArguments(bundle)
+                .createPendingIntent()
+
             CoroutineScope(Dispatchers.IO).launch {
                 val todoTitle = repository.getTodoTitle(UUID.fromString(todoId))
+                val cardTitle = repository.getCardTitle(UUID.fromString(cardId))
                 val builder = NotificationCompat.Builder(context, NotificationChannel.CHANNEL_ID)
                     .setContentTitle(todoTitle)
+                    .setContentText(cardTitle)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -67,6 +78,4 @@ class AlarmReceiver : BroadcastReceiver() {
             }
         }
     }
-
-
 }

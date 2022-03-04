@@ -1,5 +1,6 @@
 package se.millwood.todo.cardlist
 
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,8 +42,15 @@ class CardListAdapter(
             }
             cardWithTodos.todos.take(5).forEach {
                 val todoTextView = TextView(binding.root.context).apply {
-                    text = it.title
                     textSize = 16F
+                    maxLines = 1
+                    ellipsize = TextUtils.TruncateAt.END
+                    if (it.isCompleted) {
+                        text = it.title + " ✓"
+                    }
+                    else {
+                        text = it.title
+                    }
                 }
                 binding.todos.addView(todoTextView)
             }

@@ -27,6 +27,10 @@ class Repository @Inject constructor(database: TodoDatabase) {
         card: Card
     ) = cardDao.addCard(CardEntity.from(card))
 
+    suspend fun getTodosWithAlarms() = todoDao.getTodosWithAlarms().map {
+        it.toTodo()
+    }
+
     suspend fun updateCardImage(
         cardId: UUID,
         imageUri: Uri
